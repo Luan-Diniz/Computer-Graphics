@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>MainDisplay</class>
+ <widget class="QMainWindow" name="MainDisplay">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Graphic Application</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(212,208,200);</string>
@@ -31,7 +31,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="frame_viewport">
       <property name="styleSheet">
        <string notr="true">background-color: rgb(212, 208, 200);
 </string>
@@ -42,7 +42,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QFrame" name="frame_3">
+      <widget class="QFrame" name="frame_movimentacao_window">
        <property name="geometry">
         <rect>
          <x>480</x>
@@ -63,7 +63,7 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="line_minimo_x">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -73,7 +73,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="line_maximo_x">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -83,7 +83,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="line_minimo_y">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -93,7 +93,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_4">
+       <widget class="QLineEdit" name="line_maximo_y">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -103,7 +103,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_4">
+       <widget class="QTextBrowser" name="texto_x">
         <property name="geometry">
          <rect>
           <x>230</x>
@@ -129,7 +129,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;X&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_5">
+       <widget class="QTextBrowser" name="texto_y">
         <property name="geometry">
          <rect>
           <x>230</x>
@@ -155,7 +155,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Y&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_8">
+       <widget class="QTextBrowser" name="texto_minimo">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -181,7 +181,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mínimo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_9">
+       <widget class="QTextBrowser" name="texo_maximo">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -207,7 +207,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Máximo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_10">
+       <widget class="QTextBrowser" name="texto_coordenadas">
         <property name="geometry">
          <rect>
           <x>260</x>
@@ -233,7 +233,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Coordenadas&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="up_button">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -255,7 +255,7 @@ p, li { white-space: pre-wrap; }
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="down_button">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -268,7 +268,7 @@ p, li { white-space: pre-wrap; }
          <string>▼</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="right_button">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -281,7 +281,7 @@ p, li { white-space: pre-wrap; }
          <string>►</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="left_button">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -297,7 +297,7 @@ p, li { white-space: pre-wrap; }
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="zoom_in_button">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -310,7 +310,7 @@ p, li { white-space: pre-wrap; }
          <string>Zoom In</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="zoom_out_button">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -323,7 +323,7 @@ p, li { white-space: pre-wrap; }
          <string>Zoom Out</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser_11">
+       <widget class="QTextBrowser" name="texto_precisao">
         <property name="geometry">
          <rect>
           <x>290</x>
@@ -349,7 +349,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Precisão&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_6">
+       <widget class="QLineEdit" name="line_precisao">
         <property name="geometry">
          <rect>
           <x>290</x>
@@ -390,7 +390,7 @@ border-style:inset;
         <enum>QFrame::Raised</enum>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser">
+      <widget class="QTextBrowser" name="texto_controle_window">
        <property name="geometry">
         <rect>
          <x>480</x>
@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
         </property>
        </item>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_2">
+      <widget class="QTextBrowser" name="texto_adicionar_objeto">
        <property name="geometry">
         <rect>
          <x>480</x>
@@ -507,7 +507,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Adicionar Objeto&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_3">
+      <widget class="QTextBrowser" name="texto_lista_objetos">
        <property name="geometry">
         <rect>
          <x>730</x>
@@ -533,7 +533,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lista de Objetos&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
-      <widget class="QTextBrowser" name="textBrowser_6">
+      <widget class="QTextBrowser" name="texto_viewport">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -559,7 +559,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Viewport&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="adicionar_button">
        <property name="geometry">
         <rect>
          <x>530</x>
@@ -572,7 +572,7 @@ p, li { white-space: pre-wrap; }
         <string>Adicionar</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_8">
+      <widget class="QPushButton" name="operacoes_button">
        <property name="geometry">
         <rect>
          <x>780</x>
@@ -588,16 +588,6 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>960</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
  </widget>
  <resources/>
