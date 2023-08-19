@@ -10,7 +10,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDoubleSpinBox
-from janelas_secundarias import AdicionarDialog, OperacoesDialog
+from janelas_secundarias import AdicionarDialog, OperacoesDialog, numero_pontosDialog
 from elemento_grafico import ElementoGrafico
 
 class Ui_MainDisplay(object):
@@ -268,45 +268,51 @@ class Ui_MainDisplay(object):
         self.operacoes_button.setText(_translate("MainDisplay", "Operações"))
 
     def quantidade_de_pontos(self):
-          qtdPontos = QMessageBox()
-          qtdPontos.setWindowTitle("Pontos")
-          qtdPontos.setText("Escolha a quantidade de pontos do Polígono!")
+        qtdPontos = numero_pontosDialog()
+        x = qtdPontos.exec_()
 
-          # Fazer a QDoubleSpinBox() funcionar apenas com inteiros
-
-          x = qtdPontos.exec_()
-
-          return 10
+        print(qtdPontos.submitted)
+        if (qtdPontos.submitted):
+                return qtdPontos.numero_pontos()
+        return -1
 
 
     def pop_up_digitar_pontos(self):
+            error = False
+
             if (self.AdicionarObjetos.currentText() == "Wireframe"):
                 #TODO: Abre um QMessageBox/QDialog perguntando quantos pontos tem o poligono
                 qtd_pontos = self.quantidade_de_pontos()
-                getCoordenadas = AdicionarDialog(qtd_pontos) #Por questoes de testes, esta sendo considerado que sao 20
+
+                if qtd_pontos != -1:
+                        getCoordenadas = AdicionarDialog(qtd_pontos)
+                else:
+                        error = True
 
             elif (self.AdicionarObjetos.currentText() == "Ponto"):
                 getCoordenadas = AdicionarDialog(1)
             elif (self.AdicionarObjetos.currentText() == "Reta"):
                 getCoordenadas = AdicionarDialog(2)
 
-            x = getCoordenadas.exec_()
-            # Aqui roda após "fechar a janela, mas ainda é possível acessar seus atributos"
-            if (getCoordenadas.submitted):
-                    # TODO: Havera uma funcao para criar os objetos.
-                    # Onde colocar funcao para desenhar na tela?
-                    # TODO: Salvar os atributos do QDialog. (assim que fechar a janela eles sao excluidos. necessario salva-los)
 
-                    elemento_grafico = ElementoGrafico(getCoordenadas.dict_info["nome"], self.AdicionarObjetos.currentText(), getCoordenadas.dict_info["coordenadas"])
+            if not error:
+                    x = getCoordenadas.exec_()
+                    # Aqui roda após "fechar a janela, mas ainda é possível acessar seus atributos"
+                    if (getCoordenadas.submitted):
+                            # TODO: Havera uma funcao para criar os objetos.
+                            # Onde colocar funcao para desenhar na tela?
+                            # TODO: Salvar os atributos do QDialog. (assim que fechar a janela eles sao excluidos. necessario salva-los)
 
-                    self.elementos_graficos.append(elemento_grafico)
+                            elemento_grafico = ElementoGrafico(getCoordenadas.dict_info["nome"], self.AdicionarObjetos.currentText(), getCoordenadas.dict_info["coordenadas"])
 
-                    # Adicionando objeto criado na lista de objetos
-                    self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
+                            self.elementos_graficos.append(elemento_grafico)
 
-                    print(getCoordenadas.dict_info["nome"])
-                    print(self.AdicionarObjetos.currentText())
-                    print(getCoordenadas.dict_info["coordenadas"])
+                            # Adicionando objeto criado na lista de objetos
+                            self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
+
+                            print(getCoordenadas.dict_info["nome"])
+                            print(self.AdicionarObjetos.currentText())
+                            print(getCoordenadas.dict_info["coordenadas"])
 
 
 
@@ -331,8 +337,9 @@ class Ui_MainDisplay(object):
 
     def deletar_objeto(self):
           # Deleta o objeto selecionado
-          self.ListaDeObjetos.removeItem(self.ListaDeObjetos.currentIndex())
-          self.elementos_graficos.pop(self.ListaDeObjetos.currentIndex())
+          if self.ListaDeObjetos.count() > 0:
+                self.ListaDeObjetos.removeItem(self.ListaDeObjetos.currentIndex())
+                self.elementos_graficos.pop(self.ListaDeObjetos.currentIndex())
 
 if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)

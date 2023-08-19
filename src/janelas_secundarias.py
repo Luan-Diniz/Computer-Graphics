@@ -1,5 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout, QGroupBox, QDoubleSpinBox, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout,\
+QGroupBox, QDoubleSpinBox, QLineEdit, QMessageBox, QSpinBox
 from PyQt5 import QtWidgets, QtCore
+from config import Config
 
 class AdicionarDialog(QDialog):
     def __init__(self,qtdade_coordenadas):
@@ -50,6 +52,9 @@ class AdicionarDialog(QDialog):
             self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
             self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
 
+            #Para o QDoubleSpinBox aceitar numeros negativos
+            self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
+            self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
 
 
         self.groupBox.setLayout(self.formLayout)
@@ -70,30 +75,26 @@ class AdicionarDialog(QDialog):
 
 
     def accept(self):     #Sobreescrita do metodo do botao accept
-        #TODO: Verificar se os dados estao inseridos corretamente
-        #(tem que ter nome) --> se n tiver abre um QMessageBox avisando o erro
-
         nome = self.nome_objeto.text()
 
         if(len(nome.replace(" ", "")) == 0):
-            #self.pedir_nome()
-            pass
+            self.pedir_nome()
+        else:
+            self.dict_info["nome"] = nome
+            for i in range(0, self.qtdade_coordenadas):
+                self.dict_info["coordenadas"].append((self.coordinateXList[i].value(), self.coordinateYList[i].value()))
 
-        self.dict_info["nome"] = nome
-        for i in range(0, self.qtdade_coordenadas):
-            self.dict_info["coordenadas"].append((self.coordinateXList[i].value(), self.coordinateYList[i].value()))
+            self.submitted = True
 
-        self.submitted = True
-        self.close()  #Fecha a window
+            self.close()  #Fecha a window
 
     def pedir_nome(self):
         pedirNome = QMessageBox()
         pedirNome.setWindowTitle("Aviso!")
-        pedirNome.setIcon(QMessageBox.Critical)
+        pedirNome.setIcon(QMessageBox.Warning)
         pedirNome.setText("O objeto precisa ter um nome!")
 
         x = pedirNome.exec_()
-
 
 
 
@@ -102,3 +103,32 @@ class OperacoesDialog(QDialog):
     def __init__(self):
         super().__init__()
         pass
+
+class numero_pontosDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.submitted = False
+
+        self.setWindowTitle("Quantos pontos?")
+        layout = QVBoxLayout()
+
+        self.label = QLabel("Escolha a quantidade de pontos do Polígono:")
+        self.number_input = QSpinBox()
+        self.number_input.setMinimum(3)
+
+        button_ok = QPushButton("OK")
+
+        button_ok.clicked.connect(self.accept)
+
+        layout.addWidget(self.label)
+        layout.addWidget(self.number_input)
+        layout.addWidget(button_ok)
+
+
+        self.setLayout(layout)
+
+    def accept(self):
+        self.submitted = True
+        self.close()
+    def numero_pontos(self):
+        return self.number_input.value()
