@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout, QGroupBox, QDoubleSpinBox, QLineEdit
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout, QGroupBox, QDoubleSpinBox, QLineEdit, QMessageBox
 from PyQt5 import QtWidgets, QtCore
 
 class AdicionarDialog(QDialog):
@@ -10,8 +10,7 @@ class AdicionarDialog(QDialog):
         #Nesse dicionario será armazenado as informações do objeto que sera criado
         self.dict_info = {
             "nome": "",
-            "coordenadasX": [],
-            "coordenadasY": [],
+            "coordenadas": [],
         }
 
         self.qtdade_coordenadas = qtdade_coordenadas
@@ -73,14 +72,27 @@ class AdicionarDialog(QDialog):
     def accept(self):     #Sobreescrita do metodo do botao accept
         #TODO: Verificar se os dados estao inseridos corretamente
         #(tem que ter nome) --> se n tiver abre um QMessageBox avisando o erro
-        self.dict_info["nome"] = self.nome_objeto.text()
+
+        nome = self.nome_objeto.text()
+
+        if(len(nome.replace(" ", "")) == 0):
+            #self.pedir_nome()
+            pass
+
+        self.dict_info["nome"] = nome
         for i in range(0, self.qtdade_coordenadas):
-            self.dict_info["coordenadasX"].append(self.coordinateXList[i].value())
-            self.dict_info["coordenadasY"].append(self.coordinateYList[i].value())
+            self.dict_info["coordenadas"].append((self.coordinateXList[i].value(), self.coordinateYList[i].value()))
 
         self.submitted = True
         self.close()  #Fecha a window
 
+    def pedir_nome(self):
+        pedirNome = QMessageBox()
+        pedirNome.setWindowTitle("Aviso!")
+        pedirNome.setIcon(QMessageBox.Critical)
+        pedirNome.setText("O objeto precisa ter um nome!")
+
+        x = pedirNome.exec_()
 
 
 
