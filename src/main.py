@@ -10,7 +10,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-
+from janelas_secundarias import AdicionarDialog, OperacoesDialog
 
 class Ui_MainDisplay(object):
     def setupUi(self, MainDisplay):
@@ -248,9 +248,14 @@ class Ui_MainDisplay(object):
         self.operacoes_button.setText(_translate("MainDisplay", "Operações"))
 
     def pop_up_digitar_pontos(self):
-            getCoordenadas = QMessageBox()
-            getCoordenadas.setWindowTitle("Digite as coordenadas!")
-            getCoordenadas.setText(self.AdicionarObjetos.currentText())
+            if (self.AdicionarObjetos.currentText() == "Wireframe"):
+                    #TODO: Abre um QMessageBox perguntando quantos pontos tem o poligono
+                    pass
+
+            getCoordenadas = AdicionarDialog()
+            #getCoordenadas.move() Fazer com que o QDialog abra no centro da nossa aplicacao
+
+            print(self.AdicionarObjetos.currentText())
 
 
             x = getCoordenadas.exec_()
