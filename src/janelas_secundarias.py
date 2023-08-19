@@ -4,6 +4,16 @@ from PyQt5 import QtWidgets, QtCore
 class AdicionarDialog(QDialog):
     def __init__(self,qtdade_coordenadas):
         super().__init__()
+
+        #Só será True se o usuário clicar em ok (a funcao accept torna ele True)
+        self.submitted = False
+        #Nesse dicionario será armazenado as informações do objeto que sera criado
+        self.dict_info = {
+            "nome": "",
+            "coordenadasX": [],
+            "coordenadasY": [],
+        }
+
         self.qtdade_coordenadas = qtdade_coordenadas
         self.setWindowTitle("Digite as coordenadas!")
 
@@ -51,25 +61,25 @@ class AdicionarDialog(QDialog):
         self.scrollArea = QtWidgets.QScrollArea(self)
         self.scrollArea.setGeometry(QtCore.QRect(20, 20, 351, 241))
         self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        #nao sei oq fazem ainda
         self.scrollArea.setObjectName("scrollArea")
-        #self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        #self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 349, 239))
-        #self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        #self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.scrollArea.setWidget(self.groupBox)
         self.scrollArea.setWidgetResizable(True)
-
         self.standard_buttons.accepted.connect(self.accept)  # type: ignore
         self.standard_buttons.rejected.connect(self.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(self)
 
 
-    #usar QDoubleSpinBox para o usuário digitar os floats
 
+    def accept(self):     #Sobreescrita do metodo do botao accept
+        #TODO: Verificar se os dados estao inseridos corretamente
+        #(tem que ter nome) --> se n tiver abre um QMessageBox avisando o erro
+        self.dict_info["nome"] = self.nome_objeto.text()
+        for i in range(0, self.qtdade_coordenadas):
+            self.dict_info["coordenadasX"].append(self.coordinateXList[i].value())
+            self.dict_info["coordenadasY"].append(self.coordinateYList[i].value())
 
-    #def accept(self):     É possivel sobreescrever os métodos dos botoes --> Importante para coletar os dados dps
-        #print("Ai minha voaida")
+        self.submitted = True
+        self.close()  #Fecha a window
 
 
 

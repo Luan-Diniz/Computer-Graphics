@@ -249,19 +249,29 @@ class Ui_MainDisplay(object):
 
     def pop_up_digitar_pontos(self):
             if (self.AdicionarObjetos.currentText() == "Wireframe"):
-                #TODO: Abre um QMessageBox perguntando quantos pontos tem o poligono
-                getCoordenadas = AdicionarDialog(20)
+                #TODO: Abre um QMessageBox/QDialog perguntando quantos pontos tem o poligono
+                getCoordenadas = AdicionarDialog(20) #Por questoes de testes, esta sendo considerado que sao 20
+
             elif (self.AdicionarObjetos.currentText() == "Ponto"):
                 getCoordenadas = AdicionarDialog(1)
             elif (self.AdicionarObjetos.currentText() == "Reta"):
                 getCoordenadas = AdicionarDialog(2)
             elif (self.AdicionarObjetos.currentText() == "Curva"):
                 print("Ainda não implementado!!!!")
-
-            print(self.AdicionarObjetos.currentText())
+                getCoordenadas = AdicionarDialog(0)
 
 
             x = getCoordenadas.exec_()
+            #Aqui roda após "fechar a janela, mas ainda é possível acessar seus atributos"
+            if (getCoordenadas.submitted):
+                    #TODO: Havera uma funcao para criar os objetos.
+                    #Onde colocar funcao para desenhar na tela?
+                    # TODO: Salvar os atributos do QDialog. (assim que fechar a janela eles sao excluidos. necessario salva-los)
+                    print(getCoordenadas.dict_info["nome"])
+                    print(getCoordenadas.dict_info["coordenadasX"])
+                    print(getCoordenadas.dict_info["coordenadasY"])
+
+
 
     def pop_up_realizar_operacao(self):
             fazOperacao = QMessageBox()
