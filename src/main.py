@@ -252,7 +252,7 @@ class Ui_MainDisplay(object):
                     #TODO: Abre um QMessageBox perguntando quantos pontos tem o poligono
                     pass
 
-            getCoordenadas = AdicionarDialog()
+            getCoordenadas = AdicionarDialog(20)
             #getCoordenadas.move() Fazer com que o QDialog abra no centro da nossa aplicacao
 
             print(self.AdicionarObjetos.currentText())
