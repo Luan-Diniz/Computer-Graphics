@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout, QGroupBox
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout, QGroupBox, QDoubleSpinBox, QLineEdit
 from PyQt5 import QtWidgets, QtCore
 
 class AdicionarDialog(QDialog):
@@ -22,18 +22,26 @@ class AdicionarDialog(QDialog):
         self.formLayout = QFormLayout()
         self.groupBox = QGroupBox()
 
-        self.labelList = []
-        self.buttonList = []
+        self.labelXList = []
+        self.labelYList = []
+        self.coordinateXList = []
+        self.coordinateYList = []
 
-        #MELHORAR ESSE FOR!!!!!
+        #Cria o label e a entrada para um nome.
+        self.labelNome = QLabel("Nome: ")
+        self.nome_objeto = QLineEdit()
+        self.formLayout.addRow(self.labelNome, self.nome_objeto)
+
+        #Cria os QDoubleSpinBox para entrada numérica.
         for i in range(0, self.qtdade_coordenadas):
-            self.labelList.append(QLabel(f"X{i + 1}"))
-            self.buttonList.append(QPushButton(f"Do not "))
-            self.formLayout.addRow(self.labelList[i], self.buttonList[i])
+            self.labelXList.append(QLabel(f"X{i + 1}"))
+            self.coordinateXList.append(QDoubleSpinBox())
+            self.labelYList.append(QLabel(f"Y{i + 1}"))
+            self.coordinateYList.append(QDoubleSpinBox())
+            self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
+            self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
 
-            self.labelList.append(QLabel(f"Y{i + 1}"))
-            self.buttonList.append(QPushButton(f"Do not "))
-            self.formLayout.addRow(self.labelList[i], self.buttonList[i])
+
 
         self.groupBox.setLayout(self.formLayout)
 

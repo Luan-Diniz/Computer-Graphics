@@ -249,11 +249,14 @@ class Ui_MainDisplay(object):
 
     def pop_up_digitar_pontos(self):
             if (self.AdicionarObjetos.currentText() == "Wireframe"):
-                    #TODO: Abre um QMessageBox perguntando quantos pontos tem o poligono
-                    pass
-
-            getCoordenadas = AdicionarDialog(20)
-            #getCoordenadas.move() Fazer com que o QDialog abra no centro da nossa aplicacao
+                #TODO: Abre um QMessageBox perguntando quantos pontos tem o poligono
+                getCoordenadas = AdicionarDialog(20)
+            elif (self.AdicionarObjetos.currentText() == "Ponto"):
+                getCoordenadas = AdicionarDialog(1)
+            elif (self.AdicionarObjetos.currentText() == "Reta"):
+                getCoordenadas = AdicionarDialog(2)
+            elif (self.AdicionarObjetos.currentText() == "Curva"):
+                print("Ainda não implementado!!!!")
 
             print(self.AdicionarObjetos.currentText())
 
