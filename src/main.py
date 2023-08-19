@@ -9,6 +9,7 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainDisplay(object):
@@ -64,12 +65,12 @@ class Ui_MainDisplay(object):
         self.texto_minimo.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.texto_minimo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.texto_minimo.setObjectName("texto_minimo")
-        self.texo_maximo = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texo_maximo.setGeometry(QtCore.QRect(340, 60, 71, 21))
-        self.texo_maximo.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texo_maximo.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texo_maximo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texo_maximo.setObjectName("texo_maximo")
+        self.texto_maximo = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
+        self.texto_maximo.setGeometry(QtCore.QRect(340, 60, 71, 21))
+        self.texto_maximo.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.texto_maximo.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.texto_maximo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.texto_maximo.setObjectName("texto_maximo")
         self.texto_coordenadas = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
         self.texto_coordenadas.setGeometry(QtCore.QRect(260, 20, 151, 21))
         self.texto_coordenadas.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -167,6 +168,11 @@ class Ui_MainDisplay(object):
         self.verticalLayout.addWidget(self.frame_viewport)
         MainDisplay.setCentralWidget(self.centralwidget)
 
+        #Configurando os botoes
+        self.adicionar_button.clicked.connect(self.pop_up_digitar_pontos)
+        self.operacoes_button.clicked.connect(self.pop_up_realizar_operacao)
+
+
         self.retranslateUi(MainDisplay)
         QtCore.QMetaObject.connectSlotsByName(MainDisplay)
 
@@ -188,7 +194,7 @@ class Ui_MainDisplay(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Mínimo</p></body></html>"))
-        self.texo_maximo.setHtml(_translate("MainDisplay", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.texto_maximo.setHtml(_translate("MainDisplay", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
@@ -241,6 +247,20 @@ class Ui_MainDisplay(object):
         self.adicionar_button.setText(_translate("MainDisplay", "Adicionar"))
         self.operacoes_button.setText(_translate("MainDisplay", "Operações"))
 
+    def pop_up_digitar_pontos(self):
+            getCoordenadas = QMessageBox()
+            getCoordenadas.setWindowTitle("Digite as coordenadas!")
+            getCoordenadas.setText(self.AdicionarObjetos.currentText())
+
+
+            x = getCoordenadas.exec_()
+
+    def pop_up_realizar_operacao(self):
+            fazOperacao = QMessageBox()
+            fazOperacao.setWindowTitle("Escolha a operacao a ser feita!")
+            fazOperacao.setText("Aqui estarao rotacao, delete entre outros ('_>')")
+
+            x = fazOperacao.exec_()
 
 if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)
