@@ -5,10 +5,11 @@ class Window():
         #Coordenadas do mundo real
         self.Xwmin = Config.window_Xwmin()
         self.Xwmax = Config.window_Xwmax()
-        self.Ymin = Config.window_Ywmin()
-        self.Ymax = Config.window_Ywmax()
+        self.Ywmin = Config.window_Ywmin()
+        self.Ywmax = Config.window_Ywmax()
 
         self.__offset = Config.window_offset()
+        self.__zoom_offset = Config.window_zoom_offset()
 
 
 
@@ -25,10 +26,17 @@ class Window():
         self.Ywmin -= self.__offset
         self.Ywmax -= self.__offset
 
-    #TODO:
     def ZoomIn(self):
-        pass
+        #A Window fica menor. Logo as imagens que ela vê são "maiores"
+        self.Xwmin += self.__zoom_offset
+        self.Xwmax -= self.__zoom_offset
+        self.Ywmin += self.__zoom_offset
+        self.Ywmax -= self.__zoom_offset
     def ZoomOut(self):
-        pass
+        # A Window fica maior. Logo as imagens que ela vê são "menores"
+        self.Xwmin -= self.__zoom_offset
+        self.Xwmax += self.__zoom_offset
+        self.Ywmin -= self.__zoom_offset
+        self.Ywmax += self.__zoom_offset
 
 
