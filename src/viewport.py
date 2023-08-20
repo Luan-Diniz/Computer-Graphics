@@ -1,9 +1,8 @@
 class ViewPort:
-    '''
+    """
     Os valores base da viewport não devem mudar, visto que o tamanho
     da janela e do frame viewport são fixos.
-    '''
-
+    """
 
     @staticmethod
     def viewport_dimensions():
@@ -24,6 +23,3 @@ class ViewPort:
     @staticmethod
     def viewportYmax():
         return 40 + 461
-
-
-

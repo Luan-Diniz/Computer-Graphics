@@ -1,18 +1,32 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton, QVBoxLayout, QWidget, QFormLayout,\
-QGroupBox, QDoubleSpinBox, QLineEdit, QMessageBox, QSpinBox
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import (
+    QApplication,
+    QDialog,
+    QDoubleSpinBox,
+    QFormLayout,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
+)
+
 from config import Config
 
+
 class AdicionarDialog(QDialog):
-    def __init__(self,qtdade_coordenadas: int, nomes_elementos_graficos: list):
+    def __init__(self, qtdade_coordenadas: int, nomes_elementos_graficos: list):
         super().__init__()
 
-        #Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes.
+        # Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes.
         self.nomes_elementos_graficos = nomes_elementos_graficos
 
-        #Só será True se o usuário clicar em ok (a funcao accept torna ele True)
+        # Só será True se o usuário clicar em ok (a funcao accept torna ele True)
         self.submitted = False
-        #Nesse dicionario será armazenado as informações do objeto que sera criado
+        # Nesse dicionario será armazenado as informações do objeto que sera criado
         self.dict_info = {
             "nome": "",
             "coordenadas": [],
@@ -29,9 +43,10 @@ class AdicionarDialog(QDialog):
         self.standard_buttons.setGeometry(QtCore.QRect(50, 260, 341, 32))
         self.standard_buttons.setStyleSheet("background-color: rgb(212,208,200);")
         self.standard_buttons.setOrientation(QtCore.Qt.Horizontal)
-        self.standard_buttons.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.standard_buttons.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.standard_buttons.setObjectName("standard_buttons")
-
 
         self.formLayout = QFormLayout()
         self.groupBox = QGroupBox()
@@ -41,12 +56,12 @@ class AdicionarDialog(QDialog):
         self.coordinateXList = []
         self.coordinateYList = []
 
-        #Cria o label e a entrada para um nome.
+        # Cria o label e a entrada para um nome.
         self.labelNome = QLabel("Nome: ")
         self.nome_objeto = QLineEdit()
         self.formLayout.addRow(self.labelNome, self.nome_objeto)
 
-        #Cria os QDoubleSpinBox para entrada numérica.
+        # Cria os QDoubleSpinBox para entrada numérica.
         for i in range(0, self.qtdade_coordenadas):
             self.labelXList.append(QLabel(f"X{i + 1}"))
             self.coordinateXList.append(QDoubleSpinBox())
@@ -55,16 +70,13 @@ class AdicionarDialog(QDialog):
             self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
             self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
 
-            #Para o QDoubleSpinBox aceitar numeros negativos
+            # Para o QDoubleSpinBox aceitar numeros negativos
             self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
 
-
         self.groupBox.setLayout(self.formLayout)
 
-
-
-        #Scroll bar
+        # Scroll bar
         self.scrollArea = QtWidgets.QScrollArea(self)
         self.scrollArea.setGeometry(QtCore.QRect(20, 20, 351, 241))
         self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
@@ -75,24 +87,24 @@ class AdicionarDialog(QDialog):
         self.standard_buttons.rejected.connect(self.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(self)
 
-
-
-    def accept(self):     #Sobreescrita do metodo do botao accept
+    def accept(self):  # Sobreescrita do metodo do botao accept
         nome = self.nome_objeto.text()
 
         if nome in self.nomes_elementos_graficos:
             self.nome_repetido()
 
-        elif(len(nome.replace(" ", "")) == 0):
+        elif len(nome.replace(" ", "")) == 0:
             self.pedir_nome()
         else:
             self.dict_info["nome"] = nome
             for i in range(0, self.qtdade_coordenadas):
-                self.dict_info["coordenadas"].append((self.coordinateXList[i].value(), self.coordinateYList[i].value()))
+                self.dict_info["coordenadas"].append(
+                    (self.coordinateXList[i].value(), self.coordinateYList[i].value())
+                )
 
             self.submitted = True
 
-            self.close()  #Fecha a window
+            self.close()  # Fecha a window
 
     def pedir_nome(self):
         pedirNome = QMessageBox()
@@ -101,7 +113,6 @@ class AdicionarDialog(QDialog):
         pedirNome.setText("O objeto precisa ter um nome")
 
         x = pedirNome.exec_()
-
 
     def nome_repetido(self):
         nome_repetido = QMessageBox()
@@ -112,12 +123,11 @@ class AdicionarDialog(QDialog):
         x = nome_repetido.exec_()
 
 
-
-
 class OperacoesDialog(QDialog):
     def __init__(self):
         super().__init__()
         pass
+
 
 class numero_pontosDialog(QDialog):
     def __init__(self):
@@ -139,11 +149,11 @@ class numero_pontosDialog(QDialog):
         layout.addWidget(self.number_input)
         layout.addWidget(button_ok)
 
-
         self.setLayout(layout)
 
     def accept(self):
         self.submitted = True
         self.close()
+
     def numero_pontos(self):
         return self.number_input.value()
