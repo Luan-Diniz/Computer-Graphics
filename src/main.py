@@ -13,6 +13,8 @@ from PyQt5.QtWidgets import QMessageBox, QDoubleSpinBox
 from janelas_secundarias import AdicionarDialog, OperacoesDialog, numero_pontosDialog
 from elemento_grafico import ElementoGrafico
 from config import Config
+from window import Window
+from display_file import DisplayFile
 
 class Ui_MainDisplay(object):
     def setupUi(self, MainDisplay):
@@ -21,7 +23,14 @@ class Ui_MainDisplay(object):
         MainDisplay.setMinimumSize(QtCore.QSize(960, 540))
         MainDisplay.setMaximumSize(QtCore.QSize(960, 540))
         MainDisplay.setStyleSheet("background-color: rgb(212,208,200);")
-        
+
+        #instanciando classes
+        self.window = Window()
+        self.display_file = DisplayFile()
+
+
+
+
         self.centralwidget = QtWidgets.QWidget(MainDisplay)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -196,6 +205,12 @@ class Ui_MainDisplay(object):
         # Configurando os botoes
         self.adicionar_button.clicked.connect(self.pop_up_digitar_pontos)
         self.operacoes_button.clicked.connect(self.pop_up_realizar_operacao)
+        self.right_button.clicked.connect(self.move_direita)
+        self.left_button.clicked.connect(self.move_esquerda)
+        self.up_button.clicked.connect(self.move_cima)
+        self.down_button.clicked.connect(self.move_baixo)
+        self.zoom_in_button.clicked.connect(self.ZoomIn)
+        self.zoom_out_button.clicked.connect(self.ZoomOut)
 
         # Adicionando lista de elementos graficos
         self.elementos_graficos = []
@@ -341,6 +356,26 @@ class Ui_MainDisplay(object):
           if self.ListaDeObjetos.count() > 0:
                 self.ListaDeObjetos.removeItem(self.ListaDeObjetos.currentIndex())
                 self.elementos_graficos.pop(self.ListaDeObjetos.currentIndex())
+
+    def move_direita(self):
+            self.window.moveuDireita()
+            #TODO: Funcao para resenhar o viewport
+    def move_esquerda(self):
+            self.window.moveuEsquerda()
+            #TODO: Funcao para resenhar o viewport
+    def move_cima(self):
+            self.window.moveuCima()
+            # TODO: Funcao para resenhar o viewport
+    def move_baixo(self):
+            self.window.moveuBaixo()
+            #TODO: Funcao para resenhar o viewport
+    def ZoomIn(self):
+            self.window.ZoomIn()
+            #TODO: Funcao para resenhar o viewport
+    def ZoomOut(self):
+            self.window.ZoomOut()
+            #TODO: Funcao para resenhar o viewport
+
 
 if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)
