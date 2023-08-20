@@ -1,13 +1,16 @@
 from elemento_grafico import ElementoGrafico
 
 class Ponto(ElementoGrafico):
-    pass
+    def __init__(self):
+        super().__init__()
 
 
 
 class Reta(ElementoGrafico):
-    pass
+    def __init__(self):
+        super().__init__()
 
 
 class Wireframe(ElementoGrafico):
-    pass
+    def __init__(self):
+        super().__init__()

@@ -4,8 +4,11 @@ from PyQt5 import QtWidgets, QtCore
 from config import Config
 
 class AdicionarDialog(QDialog):
-    def __init__(self,qtdade_coordenadas):
+    def __init__(self,qtdade_coordenadas: int, nomes_elementos_graficos: list):
         super().__init__()
+
+        #Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes.
+        self.nomes_elementos_graficos = nomes_elementos_graficos
 
         #Só será True se o usuário clicar em ok (a funcao accept torna ele True)
         self.submitted = False
@@ -77,7 +80,10 @@ class AdicionarDialog(QDialog):
     def accept(self):     #Sobreescrita do metodo do botao accept
         nome = self.nome_objeto.text()
 
-        if(len(nome.replace(" ", "")) == 0):
+        if nome in self.nomes_elementos_graficos:
+            self.nome_repetido()
+
+        elif(len(nome.replace(" ", "")) == 0):
             self.pedir_nome()
         else:
             self.dict_info["nome"] = nome
@@ -95,6 +101,15 @@ class AdicionarDialog(QDialog):
         pedirNome.setText("O objeto precisa ter um nome!")
 
         x = pedirNome.exec_()
+
+
+    def nome_repetido(self):
+        nome_repetido = QMessageBox()
+        nome_repetido.setWindowTitle("Aviso!")
+        nome_repetido.setIcon(QMessageBox.Warning)
+        nome_repetido.setText("Já existe um objeto com esse nome!")
+
+        x = nome_repetido.exec_()
 
 
 

@@ -10,7 +10,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDoubleSpinBox
-from janelas_secundarias import AdicionarDialog, OperacoesDialog, numero_pontosDialog
+from janelas_secundarias import *
 from elemento_grafico import ElementoGrafico
 from config import Config
 from window import Window
@@ -26,7 +26,7 @@ class Ui_MainDisplay(object):
 
         #instanciando classes
         self.window = Window()
-        self.display_file = DisplayFile()
+        self.display_file = DisplayFile()  #no display file os elementos graficos ficarao guardados
 
 
 
@@ -212,8 +212,6 @@ class Ui_MainDisplay(object):
         self.zoom_in_button.clicked.connect(self.ZoomIn)
         self.zoom_out_button.clicked.connect(self.ZoomOut)
 
-        # Adicionando lista de elementos graficos
-        self.elementos_graficos = []
 
         self.retranslateUi(MainDisplay)
         QtCore.QMetaObject.connectSlotsByName(MainDisplay)
@@ -301,14 +299,14 @@ class Ui_MainDisplay(object):
                 qtd_pontos = self.quantidade_de_pontos()
 
                 if qtd_pontos != -1:
-                        getCoordenadas = AdicionarDialog(qtd_pontos)
+                        getCoordenadas = AdicionarDialog(qtd_pontos, self.display_file.getNomesElementosGraficos())
                 else:
                         error = True
 
             elif (self.AdicionarObjetos.currentText() == "Ponto"):
-                getCoordenadas = AdicionarDialog(1)
+                getCoordenadas = AdicionarDialog(1, self.display_file.getNomesElementosGraficos())
             elif (self.AdicionarObjetos.currentText() == "Reta"):
-                getCoordenadas = AdicionarDialog(2)
+                getCoordenadas = AdicionarDialog(2, self.display_file.getNomesElementosGraficos())
 
 
             if not error:
@@ -321,14 +319,11 @@ class Ui_MainDisplay(object):
 
                             elemento_grafico = ElementoGrafico(getCoordenadas.dict_info["nome"], self.AdicionarObjetos.currentText(), getCoordenadas.dict_info["coordenadas"])
 
-                            self.elementos_graficos.append(elemento_grafico)
+                            self.display_file.adicionar(elemento_grafico)
 
                             # Adicionando objeto criado na lista de objetos
                             self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
 
-                            print(getCoordenadas.dict_info["nome"])
-                            print(self.AdicionarObjetos.currentText())
-                            print(getCoordenadas.dict_info["coordenadas"])
 
 
 
@@ -354,8 +349,8 @@ class Ui_MainDisplay(object):
     def deletar_objeto(self):
           # Deleta o objeto selecionado
           if self.ListaDeObjetos.count() > 0:
+                self.display_file.remover(self.ListaDeObjetos.currentText())
                 self.ListaDeObjetos.removeItem(self.ListaDeObjetos.currentIndex())
-                self.elementos_graficos.pop(self.ListaDeObjetos.currentIndex())
 
     def move_direita(self):
             self.window.moveuDireita()
