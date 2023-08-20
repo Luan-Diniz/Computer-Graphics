@@ -13,7 +13,7 @@ class FormulasMatematicas:
     @staticmethod
     def calcular_y_viewport(Yw: float, window: Window) -> float:
         #Yw é uma coordenada Y no sistema cartesiano da Window
-        viewport_variance = (ViewPort.viewportXmax() - ViewPort.viewportXmin())
+        viewport_variance = (ViewPort.viewportYmax() - ViewPort.viewportYmin())
         return (1 - ((Yw - window.Ymin)/(window.Ymax - window.Ymin))) * viewport_variance
 
 
