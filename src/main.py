@@ -433,7 +433,7 @@ class Ui_MainDisplay(object):
             self.ListaDeObjetos.removeItem(i)
             elemento_grafico = self.display_file.getElementoGrafico(i)
             self.display_file.remover(i)
-            self.eraseDraw(elemento_grafico)
+            self.eraseDraw()
 
     def drawObj(self, elemento_grafico):
         if elemento_grafico.get_tipo() == "Ponto":
@@ -443,7 +443,7 @@ class Ui_MainDisplay(object):
         else:
             self.drawWireframe(elemento_grafico)
 
-    def eraseDraw(self, elemento_grafico):
+    def eraseDraw(self):
         canvas = QtGui.QPixmap(451, 461)
         canvas.fill(Qt.white)
         self.area_desenho.setPixmap(canvas)
@@ -507,27 +507,32 @@ class Ui_MainDisplay(object):
 
     def move_direita(self):
         self.window.moveuDireita()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
 
     def move_esquerda(self):
         self.window.moveuEsquerda()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
+
 
     def move_cima(self):
         self.window.moveuCima()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
+
 
     def move_baixo(self):
         self.window.moveuBaixo()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
+
 
     def ZoomIn(self):
         self.window.ZoomIn()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
+
 
     def ZoomOut(self):
         self.window.ZoomOut()
-        # TODO: Funcao para resenhar o viewport
+        self.eraseDraw()      #Redesenha o viewport
+
 
 
 if __name__ == "__main__":
