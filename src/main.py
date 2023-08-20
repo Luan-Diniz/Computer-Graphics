@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDoubleSpinBox
 from janelas_secundarias import AdicionarDialog, OperacoesDialog, numero_pontosDialog
 from elemento_grafico import ElementoGrafico
+from config import Config
 
 class Ui_MainDisplay(object):
     def setupUi(self, MainDisplay):
