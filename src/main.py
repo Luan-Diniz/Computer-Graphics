@@ -11,7 +11,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDoubleSpinBox
 from janelas_secundarias import *
-from elemento_grafico import ElementoGrafico
+from shapes import Ponto, Reta, Wireframe
 from config import Config
 from window import Window
 from display_file import DisplayFile
@@ -218,7 +218,7 @@ class Ui_MainDisplay(object):
 
     def retranslateUi(self, MainDisplay):
         _translate = QtCore.QCoreApplication.translate
-        MainDisplay.setWindowTitle(_translate("MainDisplay", "Graphic Application"))
+        MainDisplay.setWindowTitle(_translate("MainDisplay", "Sistema Gráfico 2D"))
         self.texto_x.setHtml(_translate("MainDisplay", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -313,11 +313,13 @@ class Ui_MainDisplay(object):
                     x = getCoordenadas.exec_()
                     # Aqui roda após "fechar a janela, mas ainda é possível acessar seus atributos"
                     if (getCoordenadas.submitted):
-                            # TODO: Havera uma funcao para criar os objetos.
-                            # Onde colocar funcao para desenhar na tela?
-                            # TODO: Salvar os atributos do QDialog. (assim que fechar a janela eles sao excluidos. necessario salva-los)
 
-                            elemento_grafico = ElementoGrafico(getCoordenadas.dict_info["nome"], self.AdicionarObjetos.currentText(), getCoordenadas.dict_info["coordenadas"])
+                            if self.AdicionarObjetos.currentText() == "Ponto" :
+                                   elemento_grafico = Ponto(getCoordenadas.dict_info["nome"], getCoordenadas.dict_info["coordenadas"])
+                            elif self.AdicionarObjetos.currentText() == "Reta" :
+                                   elemento_grafico = Reta(getCoordenadas.dict_info["nome"], getCoordenadas.dict_info["coordenadas"])
+                            else:
+                                   elemento_grafico = Wireframe(getCoordenadas.dict_info["nome"], getCoordenadas.dict_info["coordenadas"])
 
                             self.display_file.adicionar(elemento_grafico)
 
@@ -330,7 +332,7 @@ class Ui_MainDisplay(object):
     def pop_up_realizar_operacao(self):
             fazOperacao = QMessageBox()
             fazOperacao.setWindowTitle("Operações")
-            fazOperacao.setText("Escolha a operacao a ser feita!")
+            fazOperacao.setText("Escolha a operacao a ser feita")
 
             # Criando os botoes
             fazOperacao.setStandardButtons(QMessageBox.Abort)
@@ -349,7 +351,7 @@ class Ui_MainDisplay(object):
     def deletar_objeto(self):
           # Deleta o objeto selecionado
           if self.ListaDeObjetos.count() > 0:
-                self.display_file.remover(self.ListaDeObjetos.currentText())
+                self.display_file.remover(self.ListaDeObjetos.currentIndex())
                 self.ListaDeObjetos.removeItem(self.ListaDeObjetos.currentIndex())
 
     def move_direita(self):

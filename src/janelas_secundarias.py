@@ -19,7 +19,7 @@ class AdicionarDialog(QDialog):
         }
 
         self.qtdade_coordenadas = qtdade_coordenadas
-        self.setWindowTitle("Digite as coordenadas!")
+        self.setWindowTitle("Criar Objeto")
 
         self.resize(400, 300)
         self.setMinimumSize(QtCore.QSize(400, 300))
@@ -98,7 +98,7 @@ class AdicionarDialog(QDialog):
         pedirNome = QMessageBox()
         pedirNome.setWindowTitle("Aviso!")
         pedirNome.setIcon(QMessageBox.Warning)
-        pedirNome.setText("O objeto precisa ter um nome!")
+        pedirNome.setText("O objeto precisa ter um nome")
 
         x = pedirNome.exec_()
 
@@ -107,7 +107,7 @@ class AdicionarDialog(QDialog):
         nome_repetido = QMessageBox()
         nome_repetido.setWindowTitle("Aviso!")
         nome_repetido.setIcon(QMessageBox.Warning)
-        nome_repetido.setText("Já existe um objeto com esse nome!")
+        nome_repetido.setText("Já existe um objeto com esse nome")
 
         x = nome_repetido.exec_()
 
@@ -124,7 +124,7 @@ class numero_pontosDialog(QDialog):
         super().__init__()
         self.submitted = False
 
-        self.setWindowTitle("Quantos pontos?")
+        self.setWindowTitle("Criar Objeto")
         layout = QVBoxLayout()
 
         self.label = QLabel("Escolha a quantidade de pontos do Polígono:")

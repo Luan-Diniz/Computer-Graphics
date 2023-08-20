@@ -6,10 +6,13 @@ class DisplayFile:
         self.lista_elementos_graficos = []
 
 
-    def remover(self, nome: str):
+    def remover(self, i: int):
+        self.lista_elementos_graficos.pop(i)
+        """
         for i in range(len(self.lista_elementos_graficos)):
             if self.lista_elementos_graficos[i].get_nome() == nome:
                 self.lista_elementos_graficos.pop(i)
+        """
 
     def adicionar(self, elemento_grafico):
         self.lista_elementos_graficos.append(elemento_grafico)

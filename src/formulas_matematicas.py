@@ -22,4 +22,4 @@ class FormulasMatematicas:
         X_viewport = FormulasMatematicas.calcular_x_viewport(Xw, window)
         Y_viewport = FormulasMatematicas.calcular_y_viewport(Yw, window)
 
-        return(X_viewport, Y_viewport)
+        return (X_viewport, Y_viewport)
