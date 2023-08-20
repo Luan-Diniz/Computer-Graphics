@@ -431,8 +431,9 @@ class Ui_MainDisplay(object):
         if self.ListaDeObjetos.count() > 0:
             i = self.ListaDeObjetos.currentIndex()
             self.ListaDeObjetos.removeItem(i)
+            elemento_grafico = self.display_file.getElementoGrafico(i)
             self.display_file.remover(i)
-            self.eraseDraw(self.display_file.getElementoGrafico(i))
+            self.eraseDraw(elemento_grafico)
 
     def drawObj(self, elemento_grafico):
         if elemento_grafico.get_tipo() == "Ponto":

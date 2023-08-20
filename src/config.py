@@ -4,6 +4,11 @@ class Config:
     def valorMinimoQDoubleSpinBox():
         return -1e10
 
+    @staticmethod
+    # Define o maior valor positivo que um ponto pode ter
+    def valorMaximoQDoubleSpinBox():
+        return 1e10
+
     # Valores iniciais da Window
     @staticmethod
     def window_Xwmin():

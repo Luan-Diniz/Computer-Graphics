@@ -70,9 +70,11 @@ class AdicionarDialog(QDialog):
             self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
             self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
 
-            # Para o QDoubleSpinBox aceitar numeros negativos
+            # Seta o range de números que o QDoubleSpinBox aceita
             self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
+            self.coordinateXList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
+            self.coordinateYList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         self.groupBox.setLayout(self.formLayout)
 
