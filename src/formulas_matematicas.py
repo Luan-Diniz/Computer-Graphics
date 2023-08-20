@@ -14,7 +14,7 @@ class FormulasMatematicas:
         # Yw é uma coordenada Y no sistema cartesiano da Window
         viewport_variance = ViewPort.viewportYmax() - ViewPort.viewportYmin()
         return (
-            1 - ((Yw - window.Ymin) / (window.Ymax - window.Ymin))
+            1 - ((Yw - window.Ywmin) / (window.Ywmax - window.Ywmin))
         ) * viewport_variance
 
     @staticmethod
