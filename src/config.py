@@ -2,12 +2,12 @@ class Config:
     @staticmethod
     # Define o menor valor negativo que um ponto pode ter
     def valorMinimoQDoubleSpinBox():
-        return -1e10
+        return -99999999.99
 
     @staticmethod
     # Define o maior valor positivo que um ponto pode ter
     def valorMaximoQDoubleSpinBox():
-        return 1e10
+        return 99999999.99
 
     # Valores iniciais da Window
     @staticmethod

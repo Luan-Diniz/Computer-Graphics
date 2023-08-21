@@ -29,17 +29,19 @@ class Window:
         self.Ywmax -= self.__offset
 
     def ZoomIn(self):
-        # A Window fica menor. Logo as imagens que ela vê são "maiores"
+        # A Window fica menor, logo as imagens que ela ve sao "maiores"
 
-        if not (self.Xwmin + self.__zoom_offset >  self.Xwmax - self.__zoom_offset or
-               self.Ywmin + self.__zoom_offset > self.Ywmax - self.__zoom_offset):
+        if not (
+            self.Xwmin + self.__zoom_offset > self.Xwmax - self.__zoom_offset
+            or self.Ywmin + self.__zoom_offset > self.Ywmax - self.__zoom_offset
+        ):
             self.Xwmin += self.__zoom_offset
             self.Xwmax -= self.__zoom_offset
             self.Ywmin += self.__zoom_offset
             self.Ywmax -= self.__zoom_offset
 
     def ZoomOut(self):
-        # A Window fica maior. Logo as imagens que ela vê são "menores"
+        # A Window fica maior, logo as imagens que ela ve sao "menores"
 
         self.Xwmin -= self.__zoom_offset
         self.Xwmax += self.__zoom_offset

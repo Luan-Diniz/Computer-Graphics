@@ -1,3 +1,4 @@
+from config import Config
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (
     QApplication,
@@ -14,19 +15,17 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from config import Config
-
 
 class AdicionarDialog(QDialog):
     def __init__(self, qtdade_coordenadas: int, nomes_elementos_graficos: list):
         super().__init__()
 
-        # Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes.
+        # Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes
         self.nomes_elementos_graficos = nomes_elementos_graficos
 
-        # Só será True se o usuário clicar em ok (a funcao accept torna ele True)
+        # So sera "True" se o usuario clicar em "ok": a funcao accept() torna ele "True"
         self.submitted = False
-        # Nesse dicionario será armazenado as informações do objeto que sera criado
+        # Nesse dicionario serao armazenadas as informacoes do objeto que sera criado
         self.dict_info = {
             "nome": "",
             "coordenadas": [],
@@ -56,12 +55,12 @@ class AdicionarDialog(QDialog):
         self.coordinateXList = []
         self.coordinateYList = []
 
-        # Cria o label e a entrada para um nome.
+        # Cria o label e a entrada para um nome
         self.labelNome = QLabel("Nome: ")
         self.nome_objeto = QLineEdit()
         self.formLayout.addRow(self.labelNome, self.nome_objeto)
 
-        # Cria os QDoubleSpinBox para entrada numérica.
+        # Cria os QDoubleSpinBox para entrada numerica
         for i in range(0, self.qtdade_coordenadas):
             self.labelXList.append(QLabel(f"X{i + 1}"))
             self.coordinateXList.append(QDoubleSpinBox())
@@ -70,7 +69,7 @@ class AdicionarDialog(QDialog):
             self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
             self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
 
-            # Seta o range de números que o QDoubleSpinBox aceita
+            # Seta o range de numeros que o QDoubleSpinBox aceita
             self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateXList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())

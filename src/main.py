@@ -20,11 +20,11 @@ class Ui_MainDisplay(object):
         MainDisplay.setMaximumSize(QtCore.QSize(960, 540))
         MainDisplay.setStyleSheet("background-color: rgb(212,208,200);")
 
-        # instanciando classes
+        # Instanciando as classes
         self.window = Window()
         self.display_file = (
             DisplayFile()
-        )  # no display file os elementos graficos ficarao guardados
+        )  # Os elementos graficos ficarao guardados no Display File
 
         self.centralwidget = QtWidgets.QWidget(MainDisplay)
         self.centralwidget.setObjectName("centralwidget")
@@ -358,7 +358,7 @@ class Ui_MainDisplay(object):
         error = False
 
         if self.AdicionarObjetos.currentText() == "Wireframe":
-            # TODO: Abre um QMessageBox/QDialog perguntando quantos pontos tem o poligono
+            # Abre uma janela secundaria perguntando quantos pontos tem o poligono
             qtd_pontos = self.quantidade_de_pontos()
 
             if qtd_pontos != -1:
@@ -379,7 +379,7 @@ class Ui_MainDisplay(object):
 
         if not error:
             x = getCoordenadas.exec_()
-            # Aqui roda após "fechar a janela, mas ainda é possível acessar seus atributos"
+            # Aqui roda apos "fechar a janela, mas ainda é possível acessar seus atributos"
             if getCoordenadas.submitted:
                 if self.AdicionarObjetos.currentText() == "Ponto":
                     elemento_grafico = Ponto(
@@ -452,7 +452,7 @@ class Ui_MainDisplay(object):
     def drawPoint(self, ponto: Ponto):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
-        # Definindo car e tamanho do ponto
+        # Definindo cor e tamanho do ponto
         pen = QPen(Qt.red, 5)
         painter.setPen(pen)
 
