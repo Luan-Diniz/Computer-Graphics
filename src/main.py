@@ -408,7 +408,7 @@ class Ui_MainDisplay(object):
     def pop_up_realizar_operacao(self):
         fazOperacao = QMessageBox()
         fazOperacao.setWindowTitle("Operações")
-        fazOperacao.setText("Escolha a operacao a ser feita")
+        fazOperacao.setText("Escolha a operação a ser realizada")
 
         # Criando os botoes
         fazOperacao.setStandardButtons(QMessageBox.Abort)
