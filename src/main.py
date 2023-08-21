@@ -1,15 +1,15 @@
 import sys
 
+from config import Config
+from display_file import DisplayFile
+from formulas_matematicas import FormulasMatematicas
+from janelas_secundarias import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QPainter, QPen
 from PyQt5.QtWidgets import QMessageBox
-from config import Config
-from display_file import DisplayFile
-from janelas_secundarias import *
 from shapes import Ponto, Reta, Wireframe
 from window import Window
-from formulas_matematicas import FormulasMatematicas
 
 
 class Ui_MainDisplay(object):
@@ -350,8 +350,6 @@ class Ui_MainDisplay(object):
     def quantidade_de_pontos(self):
         qtdPontos = numero_pontosDialog()
         x = qtdPontos.exec_()
-
-        print(qtdPontos.submitted)
         if qtdPontos.submitted:
             return qtdPontos.numero_pontos()
         return -1
@@ -458,15 +456,20 @@ class Ui_MainDisplay(object):
         pen = QPen(Qt.red, 5)
         painter.setPen(pen)
 
-        coordenadaX = int(FormulasMatematicas.calcular_x_viewport(ponto.get_coordenadas()[0][0], self.window))
-        coordenadaY = int(FormulasMatematicas.calcular_y_viewport(ponto.get_coordenadas()[0][1], self.window))
+        coordenadaX = int(
+            FormulasMatematicas.calcular_x_viewport(
+                ponto.get_coordenadas()[0][0], self.window
+            )
+        )
+        coordenadaY = int(
+            FormulasMatematicas.calcular_y_viewport(
+                ponto.get_coordenadas()[0][1], self.window
+            )
+        )
 
         # Desenhando o ponto
-        painter.drawPoint(
-            coordenadaX, coordenadaY
-        )
+        painter.drawPoint(coordenadaX, coordenadaY)
         painter.end()
-
 
     def drawLine(self, reta: Reta):
         pontos = reta.get_coordenadas()
@@ -485,7 +488,6 @@ class Ui_MainDisplay(object):
         )
         painter.end()
 
-
     def drawWireframe(self, wireframe: Wireframe):
         pontos = wireframe.get_coordenadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
@@ -493,51 +495,78 @@ class Ui_MainDisplay(object):
         painter.setPen(pen)
 
         for i in range(len(pontos)):
-            if i != len(pontos) - 1:
+            if i != (len(pontos) - 1):
                 painter.drawLine(
-                    int(FormulasMatematicas.calcular_x_viewport(pontos[i][0], self.window)),
-                    int(FormulasMatematicas.calcular_y_viewport(pontos[i][1], self.window)),
-                    int(FormulasMatematicas.calcular_x_viewport(pontos[i + 1][0], self.window)),
-                    int(FormulasMatematicas.calcular_y_viewport(pontos[i + 1][1], self.window)),
+                    int(
+                        FormulasMatematicas.calcular_x_viewport(
+                            pontos[i][0], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_y_viewport(
+                            pontos[i][1], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_x_viewport(
+                            pontos[i + 1][0], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_y_viewport(
+                            pontos[i + 1][1], self.window
+                        )
+                    ),
                 )
             else:
                 painter.drawLine(
-                    int(FormulasMatematicas.calcular_x_viewport(pontos[i][0], self.window)),
-                    int(FormulasMatematicas.calcular_y_viewport(pontos[i][1], self.window)),
-                    int(FormulasMatematicas.calcular_x_viewport(pontos[0][0], self.window)),
-                    int(FormulasMatematicas.calcular_y_viewport(pontos[0][1], self.window)),
+                    int(
+                        FormulasMatematicas.calcular_x_viewport(
+                            pontos[i][0], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_y_viewport(
+                            pontos[i][1], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_x_viewport(
+                            pontos[0][0], self.window
+                        )
+                    ),
+                    int(
+                        FormulasMatematicas.calcular_y_viewport(
+                            pontos[0][1], self.window
+                        )
+                    ),
                 )
 
         painter.end()
 
     def move_direita(self):
         self.window.moveuDireita()
-        self.eraseDraw()      #Redesenha o viewport
+        self.eraseDraw()  # Redesenha o viewport
 
     def move_esquerda(self):
         self.window.moveuEsquerda()
-        self.eraseDraw()      #Redesenha o viewport
-
+        self.eraseDraw()  # Redesenha o viewport
 
     def move_cima(self):
         self.window.moveuCima()
-        self.eraseDraw()      #Redesenha o viewport
-
+        self.eraseDraw()  # Redesenha o viewport
 
     def move_baixo(self):
         self.window.moveuBaixo()
-        self.eraseDraw()      #Redesenha o viewport
-
+        self.eraseDraw()  # Redesenha o viewport
 
     def ZoomIn(self):
         self.window.ZoomIn()
-        self.eraseDraw()      #Redesenha o viewport
-
+        self.eraseDraw()  # Redesenha o viewport
 
     def ZoomOut(self):
         self.window.ZoomOut()
-        self.eraseDraw()      #Redesenha o viewport
-
+        self.eraseDraw()  # Redesenha o viewport
 
 
 if __name__ == "__main__":
