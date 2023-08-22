@@ -27,9 +27,5 @@ class Config:
         return 100
 
     @staticmethod
-    def window_offset():  # O quanto a window se move por clique
-        return 50
-
-    @staticmethod
-    def window_zoom_offset():  # O quanto a window amplia/encolhe
-        return 75
+    def scale():
+        return 0.1

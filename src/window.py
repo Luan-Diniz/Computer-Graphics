@@ -8,42 +8,52 @@ class Window:
         self.Xwmax = Config.window_Xwmax()
         self.Ywmin = Config.window_Ywmin()
         self.Ywmax = Config.window_Ywmax()
-
-        self.__offset = Config.window_offset()
-        self.__zoom_offset = Config.window_zoom_offset()
+        self.scale = Config.scale()
 
     def moveuDireita(self):
-        self.Xwmin += self.__offset
-        self.Xwmax += self.__offset
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
+
+        self.Xwmin += (tempXwmax - tempXwmin) * self.scale
+        self.Xwmax += (tempXwmax - tempXwmin) * self.scale
 
     def moveuEsquerda(self):
-        self.Xwmin -= self.__offset
-        self.Xwmax -= self.__offset
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
+
+        self.Xwmin -= (tempXwmax - tempXwmin) * self.scale
+        self.Xwmax -= (tempXwmax - tempXwmin) * self.scale
 
     def moveuCima(self):
-        self.Ywmin += self.__offset
-        self.Ywmax += self.__offset
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
+
+        self.Ywmin += (tempXwmax - tempXwmin) * self.scale
+        self.Ywmax += (tempXwmax - tempXwmin) * self.scale
 
     def moveuBaixo(self):
-        self.Ywmin -= self.__offset
-        self.Ywmax -= self.__offset
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
+
+        self.Ywmin -= (tempXwmax - tempXwmin) * self.scale
+        self.Ywmax -= (tempXwmax - tempXwmin) * self.scale
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
 
-        if not (
-            self.Xwmin + self.__zoom_offset > self.Xwmax - self.__zoom_offset
-            or self.Ywmin + self.__zoom_offset > self.Ywmax - self.__zoom_offset
-        ):
-            self.Xwmin += self.__zoom_offset
-            self.Xwmax -= self.__zoom_offset
-            self.Ywmin += self.__zoom_offset
-            self.Ywmax -= self.__zoom_offset
+        self.Xwmin += (tempXwmax - tempXwmin) * self.scale
+        self.Xwmax -= (tempXwmax - tempXwmin) * self.scale
+        self.Ywmin += (tempXwmax - tempXwmin) * self.scale
+        self.Ywmax -= (tempXwmax - tempXwmin) * self.scale
 
     def ZoomOut(self):
         # A Window fica maior, logo as imagens que ela ve sao "menores"
+        tempXwmax = self.Xwmax
+        tempXwmin = self.Xwmin
 
-        self.Xwmin -= self.__zoom_offset
-        self.Xwmax += self.__zoom_offset
-        self.Ywmin -= self.__zoom_offset
-        self.Ywmax += self.__zoom_offset
+        self.Xwmin -= (tempXwmax - tempXwmin) * self.scale
+        self.Xwmax += (tempXwmax - tempXwmin) * self.scale
+        self.Ywmin -= (tempXwmax - tempXwmin) * self.scale
+        self.Ywmax += (tempXwmax - tempXwmin) * self.scale
