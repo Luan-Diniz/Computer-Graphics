@@ -1,4 +1,3 @@
-from config import Config
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (
     QApplication,
@@ -15,6 +14,8 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
+from config import Config
+
 
 class AdicionarDialog(QDialog):
     def __init__(self, qtdade_coordenadas: int, nomes_elementos_graficos: list):
@@ -28,6 +29,7 @@ class AdicionarDialog(QDialog):
         # Nesse dicionario serao armazenadas as informacoes do objeto que sera criado
         self.dict_info = {
             "nome": "",
+            "cor": (),
             "coordenadas": [],
         }
 
@@ -59,6 +61,27 @@ class AdicionarDialog(QDialog):
         self.labelNome = QLabel("Nome: ")
         self.nome_objeto = QLineEdit()
         self.formLayout.addRow(self.labelNome, self.nome_objeto)
+
+        # Cria o label e a entrada para a cor R
+        self.labelCorR = QLabel("R")
+        self.cor_R_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorR, self.cor_R_objeto)
+        self.cor_R_objeto.setMinimum(0)
+        self.cor_R_objeto.setMaximum(255)
+
+        # Cria o label e a entrada para a cor G
+        self.labelCorG = QLabel("G")
+        self.cor_G_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorG, self.cor_G_objeto)
+        self.cor_G_objeto.setMinimum(0)
+        self.cor_G_objeto.setMaximum(255)
+
+        # Cria o label e a entrada para a cor B
+        self.labelCorB = QLabel("B")
+        self.cor_B_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorB, self.cor_B_objeto)
+        self.cor_B_objeto.setMinimum(0)
+        self.cor_B_objeto.setMaximum(255)
 
         # Cria os QDoubleSpinBox para entrada numerica
         for i in range(0, self.qtdade_coordenadas):
@@ -98,6 +121,11 @@ class AdicionarDialog(QDialog):
             self.pedir_nome()
         else:
             self.dict_info["nome"] = nome
+            self.dict_info["cor"] = (
+                self.cor_R_objeto.value(),
+                self.cor_G_objeto.value(),
+                self.cor_B_objeto.value(),
+            )
             for i in range(0, self.qtdade_coordenadas):
                 self.dict_info["coordenadas"].append(
                     (self.coordinateXList[i].value(), self.coordinateYList[i].value())
@@ -130,6 +158,76 @@ class OperacoesDialog(QDialog):
         pass
 
 
+class transformacoes2DDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.submitted = False
+
+        self.setWindowTitle("Transformação 2D")
+        self.formLayout = QFormLayout()
+
+        self.setMinimumSize(QtCore.QSize(275, 150))
+        self.setMaximumSize(QtCore.QSize(275, 150))
+
+    def accept(self):
+        self.submitted = True
+        self.close()
+
+
+class recolorirDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.submitted = False
+
+        self.setWindowTitle("Recolorir Objeto")
+        self.formLayout = QFormLayout()
+
+        self.setMinimumSize(QtCore.QSize(275, 150))
+        self.setMaximumSize(QtCore.QSize(275, 150))
+
+        # Cria o label e a entrada para a cor R
+        self.labelCorR = QLabel("R")
+        self.cor_R_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorR, self.cor_R_objeto)
+        self.cor_R_objeto.setMinimum(0)
+        self.cor_R_objeto.setMaximum(255)
+
+        # Cria o label e a entrada para a cor G
+        self.labelCorG = QLabel("G")
+        self.cor_G_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorG, self.cor_G_objeto)
+        self.cor_G_objeto.setMinimum(0)
+        self.cor_G_objeto.setMaximum(255)
+
+        # Cria o label e a entrada para a cor B
+        self.labelCorB = QLabel("B")
+        self.cor_B_objeto = QSpinBox()
+        self.formLayout.addRow(self.labelCorB, self.cor_B_objeto)
+        self.cor_B_objeto.setMinimum(0)
+        self.cor_B_objeto.setMaximum(255)
+
+        button_ok = QPushButton("OK")
+        button_cancel = QPushButton("Cancelar")
+
+        button_ok.clicked.connect(self.accept)
+        button_cancel.clicked.connect(self.close)
+
+        self.formLayout.addRow(button_ok, button_cancel)
+
+        self.setLayout(self.formLayout)
+
+    def accept(self):
+        self.submitted = True
+        self.close()
+
+    def cores(self):
+        return (
+            self.cor_R_objeto.value(),
+            self.cor_G_objeto.value(),
+            self.cor_B_objeto.value(),
+        )
+
+
 class numero_pontosDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -137,6 +235,9 @@ class numero_pontosDialog(QDialog):
 
         self.setWindowTitle("Criar Objeto")
         layout = QVBoxLayout()
+
+        self.setMinimumSize(QtCore.QSize(300, 150))
+        self.setMaximumSize(QtCore.QSize(300, 150))
 
         self.label = QLabel("Escolha a quantidade de pontos do Polígono:")
         self.number_input = QSpinBox()

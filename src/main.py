@@ -355,6 +355,13 @@ class Ui_MainDisplay(object):
             return qtdPontos.numero_pontos()
         return -1
 
+    def pedir_cores(self):
+        cores = recolorirDialog()
+        x = cores.exec_()
+        if cores.submitted:
+            return cores.cores()
+        return (-1, -1, -1)
+
     def pop_up_digitar_pontos(self):
         error = False
 
@@ -385,18 +392,21 @@ class Ui_MainDisplay(object):
                 if self.AdicionarObjetos.currentText() == "Ponto":
                     elemento_grafico = Ponto(
                         getCoordenadas.dict_info["nome"],
+                        getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
                     self.desenhar_ponto(elemento_grafico)
                 elif self.AdicionarObjetos.currentText() == "Reta":
                     elemento_grafico = Reta(
                         getCoordenadas.dict_info["nome"],
+                        getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
                     self.desenhar_reta(elemento_grafico)
                 else:
                     elemento_grafico = Wireframe(
                         getCoordenadas.dict_info["nome"],
+                        getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
                     self.desenhar_wireframe(elemento_grafico)
@@ -475,17 +485,17 @@ class Ui_MainDisplay(object):
 
     def recolorir_objeto(self):
         if self.ListaDeObjetos.count() > 0:
-            # TODO: Criar uma QDialogBox para escolher as cores em RGB
+            cores = self.pedir_cores()
+            if cores != (-1, -1, -1):
+                # Obtendo o objeto desejado
+                i = self.ListaDeObjetos.currentIndex()
+                elemento_grafico = self.display_file.getElementoGrafico(i)
 
-            # Obtendo o objeto desejado
-            i = self.ListaDeObjetos.currentIndex()
-            elemento_grafico = self.display_file.getElementoGrafico(i)
+                # Modificando a cor em RGB
+                elemento_grafico.set_cor(cores)
 
-            # Modificando a cor em RGB
-            elemento_grafico.set_cor((255, 0, 0))  # Código para vermelho
-
-            # Redesenhando
-            self.resetar_desenhos()
+                # Redesenhando
+                self.resetar_desenhos()
 
     def deletar_objeto(self):
         # Deleta o objeto selecionado
@@ -524,7 +534,7 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo cor e tamanho do ponto
-        cor = QColor(ponto.cor[0], ponto.cor[1], ponto.cor[2])
+        cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
         pen = QPen(cor, 5)
         painter.setPen(pen)
 
@@ -551,7 +561,7 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho da reta
-        cor = QColor(reta.cor[0], reta.cor[1], reta.cor[2])
+        cor = QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
         pen = QPen(cor, 5)
         painter.setPen(pen)
 
@@ -569,7 +579,9 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho do wireframe
-        cor = QColor(wireframe.cor[0], wireframe.cor[1], wireframe.cor[2])
+        cor = QColor(
+            int(wireframe.cor[0]), int(wireframe.cor[1]), int(wireframe.cor[2])
+        )
         pen = QPen(cor, 5)
         painter.setPen(pen)
 
