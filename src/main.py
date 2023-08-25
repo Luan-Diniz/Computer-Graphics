@@ -1,15 +1,17 @@
 import sys
 
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
+from PyQt5.QtWidgets import QMessageBox
+
 from config import Config
 from display_file import DisplayFile
 from formulas_matematicas import FormulasMatematicas
 from janelas_secundarias import *
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QBrush, QPainter, QPen
-from PyQt5.QtWidgets import QMessageBox
 from shapes import Ponto, Reta, Wireframe
 from window import Window
+
 
 class Ui_MainDisplay(object):
     def setupUi(self, MainDisplay):
@@ -385,19 +387,19 @@ class Ui_MainDisplay(object):
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.drawPoint(elemento_grafico)
+                    self.desenhar_ponto(elemento_grafico)
                 elif self.AdicionarObjetos.currentText() == "Reta":
                     elemento_grafico = Reta(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.drawLine(elemento_grafico)
+                    self.desenhar_reta(elemento_grafico)
                 else:
                     elemento_grafico = Wireframe(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.drawWireframe(elemento_grafico)
+                    self.desenhar_wireframe(elemento_grafico)
 
                 self.display_file.adicionar(elemento_grafico)
 
@@ -410,56 +412,130 @@ class Ui_MainDisplay(object):
         fazOperacao.setText("Escolha a operação a ser realizada")
 
         # Criando os botoes
-        fazOperacao.setStandardButtons(QMessageBox.Abort)
-        botao_deletar = fazOperacao.button(QMessageBox.Abort)
+        fazOperacao.setStandardButtons(
+            QMessageBox.Ok | QMessageBox.Save | QMessageBox.Open | QMessageBox.Cancel
+        )
+
+        # Renomeando o botao de troca de cor
+        botao_cor = fazOperacao.button(QMessageBox.Ok)
+        botao_cor.setText("Recolorir Objeto")
+
+        # Renomeando o botao de realizar transformacao 2D
+        botao_transformacao = fazOperacao.button(QMessageBox.Save)
+        botao_transformacao.setText("Realizar Transformação 2D")
+
+        # Renomeando o botao de deletar objeto
+        botao_deletar = fazOperacao.button(QMessageBox.Open)
         botao_deletar.setText("Deletar Objeto")
+
+        # Renomeando o botao de cancelar
+        botao_cancelar = fazOperacao.button(QMessageBox.Cancel)
+        botao_cancelar.setText("Cancelar")
+        fazOperacao.setDefaultButton(QMessageBox.Cancel)
 
         # Chamando o metodo de cada botao
         fazOperacao.buttonClicked.connect(self.definir_operacao)
 
         x = fazOperacao.exec_()
 
+        """
+        QMessageBox.Ok
+        QMessageBox.Save
+        QMessageBox.Open
+        QMessageBox.Cancel
+        QMessageBox.Close
+        QMessageBox.Apply
+        QMessageBox.Reset
+        QMessageBox.RestoreDefaults
+        QMessageBox.Help
+        QMessageBox.SaveAll
+        QMessageBox.Yes
+        QMessageBox.No
+        QMessageBox.YesToAll
+        QMessageBox.NoToAll
+        QMessageBox.Abort
+        QMessageBox.Retry
+        QMessageBox.Ignore
+        """
+
     def definir_operacao(self, i):
-        if i.text() == "Deletar Objeto":
+        if i.text() == "Recolorir Objeto":
+            self.recolorir_objeto()
+        elif i.text() == "Realizar Transformação 2D":
+            self.escolher_transformacao_2D()
+        elif i.text() == "Deletar Objeto":
             self.deletar_objeto()
+        else:
+            pass
+
+    def escolher_transformacao_2D(self):
+        if self.ListaDeObjetos.count() > 0:
+            # TODO: Criar uma QDialogBox para escolher transformação
+            print("Escolha a Transformação!")
+
+    def recolorir_objeto(self):
+        if self.ListaDeObjetos.count() > 0:
+            # TODO: Criar uma QDialogBox para escolher as cores em RGB
+
+            # Obtendo o objeto desejado
+            i = self.ListaDeObjetos.currentIndex()
+            elemento_grafico = self.display_file.getElementoGrafico(i)
+
+            # Modificando a cor em RGB
+            elemento_grafico.set_cor((255, 0, 0))  # Código para vermelho
+
+            # Redesenhando
+            self.resetar_desenhos()
 
     def deletar_objeto(self):
         # Deleta o objeto selecionado
         if self.ListaDeObjetos.count() > 0:
+            # Obtendo o objeto desejado
             i = self.ListaDeObjetos.currentIndex()
+
+            # Removendo objeto da lista da interface
             self.ListaDeObjetos.removeItem(i)
-            elemento_grafico = self.display_file.getElementoGrafico(i)
+
+            # Removendo objeto do display file
             self.display_file.remover(i)
-            self.eraseDraw()
 
-    def drawObj(self, elemento_grafico):
+            # Redesenhando
+            self.resetar_desenhos()
+
+    def desenhar_objeto(self, elemento_grafico):
         if elemento_grafico.get_tipo() == "Ponto":
-            self.drawPoint(elemento_grafico)
+            self.desenhar_ponto(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Reta":
-            self.drawLine(elemento_grafico)
+            self.desenhar_reta(elemento_grafico)
         else:
-            self.drawWireframe(elemento_grafico)
+            self.desenhar_wireframe(elemento_grafico)
 
-    def eraseDraw(self):
+    def resetar_desenhos(self):
+        # Preenchendo tela de branco
         canvas = QtGui.QPixmap(451, 461)
         canvas.fill(Qt.white)
         self.area_desenho.setPixmap(canvas)
 
-        for obj in self.display_file.getListaElementosGraficos():
-            self.drawObj(obj)
+        # Redesenhando todos os objetos
+        for objeto in self.display_file.getListaElementosGraficos():
+            self.desenhar_objeto(objeto)
 
-    def drawPoint(self, ponto: Ponto):
+    def desenhar_ponto(self, ponto: Ponto):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo cor e tamanho do ponto
-        pen = QPen(Qt.red, 5)
+        cor = QColor(ponto.cor[0], ponto.cor[1], ponto.cor[2])
+        pen = QPen(cor, 5)
         painter.setPen(pen)
 
+        # Recalculando o X
         coordenadaX = int(
             FormulasMatematicas.calcular_x_viewport(
                 ponto.get_coordenadas()[0][0], self.window
             )
         )
+
+        # Recalculando o Y
         coordenadaY = int(
             FormulasMatematicas.calcular_y_viewport(
                 ponto.get_coordenadas()[0][1], self.window
@@ -470,12 +546,13 @@ class Ui_MainDisplay(object):
         painter.drawPoint(coordenadaX, coordenadaY)
         painter.end()
 
-    def drawLine(self, reta: Reta):
+    def desenhar_reta(self, reta: Reta):
         pontos = reta.get_coordenadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho da reta
-        pen = QPen(Qt.blue, 5)
+        cor = QColor(reta.cor[0], reta.cor[1], reta.cor[2])
+        pen = QPen(cor, 5)
         painter.setPen(pen)
 
         # Desenhando a reta
@@ -487,10 +564,13 @@ class Ui_MainDisplay(object):
         )
         painter.end()
 
-    def drawWireframe(self, wireframe: Wireframe):
+    def desenhar_wireframe(self, wireframe: Wireframe):
         pontos = wireframe.get_coordenadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
-        pen = QPen(Qt.black, 5)
+
+        # Definindo a cor e tamanho do wireframe
+        cor = QColor(wireframe.cor[0], wireframe.cor[1], wireframe.cor[2])
+        pen = QPen(cor, 5)
         painter.setPen(pen)
 
         for i in range(len(pontos)):
@@ -545,27 +625,27 @@ class Ui_MainDisplay(object):
 
     def move_direita(self):
         self.window.moveuDireita()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def move_esquerda(self):
         self.window.moveuEsquerda()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def move_cima(self):
         self.window.moveuCima()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def move_baixo(self):
         self.window.moveuBaixo()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def ZoomIn(self):
         self.window.ZoomIn()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def ZoomOut(self):
         self.window.ZoomOut()
-        self.eraseDraw()  # Redesenha o viewport
+        self.resetar_desenhos()  # Redesenha o viewport
 
 
 if __name__ == "__main__":

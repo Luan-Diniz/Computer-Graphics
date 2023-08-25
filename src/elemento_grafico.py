@@ -1,6 +1,7 @@
 class ElementoGrafico:
-    def __init__(self, nome: str, tipo: str, coordenadas: list) -> None:
+    def __init__(self, nome: str, cor: tuple, tipo: str, coordenadas: list) -> None:
         self.nome = nome
+        self.cor = cor
         self.tipo = tipo
         self.coordenadas = coordenadas
 
@@ -9,6 +10,12 @@ class ElementoGrafico:
 
     def get_nome(self) -> str:
         return self.nome
+
+    def set_cor(self, cor: tuple) -> None:
+        self.cor = cor
+
+    def get_cor(self) -> tuple:
+        return self.cor
 
     def set_tipo(self, tipo: str) -> None:
         self.tipo = tipo
