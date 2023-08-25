@@ -1,6 +1,6 @@
 from viewport import ViewPort
 from window import Window
-
+import numpy as np
 
 class FormulasMatematicas:
     @staticmethod
@@ -23,3 +23,16 @@ class FormulasMatematicas:
         Y_viewport = FormulasMatematicas.calcular_y_viewport(Yw, window)
 
         return (X_viewport, Y_viewport)
+
+
+    @staticmethod
+    def junta_matrizes(*args):
+        primeira = True
+        matriz_final = []
+        for i in args:
+            if primeira == True:
+                matriz_final = i
+                primeira = False
+            else:
+                matriz_final = np.dot(matriz_final, i)  #Multiplica as matrizes
+        return matriz_final

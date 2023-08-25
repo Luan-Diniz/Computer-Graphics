@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import QMessageBox
 from shapes import Ponto, Reta, Wireframe
 from window import Window
 
-
 class Ui_MainDisplay(object):
     def setupUi(self, MainDisplay):
         MainDisplay.setObjectName("MainDisplay")
