@@ -512,36 +512,38 @@ class Ui_MainDisplay(object):
                     print("Ponto da Rotação:", transf.transformacao["argumento"][1])
 
                 else:  #eh escalonamento
-
                     (cx, cy) = elemento_grafico.get_centro()
                     coef_escalonamento = transf.transformacao["argumento"][0]
 
-                    matriz_traz_ao_centro = np.array([
-                        [1,0,0],
-                        [0,1,0],
-                        [-cx,-cy,1]])
-                    matriz_escalona = np.array([
-                        [coef_escalonamento,0,0],
-                        [0,coef_escalonamento,0],
-                        [0,0,1]])
-                    matriz_devolve_ao_local_original = np.array([
-                        [1,0,0],
-                        [0,1,0],
-                        [cx,cy,1]
-                    ])
+                    if coef_escalonamento == 0:
+                        transf.aviso_escalonamento_zero()
+                    else:
+                        matriz_traz_ao_centro = np.array([
+                            [1,0,0],
+                            [0,1,0],
+                            [-cx,-cy,1]])
+                        matriz_escalona = np.array([
+                            [coef_escalonamento,0,0],
+                            [0,coef_escalonamento,0],
+                            [0,0,1]])
+                        matriz_devolve_ao_local_original = np.array([
+                            [1,0,0],
+                            [0,1,0],
+                            [cx,cy,1]
+                        ])
 
-                    matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_traz_ao_centro,
-                                                                           matriz_escalona,
-                                                                           matriz_devolve_ao_local_original)
+                        matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_traz_ao_centro,
+                                                                               matriz_escalona,
+                                                                               matriz_devolve_ao_local_original)
 
-                    for i, j in elemento_grafico.get_coordenadas():
-                        pontos = np.array([[i, j, 1]])
-                        pontos_atualizados = np.dot(pontos, matriz_resultante)
+                        for i, j in elemento_grafico.get_coordenadas():
+                            pontos = np.array([[i, j, 1]])
+                            pontos_atualizados = np.dot(pontos, matriz_resultante)
 
-                        coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
+                            coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
 
-                    # Atualiza as coordenadas
-                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
+                        # Atualiza as coordenadas
+                        elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 #atualizando desenhos
                 self.resetar_desenhos()

@@ -153,6 +153,7 @@ class AdicionarDialog(QDialog):
         x = nome_repetido.exec_()
 
 
+
 class OperacoesDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -324,6 +325,14 @@ class transformacaoDialog(QDialog):
         self.transformacao["transformacao"] = "escalonamento"
         self.transformacao["argumento"].append(self.escalonamento_valor.value())
         self.accept()
+
+    def aviso_escalonamento_zero(self):
+        pedirNome = QMessageBox()
+        pedirNome.setWindowTitle("Aviso!")
+        pedirNome.setIcon(QMessageBox.Warning)
+        pedirNome.setText("O valor do escalonamento NÃO pode ser 0.")
+
+        x = pedirNome.exec_()
 
 
 class recolorirDialog(QDialog):
