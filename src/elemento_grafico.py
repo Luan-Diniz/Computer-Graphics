@@ -31,3 +31,18 @@ class ElementoGrafico:
 
     def add_ponto(self, novo_ponto: tuple) -> None:
         self.coordenadas.append(novo_ponto)
+
+    def get_centro(self) -> tuple:
+        cx = 0
+        cy = 0
+
+        for i,j in self.coordenadas:
+            cx += i
+            cy += j
+
+        n_pontos = len(self.coordenadas)
+
+        cx = cx/n_pontos
+        cy = cy/n_pontos
+
+        return (cx, cy)

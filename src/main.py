@@ -483,12 +483,14 @@ class Ui_MainDisplay(object):
             transf = transformacaoDialog()
             x = transf.exec_()
             if transf.submitted:
+                coordenadas_atualizadas = []
+
                 # Obtendo o objeto desejado
                 i = self.ListaDeObjetos.currentIndex()
                 elemento_grafico = self.display_file.getElementoGrafico(i)
 
                 if transf.transformacao["transformacao"] == "translacao":
-                    coordenadas_atualizadas = []
+
                     (desvio_x, desvio_y) = transf.transformacao["argumento"][0]
 
                     matriz_translacao = np.array([[1,0,0],
@@ -509,11 +511,37 @@ class Ui_MainDisplay(object):
                     print("\nÂngulo da Rotação:", transf.transformacao["argumento"][0])
                     print("Ponto da Rotação:", transf.transformacao["argumento"][1])
 
-                else:
-                    print(
-                        "\nValor do Escalonamento:",
-                        transf.transformacao["argumento"][0],
-                    )
+                else:  #eh escalonamento
+
+                    (cx, cy) = elemento_grafico.get_centro()
+                    coef_escalonamento = transf.transformacao["argumento"][0]
+
+                    matriz_traz_ao_centro = np.array([
+                        [1,0,0],
+                        [0,1,0],
+                        [-cx,-cy,1]])
+                    matriz_escalona = np.array([
+                        [coef_escalonamento,0,0],
+                        [0,coef_escalonamento,0],
+                        [0,0,1]])
+                    matriz_devolve_ao_local_original = np.array([
+                        [1,0,0],
+                        [0,1,0],
+                        [cx,cy,1]
+                    ])
+
+                    matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_traz_ao_centro,
+                                                                           matriz_escalona,
+                                                                           matriz_devolve_ao_local_original)
+
+                    for i, j in elemento_grafico.get_coordenadas():
+                        pontos = np.array([[i, j, 1]])
+                        pontos_atualizados = np.dot(pontos, matriz_resultante)
+
+                        coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
+
+                    # Atualiza as coordenadas
+                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 #atualizando desenhos
                 self.resetar_desenhos()
