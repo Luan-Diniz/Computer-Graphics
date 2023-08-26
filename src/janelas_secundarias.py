@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QPushButton,
     QSpinBox,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -158,20 +159,170 @@ class OperacoesDialog(QDialog):
         pass
 
 
-class transformacoes2DDialog(QDialog):
+class transformacaoDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.submitted = False
+        self.transformacao = {"transformacao": "", "argumento": []}
 
-        self.setWindowTitle("Transformação 2D")
-        self.formLayout = QFormLayout()
+        self.setWindowTitle("Transformações 2D")
+        self.setMinimumSize(QtCore.QSize(500, 300))
+        self.setMaximumSize(QtCore.QSize(500, 300))
 
-        self.setMinimumSize(QtCore.QSize(275, 150))
-        self.setMaximumSize(QtCore.QSize(275, 150))
+        layout = QVBoxLayout()
+        self.tab_widget = QTabWidget()
+
+        # Instanciando as abas
+        translacao = QWidget()
+        rotacao = QWidget()
+        escalonamento = QWidget()
+
+        # Criando a aba da translacao
+        translacao_label = QLabel("Escolha o ponto para a Translação")
+        translacao_layout = QFormLayout()
+        translacao_layout.setVerticalSpacing(20)  # Espacamento vertical entre as linhas
+        translacao_layout.setHorizontalSpacing(10)  # Espacamento horizontal
+        translacao_layout.addWidget(translacao_label)
+
+        # Botao cancelar
+        cancel_button_1 = QPushButton("Cancelar")
+        cancel_button_1.clicked.connect(self.close)
+
+        # Botao translacao
+        translacao_button = QPushButton("OK")
+        translacao_button.clicked.connect(self.translacao)
+
+        # Coordenada x translacao
+        self.translacao_x = QDoubleSpinBox()
+        self.translacao_x.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.translacao_x.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        # Coordenada y translacao
+        self.translacao_y = QDoubleSpinBox()
+        self.translacao_y.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.translacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        # Layout translacao
+        translacao_layout.addRow(QLabel("Coordenada X destino :"), self.translacao_x)
+        translacao_layout.addRow(QLabel("Coordenada Y destino :"), self.translacao_y)
+        translacao_layout.addRow(translacao_button, cancel_button_1)
+        translacao.setLayout(translacao_layout)
+
+        # Criando a aba da rotacao
+        rotacao_label = QLabel("Escolha o ponto de Rotação")
+        rotacao_layout = QFormLayout()
+        rotacao_layout.setVerticalSpacing(20)  # Espacamento vertical entre as linhas
+        rotacao_layout.setHorizontalSpacing(10)  # Espacamento horizontal
+        rotacao_layout.addWidget(rotacao_label)
+
+        # Botao cancelar
+        cancel_button_2 = QPushButton("Cancelar")
+        cancel_button_2.clicked.connect(self.close)
+
+        # Botao rotacao
+        rotacao_button = QPushButton("OK")
+        rotacao_button.clicked.connect(self.rotacao)
+
+        # Label da combo box
+        opcoes_label = QLabel("")
+        rotacao_layout.addWidget(opcoes_label)
+
+        # Combo box rotacao
+        self.rotacao_opcoes = QtWidgets.QComboBox(opcoes_label)
+        self.rotacao_opcoes.addItem("A Origem")
+        self.rotacao_opcoes.addItem("Um Ponto")
+        self.rotacao_opcoes.addItem("O Centro do Objeto")
+
+        # Angulo da rotacao
+        self.rotacao_angulo = QDoubleSpinBox()
+        self.rotacao_angulo.setMinimum(0)
+        self.rotacao_angulo.setMaximum(360)
+
+        # Coordenada x rotacao
+        self.rotacao_x = QDoubleSpinBox()
+        self.rotacao_x.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.rotacao_x.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        # Coordenada y rotacao
+        self.rotacao_y = QDoubleSpinBox()
+        self.rotacao_y.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.rotacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        # Layout rotacao
+        rotacao_layout.addRow(QLabel("Coordenada X do ponto: "), self.rotacao_x)
+        rotacao_layout.addRow(QLabel("Coordenada Y do ponto: "), self.rotacao_y)
+        rotacao_layout.addRow(QLabel("Ângulo da Rotação: "), self.rotacao_angulo)
+
+        rotacao_layout.addRow(rotacao_button, cancel_button_2)
+        rotacao.setLayout(rotacao_layout)
+
+        # Criando a aba do escalonamento
+        escalonamento_label = QLabel("Escolha a escala para o Escalonamento")
+        escalonamento_layout = QFormLayout()
+        escalonamento_layout.setVerticalSpacing(
+            20
+        )  # Espacamento vertical entre as linhas
+        escalonamento_layout.setHorizontalSpacing(10)  # Espacamento horizontal
+        escalonamento_layout.addWidget(escalonamento_label)
+
+        # Botao cancelar
+        cancel_button_3 = QPushButton("Cancelar")
+        cancel_button_3.clicked.connect(self.close)
+
+        # Botao escalonamento
+        escalonamento_button = QPushButton("OK")
+        escalonamento_button.clicked.connect(self.escalonamento)
+
+        # Valor do escalonamento
+        self.escalonamento_valor = QDoubleSpinBox()
+        self.escalonamento_valor.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.escalonamento_valor.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        # Layout escalonamento
+        escalonamento_layout.addRow(
+            QLabel("Valor da escala: "), self.escalonamento_valor
+        )
+        escalonamento_layout.addRow(escalonamento_button, cancel_button_3)
+        escalonamento.setLayout(escalonamento_layout)
+
+        # Adicione as abas ao QTabWidget
+        self.tab_widget.addTab(translacao, "Translação")
+        self.tab_widget.addTab(rotacao, "Rotação")
+        self.tab_widget.addTab(escalonamento, "Escalonamento")
+
+        layout.addWidget(self.tab_widget)
+
+        self.setLayout(layout)
 
     def accept(self):
         self.submitted = True
         self.close()
+
+    def translacao(self):
+        self.transformacao["transformacao"] = "translacao"
+        self.transformacao["argumento"].append(
+            (self.translacao_x.value(), self.translacao_y.value())
+        )
+        self.accept()
+
+    def rotacao(self):
+        self.transformacao["transformacao"] = "rotacao"
+        self.transformacao["argumento"].append(self.rotacao_angulo.value())
+        if self.rotacao_opcoes.currentIndex() == 0:
+            self.transformacao["argumento"].append((0, 0))
+        elif self.rotacao_opcoes.currentIndex() == 1:
+            self.transformacao["argumento"].append(
+                (self.rotacao_x.value(), self.rotacao_y.value())
+            )
+        else:
+            self.transformacao["argumento"].append((-1, -1))
+
+        self.accept()
+
+    def escalonamento(self):
+        self.transformacao["transformacao"] = "escalonamento"
+        self.transformacao["argumento"].append(self.escalonamento_valor.value())
+        self.accept()
 
 
 class recolorirDialog(QDialog):

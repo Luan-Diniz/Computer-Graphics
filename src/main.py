@@ -480,8 +480,21 @@ class Ui_MainDisplay(object):
 
     def escolher_transformacao_2D(self):
         if self.ListaDeObjetos.count() > 0:
-            # TODO: Criar uma QDialogBox para escolher transformação
-            print("Escolha a Transformação!")
+            transf = transformacaoDialog()
+            x = transf.exec_()
+            if transf.submitted:
+                if transf.transformacao["transformacao"] == "translacao":
+                    print(
+                        "\nPonto da Translação:", transf.transformacao["argumento"][0]
+                    )
+                elif transf.transformacao["transformacao"] == "rotacao":
+                    print("\nÂngulo da Rotação:", transf.transformacao["argumento"][0])
+                    print("Ponto da Rotação:", transf.transformacao["argumento"][1])
+                else:
+                    print(
+                        "\nValor do Escalonamento:",
+                        transf.transformacao["argumento"][0],
+                    )
 
     def recolorir_objeto(self):
         if self.ListaDeObjetos.count() > 0:
