@@ -1,4 +1,5 @@
 import sys
+
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
@@ -444,9 +445,18 @@ class Ui_MainDisplay(object):
         fazOperacao.setDefaultButton(QMessageBox.Cancel)
 
         # Chamando o metodo de cada botao
-        fazOperacao.buttonClicked.connect(self.definir_operacao)
+        # fazOperacao.buttonClicked.connect(self.definir_operacao)
 
-        x = fazOperacao.exec_()
+        i = fazOperacao.exec_()
+
+        if i == QMessageBox.Ok:
+            self.recolorir_objeto()
+        elif i == QMessageBox.Save:
+            self.escolher_transformacao_2D()
+        elif i == QMessageBox.Open:
+            self.deletar_objeto()
+        else:
+            pass
 
         """
         QMessageBox.Ok
@@ -468,16 +478,6 @@ class Ui_MainDisplay(object):
         QMessageBox.Ignore
         """
 
-    def definir_operacao(self, i):
-        if i.text() == "Recolorir Objeto":
-            self.recolorir_objeto()
-        elif i.text() == "Realizar Transformação 2D":
-            self.escolher_transformacao_2D()
-        elif i.text() == "Deletar Objeto":
-            self.deletar_objeto()
-        else:
-            pass
-
     def escolher_transformacao_2D(self):
         if self.ListaDeObjetos.count() > 0:
             transf = transformacaoDialog()
@@ -490,62 +490,66 @@ class Ui_MainDisplay(object):
                 elemento_grafico = self.display_file.getElementoGrafico(i)
 
                 if transf.transformacao["transformacao"] == "translacao":
-
                     (desvio_x, desvio_y) = transf.transformacao["argumento"][0]
 
-                    matriz_translacao = np.array([[1,0,0],
-                                                 [0,1,0],
-                                                 [desvio_x, desvio_y, 1]])
+                    matriz_translacao = np.array(
+                        [[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y, 1]]
+                    )
 
-                    for i,j in elemento_grafico.get_coordenadas():
-                        pontos = np.array([[i,j,1]])
+                    for i, j in elemento_grafico.get_coordenadas():
+                        pontos = np.array([[i, j, 1]])
                         pontos_atualizados = np.dot(pontos, matriz_translacao)
 
-                        coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
+                        coordenadas_atualizadas.append(
+                            (pontos_atualizados[0][0], pontos_atualizados[0][1])
+                        )
 
-                    #Atualiza as coordenadas
+                    # Atualiza as coordenadas
                     elemento_grafico.set_coordenadas(coordenadas_atualizadas)
-
 
                 elif transf.transformacao["transformacao"] == "rotacao":
                     print("\nÂngulo da Rotação:", transf.transformacao["argumento"][0])
                     print("Ponto da Rotação:", transf.transformacao["argumento"][1])
 
-                else:  #eh escalonamento
+                else:  # eh escalonamento
                     (cx, cy) = elemento_grafico.get_centro()
                     coef_escalonamento = transf.transformacao["argumento"][0]
 
                     if coef_escalonamento == 0:
                         transf.aviso_escalonamento_zero()
                     else:
-                        matriz_traz_ao_centro = np.array([
-                            [1,0,0],
-                            [0,1,0],
-                            [-cx,-cy,1]])
-                        matriz_escalona = np.array([
-                            [coef_escalonamento,0,0],
-                            [0,coef_escalonamento,0],
-                            [0,0,1]])
-                        matriz_devolve_ao_local_original = np.array([
-                            [1,0,0],
-                            [0,1,0],
-                            [cx,cy,1]
-                        ])
+                        matriz_traz_ao_centro = np.array(
+                            [[1, 0, 0], [0, 1, 0], [-cx, -cy, 1]]
+                        )
+                        matriz_escalona = np.array(
+                            [
+                                [coef_escalonamento, 0, 0],
+                                [0, coef_escalonamento, 0],
+                                [0, 0, 1],
+                            ]
+                        )
+                        matriz_devolve_ao_local_original = np.array(
+                            [[1, 0, 0], [0, 1, 0], [cx, cy, 1]]
+                        )
 
-                        matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_traz_ao_centro,
-                                                                               matriz_escalona,
-                                                                               matriz_devolve_ao_local_original)
+                        matriz_resultante = FormulasMatematicas.junta_matrizes(
+                            matriz_traz_ao_centro,
+                            matriz_escalona,
+                            matriz_devolve_ao_local_original,
+                        )
 
                         for i, j in elemento_grafico.get_coordenadas():
                             pontos = np.array([[i, j, 1]])
                             pontos_atualizados = np.dot(pontos, matriz_resultante)
 
-                            coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
+                            coordenadas_atualizadas.append(
+                                (pontos_atualizados[0][0], pontos_atualizados[0][1])
+                            )
 
                         # Atualiza as coordenadas
                         elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
-                #atualizando desenhos
+                # atualizando desenhos
                 self.resetar_desenhos()
 
     def recolorir_objeto(self):

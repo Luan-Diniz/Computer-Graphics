@@ -153,7 +153,6 @@ class AdicionarDialog(QDialog):
         x = nome_repetido.exec_()
 
 
-
 class OperacoesDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -204,8 +203,8 @@ class transformacaoDialog(QDialog):
         self.translacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         # Layout translacao
-        translacao_layout.addRow(QLabel("Desvio em X:"), self.translacao_x)
-        translacao_layout.addRow(QLabel("Desvio em Y:"), self.translacao_y)
+        translacao_layout.addRow(QLabel("Coordenada X destino :"), self.translacao_x)
+        translacao_layout.addRow(QLabel("Coordenada Y destino :"), self.translacao_y)
         translacao_layout.addRow(translacao_button, cancel_button_1)
         translacao.setLayout(translacao_layout)
 
@@ -224,16 +223,12 @@ class transformacaoDialog(QDialog):
         rotacao_button = QPushButton("OK")
         rotacao_button.clicked.connect(self.rotacao)
 
-        # Label da combo box
-        opcoes_label = QLabel("")
-        rotacao_layout.addWidget(opcoes_label)
-
         # Combo box rotacao
-        self.rotacao_opcoes = QtWidgets.QComboBox(opcoes_label)
+        self.rotacao_opcoes = QtWidgets.QComboBox()
         self.rotacao_opcoes.addItem("A Origem")
         self.rotacao_opcoes.addItem("Um Ponto")
         self.rotacao_opcoes.addItem("O Centro do Objeto")
-
+        rotacao_layout.addWidget(self.rotacao_opcoes)
 
         # Angulo da rotacao
         self.rotacao_angulo = QDoubleSpinBox()
@@ -262,7 +257,7 @@ class transformacaoDialog(QDialog):
         escalonamento_label = QLabel("Escolha a escala para o Escalonamento")
         escalonamento_layout = QFormLayout()
         escalonamento_layout.setVerticalSpacing(
-                20
+            20
         )  # Espacamento vertical entre as linhas
         escalonamento_layout.setHorizontalSpacing(10)  # Espacamento horizontal
         escalonamento_layout.addWidget(escalonamento_label)
@@ -325,14 +320,6 @@ class transformacaoDialog(QDialog):
         self.transformacao["transformacao"] = "escalonamento"
         self.transformacao["argumento"].append(self.escalonamento_valor.value())
         self.accept()
-
-    def aviso_escalonamento_zero(self):
-        pedirNome = QMessageBox()
-        pedirNome.setWindowTitle("Aviso!")
-        pedirNome.setIcon(QMessageBox.Warning)
-        pedirNome.setText("O valor do escalonamento NÃO pode ser 0.")
-
-        x = pedirNome.exec_()
 
 
 class recolorirDialog(QDialog):
