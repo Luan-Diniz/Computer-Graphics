@@ -388,7 +388,7 @@ class Ui_MainDisplay(object):
 
         if not error:
             x = getCoordenadas.exec_()
-            # Aqui roda apos "fechar a janela, mas ainda é possível acessar seus atributos"
+            # Aqui roda apos "fechar a janela, mas ainda eh possivel acessar seus atributos"
             if getCoordenadas.submitted:
                 if self.AdicionarObjetos.currentText() == "Ponto":
                     elemento_grafico = Ponto(
@@ -443,9 +443,6 @@ class Ui_MainDisplay(object):
         botao_cancelar = fazOperacao.button(QMessageBox.Cancel)
         botao_cancelar.setText("Cancelar")
         fazOperacao.setDefaultButton(QMessageBox.Cancel)
-
-        # Chamando o metodo de cada botao
-        # fazOperacao.buttonClicked.connect(self.definir_operacao)
 
         i = fazOperacao.exec_()
 
