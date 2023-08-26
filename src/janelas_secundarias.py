@@ -203,8 +203,8 @@ class transformacaoDialog(QDialog):
         self.translacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         # Layout translacao
-        translacao_layout.addRow(QLabel("Coordenada X destino :"), self.translacao_x)
-        translacao_layout.addRow(QLabel("Coordenada Y destino :"), self.translacao_y)
+        translacao_layout.addRow(QLabel("Desvio em X:"), self.translacao_x)
+        translacao_layout.addRow(QLabel("Desvio em Y:"), self.translacao_y)
         translacao_layout.addRow(translacao_button, cancel_button_1)
         translacao.setLayout(translacao_layout)
 
@@ -320,6 +320,14 @@ class transformacaoDialog(QDialog):
         self.transformacao["transformacao"] = "escalonamento"
         self.transformacao["argumento"].append(self.escalonamento_valor.value())
         self.accept()
+
+    def aviso_escalonamento_zero(self):
+        pedirNome = QMessageBox()
+        pedirNome.setWindowTitle("Aviso!")
+        pedirNome.setIcon(QMessageBox.Warning)
+        pedirNome.setText("O valor do escalonamento não pode ser 0")
+
+        x = pedirNome.exec_()
 
 
 class recolorirDialog(QDialog):
