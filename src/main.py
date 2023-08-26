@@ -1,5 +1,5 @@
 import sys
-
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
@@ -483,18 +483,40 @@ class Ui_MainDisplay(object):
             transf = transformacaoDialog()
             x = transf.exec_()
             if transf.submitted:
+                # Obtendo o objeto desejado
+                i = self.ListaDeObjetos.currentIndex()
+                elemento_grafico = self.display_file.getElementoGrafico(i)
+
                 if transf.transformacao["transformacao"] == "translacao":
-                    print(
-                        "\nPonto da Translação:", transf.transformacao["argumento"][0]
-                    )
+                    coordenadas_atualizadas = []
+                    (desvio_x, desvio_y) = transf.transformacao["argumento"][0]
+
+                    matriz_translacao = np.array([[1,0,0],
+                                                 [0,1,0],
+                                                 [desvio_x, desvio_y, 1]])
+
+                    for i,j in elemento_grafico.get_coordenadas():
+                        pontos = np.array([[i,j,1]])
+                        pontos_atualizados = np.dot(pontos, matriz_translacao)
+
+                        coordenadas_atualizadas.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
+
+                    #Atualiza as coordenadas
+                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
+
+
                 elif transf.transformacao["transformacao"] == "rotacao":
                     print("\nÂngulo da Rotação:", transf.transformacao["argumento"][0])
                     print("Ponto da Rotação:", transf.transformacao["argumento"][1])
+
                 else:
                     print(
                         "\nValor do Escalonamento:",
                         transf.transformacao["argumento"][0],
                     )
+
+                #atualizando desenhos
+                self.resetar_desenhos()
 
     def recolorir_objeto(self):
         if self.ListaDeObjetos.count() > 0:

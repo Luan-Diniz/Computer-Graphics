@@ -3,7 +3,7 @@ class ElementoGrafico:
         self.nome = nome
         self.cor = cor
         self.tipo = tipo
-        self.coordenadas = coordenadas
+        self.coordenadas = coordenadas  #lista de tuplas
 
     def set_nome(self, nome: str) -> None:
         self.nome = nome

@@ -203,8 +203,8 @@ class transformacaoDialog(QDialog):
         self.translacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         # Layout translacao
-        translacao_layout.addRow(QLabel("Coordenada X destino :"), self.translacao_x)
-        translacao_layout.addRow(QLabel("Coordenada Y destino :"), self.translacao_y)
+        translacao_layout.addRow(QLabel("Desvio em X:"), self.translacao_x)
+        translacao_layout.addRow(QLabel("Desvio em Y:"), self.translacao_y)
         translacao_layout.addRow(translacao_button, cancel_button_1)
         translacao.setLayout(translacao_layout)
 
@@ -233,6 +233,7 @@ class transformacaoDialog(QDialog):
         self.rotacao_opcoes.addItem("Um Ponto")
         self.rotacao_opcoes.addItem("O Centro do Objeto")
 
+
         # Angulo da rotacao
         self.rotacao_angulo = QDoubleSpinBox()
         self.rotacao_angulo.setMinimum(0)
@@ -260,7 +261,7 @@ class transformacaoDialog(QDialog):
         escalonamento_label = QLabel("Escolha a escala para o Escalonamento")
         escalonamento_layout = QFormLayout()
         escalonamento_layout.setVerticalSpacing(
-            20
+                20
         )  # Espacamento vertical entre as linhas
         escalonamento_layout.setHorizontalSpacing(10)  # Espacamento horizontal
         escalonamento_layout.addWidget(escalonamento_label)
