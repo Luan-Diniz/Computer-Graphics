@@ -232,8 +232,8 @@ class transformacaoDialog(QDialog):
 
         # Angulo da rotacao
         self.rotacao_angulo = QDoubleSpinBox()
-        self.rotacao_angulo.setMinimum(0)
-        self.rotacao_angulo.setMaximum(360)
+        self.rotacao_angulo.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.rotacao_angulo.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         # Coordenada x rotacao
         self.rotacao_x = QDoubleSpinBox()

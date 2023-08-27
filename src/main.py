@@ -507,7 +507,7 @@ class Ui_MainDisplay(object):
 
                 elif transf.transformacao["transformacao"] == "rotacao":
 
-                    angulo = radians(transf.transformacao["argumento"][0])  #Angulo em radianos
+                    angulo = radians(- transf.transformacao["argumento"][0])  #Angulo em radianos
                     (x_rot, y_rot) =  transf.transformacao["argumento"][1]
                     dx,dy = (None,None)  #desvios.
 
@@ -517,8 +517,16 @@ class Ui_MainDisplay(object):
                         (cx, cy) = elemento_grafico.get_centro()
                         dx,dy = cx,cy
                     else:
-                        print("EM TORNO DO PONTO MERMO")
+                        (cx, cy) = elemento_grafico.get_centro()
 
+                        dx, dy = cx, cy    #Para trazer o objeto a origem
+
+                        cx = cx - x_rot    #Desloca o objeto na origem para estar em distancia relativa ao ponto escolhido
+                        cy = cy - y_rot
+
+                        #Esta errado
+                        dx -= cx
+                        dy -= cy
 
 
                     matriz_translacao1 = np.array([[1,0,0],
