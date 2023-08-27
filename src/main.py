@@ -1,6 +1,7 @@
 import sys
-
 import numpy as np
+from math import sin, cos, radians
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
@@ -505,8 +506,48 @@ class Ui_MainDisplay(object):
                     elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 elif transf.transformacao["transformacao"] == "rotacao":
-                    print("\nÂngulo da Rotação:", transf.transformacao["argumento"][0])
-                    print("Ponto da Rotação:", transf.transformacao["argumento"][1])
+
+                    angulo = radians(transf.transformacao["argumento"][0])  #Angulo em radianos
+                    (x_rot, y_rot) =  transf.transformacao["argumento"][1]
+                    dx,dy = (None,None)  #desvios.
+
+                    if y_rot == "origem":
+                        dx,dy = 0,0
+                    elif y_rot == "centro_objeto":
+                        (cx, cy) = elemento_grafico.get_centro()
+                        dx,dy = cx,cy
+                    else:
+                        print("EM TORNO DO PONTO MERMO")
+
+
+
+                    matriz_translacao1 = np.array([[1,0,0],
+                                                  [0,1,0],
+                                                  [-dx,-dy,1]])
+
+                    matriz_rotacao = np.array([[cos(angulo), -sin(angulo), 0],
+                                               [sin(angulo), cos(angulo), 0],
+                                               [0, 0, 1]])
+
+                    matriz_translacao2 = np.array([[1, 0, 0],
+                                                   [0, 1, 0],
+                                                   [dx, dy, 1]])
+
+                    matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_translacao1,
+                                                                           matriz_rotacao,
+                                                                           matriz_translacao2)
+
+                    for i, j in elemento_grafico.get_coordenadas():
+                        pontos = np.array([[i, j, 1]])
+                        pontos_atualizados = np.dot(pontos, matriz_resultante)
+
+                        coordenadas_atualizadas.append(
+                            (pontos_atualizados[0][0], pontos_atualizados[0][1])
+                        )
+
+                    # Atualiza as coordenadas
+                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
+
 
                 else:  # eh escalonamento
                     (cx, cy) = elemento_grafico.get_centro()

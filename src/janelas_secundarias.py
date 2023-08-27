@@ -306,13 +306,13 @@ class transformacaoDialog(QDialog):
         self.transformacao["transformacao"] = "rotacao"
         self.transformacao["argumento"].append(self.rotacao_angulo.value())
         if self.rotacao_opcoes.currentIndex() == 0:
-            self.transformacao["argumento"].append((0, 0))
+            self.transformacao["argumento"].append((None, "origem"))
         elif self.rotacao_opcoes.currentIndex() == 1:
             self.transformacao["argumento"].append(
                 (self.rotacao_x.value(), self.rotacao_y.value())
             )
         else:
-            self.transformacao["argumento"].append((-1, -1))
+            self.transformacao["argumento"].append((None, "centro_objeto"))
 
         self.accept()
 
