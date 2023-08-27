@@ -517,16 +517,9 @@ class Ui_MainDisplay(object):
                         (cx, cy) = elemento_grafico.get_centro()
                         dx,dy = cx,cy
                     else:
-                        (cx, cy) = elemento_grafico.get_centro()
-
-                        dx, dy = cx, cy    #Para trazer o objeto a origem
-
-                        cx = cx - x_rot    #Desloca o objeto na origem para estar em distancia relativa ao ponto escolhido
-                        cy = cy - y_rot
-
-                        #Esta errado
-                        dx -= cx
-                        dy -= cy
+                        #Funciona
+                        dx = x_rot
+                        dy = y_rot
 
 
                     matriz_translacao1 = np.array([[1,0,0],
