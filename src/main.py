@@ -1,7 +1,7 @@
 import sys
-import numpy as np
-from math import sin, cos, radians
+from math import cos, radians, sin
 
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
@@ -48,95 +48,47 @@ class Ui_MainDisplay(object):
         self.frame_movimentacao_window.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_movimentacao_window.setObjectName("frame_movimentacao_window")
 
-        self.line_minimo_x = QtWidgets.QLineEdit(self.frame_movimentacao_window)
-        self.line_minimo_x.setGeometry(QtCore.QRect(260, 90, 71, 31))
-        self.line_minimo_x.setObjectName("line_minimo_x")
-
-        self.line_maximo_x = QtWidgets.QLineEdit(self.frame_movimentacao_window)
-        self.line_maximo_x.setGeometry(QtCore.QRect(340, 90, 71, 31))
-        self.line_maximo_x.setObjectName("line_maximo_x")
-
-        self.line_minimo_y = QtWidgets.QLineEdit(self.frame_movimentacao_window)
-        self.line_minimo_y.setGeometry(QtCore.QRect(260, 130, 71, 31))
-        self.line_minimo_y.setObjectName("line_minimo_y")
-        self.line_maximo_y = QtWidgets.QLineEdit(self.frame_movimentacao_window)
-        self.line_maximo_y.setGeometry(QtCore.QRect(340, 130, 71, 31))
-        self.line_maximo_y.setObjectName("line_maximo_y")
-
-        self.texto_x = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_x.setGeometry(QtCore.QRect(230, 90, 31, 21))
-        self.texto_x.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_x.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_x.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_x.setObjectName("texto_x")
-
-        self.texto_y = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_y.setGeometry(QtCore.QRect(230, 130, 31, 21))
-        self.texto_y.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_y.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_y.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_y.setObjectName("texto_y")
-
-        self.texto_minimo = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_minimo.setGeometry(QtCore.QRect(260, 60, 71, 21))
-        self.texto_minimo.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_minimo.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_minimo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_minimo.setObjectName("texto_minimo")
-
-        self.texto_maximo = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_maximo.setGeometry(QtCore.QRect(340, 60, 71, 21))
-        self.texto_maximo.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_maximo.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_maximo.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_maximo.setObjectName("texto_maximo")
-
-        self.texto_coordenadas = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_coordenadas.setGeometry(QtCore.QRect(260, 20, 151, 21))
-        self.texto_coordenadas.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_coordenadas.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_coordenadas.setHorizontalScrollBarPolicy(
-            QtCore.Qt.ScrollBarAlwaysOff
-        )
-        self.texto_coordenadas.setObjectName("texto_coordenadas")
-
         self.up_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.up_button.setGeometry(QtCore.QRect(80, 120, 61, 28))
+        self.up_button.setGeometry(QtCore.QRect(80, 120, 60, 30))
         self.up_button.setAutoDefault(False)
         self.up_button.setDefault(False)
         self.up_button.setFlat(False)
         self.up_button.setObjectName("up_button")
 
         self.down_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.down_button.setGeometry(QtCore.QRect(80, 240, 61, 28))
+        self.down_button.setGeometry(QtCore.QRect(80, 240, 60, 30))
         self.down_button.setObjectName("down_button")
 
         self.right_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.right_button.setGeometry(QtCore.QRect(140, 180, 61, 28))
+        self.right_button.setGeometry(QtCore.QRect(140, 180, 60, 30))
         self.right_button.setObjectName("right_button")
 
         self.left_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.left_button.setGeometry(QtCore.QRect(20, 180, 61, 28))
+        self.left_button.setGeometry(QtCore.QRect(20, 180, 60, 30))
         self.left_button.setFlat(False)
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_in_button.setGeometry(QtCore.QRect(20, 40, 61, 28))
+        self.zoom_in_button.setGeometry(QtCore.QRect(20, 40, 60, 30))
         self.zoom_in_button.setObjectName("zoom_in_button")
+
         self.zoom_out_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_out_button.setGeometry(QtCore.QRect(140, 40, 61, 28))
+        self.zoom_out_button.setGeometry(QtCore.QRect(140, 40, 60, 30))
         self.zoom_out_button.setObjectName("zoom_out_button")
 
-        self.texto_precisao = QtWidgets.QTextBrowser(self.frame_movimentacao_window)
-        self.texto_precisao.setGeometry(QtCore.QRect(290, 190, 71, 21))
-        self.texto_precisao.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.texto_precisao.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_precisao.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.texto_precisao.setObjectName("texto_precisao")
+        self.anticlockwise_rotation_button = QtWidgets.QPushButton(
+            self.frame_movimentacao_window
+        )
+        self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(240, 40, 60, 30))
+        self.anticlockwise_rotation_button.setObjectName(
+            "anticlockwise_rotation_button"
+        )
 
-        self.line_precisao = QtWidgets.QLineEdit(self.frame_movimentacao_window)
-        self.line_precisao.setGeometry(QtCore.QRect(290, 220, 71, 31))
-        self.line_precisao.setObjectName("line_precisao")
+        self.clockwise_rotation_button = QtWidgets.QPushButton(
+            self.frame_movimentacao_window
+        )
+        self.clockwise_rotation_button.setGeometry(QtCore.QRect(360, 40, 60, 30))
+        self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
 
         self.viewport = QtWidgets.QFrame(self.frame_viewport)
         self.viewport.setGeometry(QtCore.QRect(10, 40, 451, 461))
@@ -172,11 +124,11 @@ class Ui_MainDisplay(object):
         self.texto_controle_window.setObjectName("texto_controle_window")
 
         self.ListaDeObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 50, 151, 31))
+        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 50, 150, 30))
         self.ListaDeObjetos.setObjectName("ListaDeObjetos")
 
         self.AdicionarObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 50, 151, 31))
+        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 50, 150, 30))
         self.AdicionarObjetos.setObjectName("AdicionarObjetos")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
@@ -212,10 +164,11 @@ class Ui_MainDisplay(object):
         self.texto_viewport.setObjectName("texto_viewport")
 
         self.adicionar_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.adicionar_button.setGeometry(QtCore.QRect(530, 90, 75, 23))
+        self.adicionar_button.setGeometry(QtCore.QRect(530, 90, 75, 30))
         self.adicionar_button.setObjectName("adicionar_button")
+
         self.operacoes_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.operacoes_button.setGeometry(QtCore.QRect(780, 90, 75, 23))
+        self.operacoes_button.setGeometry(QtCore.QRect(780, 90, 75, 30))
         self.operacoes_button.setObjectName("operacoes_button")
 
         self.verticalLayout.addWidget(self.frame_viewport)
@@ -231,6 +184,8 @@ class Ui_MainDisplay(object):
         self.down_button.clicked.connect(self.move_baixo)
         self.zoom_in_button.clicked.connect(self.ZoomIn)
         self.zoom_out_button.clicked.connect(self.ZoomOut)
+        self.anticlockwise_rotation_button.clicked.connect(self.rotaciona_antihorario)
+        self.clockwise_rotation_button.clicked.connect(self.rotaciona_horario)
 
         self.retranslateUi(MainDisplay)
         QtCore.QMetaObject.connectSlotsByName(MainDisplay)
@@ -238,72 +193,18 @@ class Ui_MainDisplay(object):
     def retranslateUi(self, MainDisplay):
         _translate = QtCore.QCoreApplication.translate
         MainDisplay.setWindowTitle(_translate("MainDisplay", "Sistema Gráfico 2D"))
-        self.texto_x.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">X</p></body></html>',
-            )
-        )
-        self.texto_y.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Y</p></body></html>',
-            )
-        )
-        self.texto_minimo.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Mínimo</p></body></html>',
-            )
-        )
-        self.texto_maximo.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Máximo</p></body></html>',
-            )
-        )
-        self.texto_coordenadas.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Coordenadas</span></p></body></html>',
-            )
-        )
         self.up_button.setText(_translate("MainDisplay", "▲"))
         self.down_button.setText(_translate("MainDisplay", "▼"))
         self.right_button.setText(_translate("MainDisplay", "►"))
         self.left_button.setText(_translate("MainDisplay", "◄"))
-        self.zoom_in_button.setText(_translate("MainDisplay", "Zoom In"))
-        self.zoom_out_button.setText(_translate("MainDisplay", "Zoom Out"))
-        self.texto_precisao.setHtml(
-            _translate(
-                "MainDisplay",
-                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
-                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
-                "p, li { white-space: pre-wrap; }\n"
-                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Precisão</span></p></body></html>',
-            )
-        )
+        self.zoom_in_button.setStyleSheet("font-size: 20px;")
+        self.zoom_in_button.setText(_translate("MainDisplay", "\u2315+"))
+        self.zoom_out_button.setStyleSheet("font-size: 20px;")
+        self.zoom_out_button.setText(_translate("MainDisplay", "\u2315-"))
+        self.anticlockwise_rotation_button.setStyleSheet("font-size: 20px;")
+        self.anticlockwise_rotation_button.setText(_translate("MainDisplay", "⭯"))
+        self.clockwise_rotation_button.setStyleSheet("font-size: 20px;")
+        self.clockwise_rotation_button.setText(_translate("MainDisplay", "⭮"))
         self.texto_controle_window.setHtml(
             _translate(
                 "MainDisplay",
@@ -506,37 +407,37 @@ class Ui_MainDisplay(object):
                     elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 elif transf.transformacao["transformacao"] == "rotacao":
-
-                    angulo = radians(- transf.transformacao["argumento"][0])  #Angulo em radianos
-                    (x_rot, y_rot) =  transf.transformacao["argumento"][1]
-                    dx,dy = (None,None)  #desvios.
+                    angulo = radians(
+                        -transf.transformacao["argumento"][0]
+                    )  # Angulo em radianos
+                    (x_rot, y_rot) = transf.transformacao["argumento"][1]
+                    dx, dy = (None, None)  # desvios.
 
                     if y_rot == "origem":
-                        dx,dy = 0,0
+                        dx, dy = 0, 0
                     elif y_rot == "centro_objeto":
                         (cx, cy) = elemento_grafico.get_centro()
-                        dx,dy = cx,cy
+                        dx, dy = cx, cy
                     else:
-                        #Funciona
+                        # Funciona
                         dx = x_rot
                         dy = y_rot
 
+                    matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
 
-                    matriz_translacao1 = np.array([[1,0,0],
-                                                  [0,1,0],
-                                                  [-dx,-dy,1]])
+                    matriz_rotacao = np.array(
+                        [
+                            [cos(angulo), -sin(angulo), 0],
+                            [sin(angulo), cos(angulo), 0],
+                            [0, 0, 1],
+                        ]
+                    )
 
-                    matriz_rotacao = np.array([[cos(angulo), -sin(angulo), 0],
-                                               [sin(angulo), cos(angulo), 0],
-                                               [0, 0, 1]])
+                    matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
 
-                    matriz_translacao2 = np.array([[1, 0, 0],
-                                                   [0, 1, 0],
-                                                   [dx, dy, 1]])
-
-                    matriz_resultante = FormulasMatematicas.junta_matrizes(matriz_translacao1,
-                                                                           matriz_rotacao,
-                                                                           matriz_translacao2)
+                    matriz_resultante = FormulasMatematicas.junta_matrizes(
+                        matriz_translacao1, matriz_rotacao, matriz_translacao2
+                    )
 
                     for i, j in elemento_grafico.get_coordenadas():
                         pontos = np.array([[i, j, 1]])
@@ -548,7 +449,6 @@ class Ui_MainDisplay(object):
 
                     # Atualiza as coordenadas
                     elemento_grafico.set_coordenadas(coordenadas_atualizadas)
-
 
                 else:  # eh escalonamento
                     (cx, cy) = elemento_grafico.get_centro()
@@ -766,6 +666,12 @@ class Ui_MainDisplay(object):
     def ZoomOut(self):
         self.window.ZoomOut()
         self.resetar_desenhos()  # Redesenha o viewport
+
+    def rotaciona_antihorario(self):
+        print("Rotaciona Anti-horário")
+
+    def rotaciona_horario(self):
+        print("Rotaciona Horário")
 
 
 if __name__ == "__main__":
