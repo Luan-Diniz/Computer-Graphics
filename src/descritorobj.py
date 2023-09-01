@@ -68,7 +68,7 @@ class DescritorOBJ:
     def lerLista(self, palavras: list) -> list:
         pontos = []
         for ponto in palavras:
-            pontos.append(int(pontos))
+            pontos.append(int(ponto))
         return pontos
 
     def decidirTipo(self, tamanho: int) -> str:
