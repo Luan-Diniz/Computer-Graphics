@@ -46,12 +46,13 @@ class DescritorOBJ:
                     tipo = "Ponto"
                     pontos.append(int(palavras[1]))
                     elementos_graficos[nome] = [tipo, cor, pontos]
-                elif palavras[0].isnumeric():
-                    tipo, pontos = self.decidirTipo(palavras)
+                elif palavras[0] == "l":
+                    tipo = self.decidirTipo(len(palavras))
+                    pontos = self.lerLista(palavras)
                     elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "f":
                     tipo = "Face"
-                    pontos = self.lerFace(palavras)
+                    pontos = self.lerLista(palavras)
                     elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "mtllib":
                     cores = self.lerArquivoMTL(palavras[1])
@@ -64,22 +65,16 @@ class DescritorOBJ:
     def lerTupla(self, palavras: list) -> tuple:
         return (float(palavras[1]), float(palavras[2]), float(palavras[3]))
 
-    def lerFace(self, palavras: list) -> list:
+    def lerLista(self, palavras: list) -> list:
         pontos = []
         for ponto in palavras:
             pontos.append(int(pontos))
         return pontos
 
-    def decidirTipo(self, palavras: str):
-        tipo = ""
-        pontos = []
-        if len(palavras) == 2:
-            tipo = "Reta"
-        else:
-            tipo = "Wireframe"
-        for ponto in palavras:
-            pontos.append(int(pontos))
-        return tipo, pontos
+    def decidirTipo(self, tamanho: int) -> str:
+        if tamanho == 2:
+            return "Reta"
+        return "Wireframe"
 
 
 d = DescritorOBJ("OBJ_teste.obj")
