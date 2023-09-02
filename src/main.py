@@ -1,5 +1,6 @@
 import sys
 from math import cos, radians, sin
+from os.path import exists
 
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -754,6 +755,11 @@ class Ui_MainDisplay(object):
 
     def ler_arquivo(self):
         nome_arquivo = self.nome_arquivo_entrada.text()
+
+        if not exists(nome_arquivo):
+            self.arquivo_nao_encontrado()
+            return
+
         desc = DescritorOBJ(nome_arquivo)
 
         for key, val in desc.elementos_graficos.items():
@@ -788,6 +794,15 @@ class Ui_MainDisplay(object):
             # Alterar quando for usar uma coordenada a mais
             v.append((vertices[indice - 1][0], vertices[indice - 1][1]))
         return v
+
+    def arquivo_nao_encontrado(self):
+        nao_encontrado = QMessageBox()
+        nao_encontrado.setWindowTitle("Aviso!")
+        nao_encontrado.setText("O arquivo requisitado não foi encontrado")
+        nao_encontrado.setStandardButtons(QMessageBox.Ok)
+        nao_encontrado.setIcon(QMessageBox.Warning)
+
+        i = nao_encontrado.exec_()
 
     def gerar_arquivo(self):
         print("Arquivo gerado!")
