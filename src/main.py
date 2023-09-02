@@ -8,6 +8,7 @@ from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
 from PyQt5.QtWidgets import QMessageBox
 
 from config import Config
+from descritorobj import DescritorOBJ
 from display_file import DisplayFile
 from formulas_matematicas import FormulasMatematicas
 from janelas_secundarias import *
@@ -42,14 +43,14 @@ class Ui_MainDisplay(object):
         self.frame_viewport.setObjectName("frame_viewport")
 
         self.frame_movimentacao_window = QtWidgets.QFrame(self.frame_viewport)
-        self.frame_movimentacao_window.setGeometry(QtCore.QRect(480, 220, 431, 281))
+        self.frame_movimentacao_window.setGeometry(QtCore.QRect(480, 220, 435, 281))
         self.frame_movimentacao_window.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_movimentacao_window.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_movimentacao_window.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_movimentacao_window.setObjectName("frame_movimentacao_window")
 
         self.up_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.up_button.setGeometry(QtCore.QRect(80, 120, 60, 30))
+        self.up_button.setGeometry(QtCore.QRect(80, 140, 60, 30))
         self.up_button.setAutoDefault(False)
         self.up_button.setDefault(False)
         self.up_button.setFlat(False)
@@ -60,26 +61,26 @@ class Ui_MainDisplay(object):
         self.down_button.setObjectName("down_button")
 
         self.right_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.right_button.setGeometry(QtCore.QRect(140, 180, 60, 30))
+        self.right_button.setGeometry(QtCore.QRect(140, 190, 60, 30))
         self.right_button.setObjectName("right_button")
 
         self.left_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.left_button.setGeometry(QtCore.QRect(20, 180, 60, 30))
+        self.left_button.setGeometry(QtCore.QRect(20, 190, 60, 30))
         self.left_button.setFlat(False)
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_in_button.setGeometry(QtCore.QRect(20, 40, 60, 30))
+        self.zoom_in_button.setGeometry(QtCore.QRect(20, 90, 60, 30))
         self.zoom_in_button.setObjectName("zoom_in_button")
 
         self.zoom_out_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_out_button.setGeometry(QtCore.QRect(140, 40, 60, 30))
+        self.zoom_out_button.setGeometry(QtCore.QRect(140, 90, 60, 30))
         self.zoom_out_button.setObjectName("zoom_out_button")
 
         self.anticlockwise_rotation_button = QtWidgets.QPushButton(
             self.frame_movimentacao_window
         )
-        self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(240, 40, 60, 30))
+        self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(240, 90, 60, 30))
         self.anticlockwise_rotation_button.setObjectName(
             "anticlockwise_rotation_button"
         )
@@ -87,7 +88,7 @@ class Ui_MainDisplay(object):
         self.clockwise_rotation_button = QtWidgets.QPushButton(
             self.frame_movimentacao_window
         )
-        self.clockwise_rotation_button.setGeometry(QtCore.QRect(360, 40, 60, 30))
+        self.clockwise_rotation_button.setGeometry(QtCore.QRect(360, 90, 60, 30))
         self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
 
         self.viewport = QtWidgets.QFrame(self.frame_viewport)
@@ -113,7 +114,7 @@ class Ui_MainDisplay(object):
         self.area_desenho.setGeometry(QtCore.QRect(10, 40, 451, 461))
 
         self.texto_controle_window = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_controle_window.setGeometry(QtCore.QRect(480, 190, 151, 21))
+        self.texto_controle_window.setGeometry(QtCore.QRect(480, 250, 151, 21))
         self.texto_controle_window.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_controle_window.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -171,12 +172,30 @@ class Ui_MainDisplay(object):
         self.operacoes_button.setGeometry(QtCore.QRect(780, 90, 75, 30))
         self.operacoes_button.setObjectName("operacoes_button")
 
+        self.ler_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
+        self.ler_arquivo_button.setGeometry(QtCore.QRect(530, 180, 75, 30))
+        self.ler_arquivo_button.setObjectName("ler_arquivo_button")
+
+        self.gerar_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
+        self.gerar_arquivo_button.setGeometry(QtCore.QRect(780, 180, 75, 30))
+        self.gerar_arquivo_button.setObjectName("gerar_arquivo_button")
+
+        self.nome_arquivo_entrada = QLineEdit(self.frame_viewport)
+        self.nome_arquivo_entrada.setGeometry(QtCore.QRect(500, 135, 150, 30))
+        self.nome_arquivo_entrada.setObjectName("label_arquivo_entrada")
+
+        self.nome_arquivo_saida = QLineEdit(self.frame_viewport)
+        self.nome_arquivo_saida.setGeometry(QtCore.QRect(750, 135, 150, 30))
+        self.nome_arquivo_saida.setObjectName("label_arquivo_saida")
+
         self.verticalLayout.addWidget(self.frame_viewport)
 
         MainDisplay.setCentralWidget(self.centralwidget)
 
         # Configurando os botoes
         self.adicionar_button.clicked.connect(self.pop_up_digitar_pontos)
+        self.ler_arquivo_button.clicked.connect(self.ler_arquivo)
+        self.gerar_arquivo_button.clicked.connect(self.gerar_arquivo)
         self.operacoes_button.clicked.connect(self.pop_up_realizar_operacao)
         self.right_button.clicked.connect(self.move_direita)
         self.left_button.clicked.connect(self.move_esquerda)
@@ -248,7 +267,9 @@ class Ui_MainDisplay(object):
                 '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Viewport</p></body></html>',
             )
         )
-        self.adicionar_button.setText(_translate("MainDisplay", "Adicionar"))
+        self.adicionar_button.setText(_translate("MainDisplay", "Criar"))
+        self.ler_arquivo_button.setText(_translate("MainDisplay", "Ler Arquivo"))
+        self.gerar_arquivo_button.setText(_translate("MainDisplay", "Salvar"))
         self.operacoes_button.setText(_translate("MainDisplay", "Operações"))
 
     def quantidade_de_pontos(self):
@@ -672,6 +693,46 @@ class Ui_MainDisplay(object):
 
     def rotaciona_horario(self):
         print("Rotaciona Horário")
+
+    def ler_arquivo(self):
+        nome_arquivo = self.nome_arquivo_entrada.text()
+        desc = DescritorOBJ(nome_arquivo)
+
+        for key, val in desc.elementos_graficos.items():
+            if val[0] == "Ponto":
+                elemento_grafico = Ponto(
+                    key.strip(),
+                    val[1],
+                    self.obter_vertices(val[2], desc.vertices),
+                )
+                self.desenhar_ponto(elemento_grafico)
+            elif val[0] == "Reta":
+                elemento_grafico = Reta(
+                    key.strip(),
+                    val[1],
+                    self.obter_vertices(val[2], desc.vertices),
+                )
+                self.desenhar_reta(elemento_grafico)
+            else:
+                elemento_grafico = Wireframe(
+                    key.strip(),
+                    val[1],
+                    self.obter_vertices(val[2], desc.vertices),
+                )
+                self.desenhar_wireframe(elemento_grafico)
+
+            self.display_file.adicionar(elemento_grafico)
+            self.ListaDeObjetos.addItem(key.strip())
+
+    def obter_vertices(self, indices, vertices):
+        v = []
+        for indice in indices:
+            # Alterar quando for usar uma coordenada a mais
+            v.append((vertices[indice - 1][0], vertices[indice - 1][1]))
+        return v
+
+    def gerar_arquivo(self):
+        print("Arquivo gerado!")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ class DescritorOBJ:
                 palavras = linha.split(" ")
                 if palavras[0] == "Kd":
                     rgb = self.lerTupla(palavras)
-                    cores[nome] = [rgb]
+                    cores[nome] = rgb
                 elif palavras[0] == "newmtl":
                     nome = palavras[1]
                 linha = arquivo.readline()
@@ -73,21 +73,3 @@ class DescritorOBJ:
         if tamanho == 2:
             return "Reta"
         return "Wireframe"
-
-
-teste = DescritorOBJ("OBJ_teste.obj")
-
-for i in range(len(teste.vertices)):
-    print("Vértice", str(i + 1) + ":", teste.vertices[i])
-print("\n")
-for key, val in teste.elementos_graficos.items():
-    print(
-        "O objeto",
-        key.strip(),
-        "é do tipo",
-        val[0],
-        "de cor",
-        val[1],
-        "e seus vértices são",
-        val[2],
-    )
