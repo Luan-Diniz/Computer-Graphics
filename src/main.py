@@ -43,45 +43,52 @@ class Ui_MainDisplay(object):
         self.frame_viewport.setObjectName("frame_viewport")
 
         self.frame_movimentacao_window = QtWidgets.QFrame(self.frame_viewport)
-        self.frame_movimentacao_window.setGeometry(QtCore.QRect(480, 300, 435, 200))
+        self.frame_movimentacao_window.setGeometry(QtCore.QRect(480, 350, 435, 150))
         self.frame_movimentacao_window.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_movimentacao_window.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_movimentacao_window.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_movimentacao_window.setObjectName("frame_movimentacao_window")
 
         self.frame_gerenciar_arquivos = QtWidgets.QFrame(self.frame_viewport)
-        self.frame_gerenciar_arquivos.setGeometry(QtCore.QRect(480, 155, 435, 200))
-        self.frame_gerenciar_arquivos.setMaximumSize(QtCore.QSize(500, 110))
+        self.frame_gerenciar_arquivos.setGeometry(QtCore.QRect(480, 205, 435, 110))
+        self.frame_gerenciar_arquivos.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_gerenciar_arquivos.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_gerenciar_arquivos.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_gerenciar_arquivos.setObjectName("frame_gerenciar_arquivos")
 
+        self.frame_gerenciar_objetos = QtWidgets.QFrame(self.frame_viewport)
+        self.frame_gerenciar_objetos.setGeometry(QtCore.QRect(480, 55, 435, 120))
+        self.frame_gerenciar_objetos.setMaximumSize(QtCore.QSize(500, 500))
+        self.frame_gerenciar_objetos.setFrameShape(QtWidgets.QFrame.Box)
+        self.frame_gerenciar_objetos.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_gerenciar_objetos.setObjectName("frame_gerenciar_objetos")
+
         self.up_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.up_button.setGeometry(QtCore.QRect(80, 60, 60, 30))
+        self.up_button.setGeometry(QtCore.QRect(80, 10, 60, 30))
         self.up_button.setAutoDefault(False)
         self.up_button.setDefault(False)
         self.up_button.setFlat(False)
         self.up_button.setObjectName("up_button")
 
         self.down_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.down_button.setGeometry(QtCore.QRect(80, 160, 60, 30))
+        self.down_button.setGeometry(QtCore.QRect(80, 110, 60, 30))
         self.down_button.setObjectName("down_button")
 
         self.right_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.right_button.setGeometry(QtCore.QRect(140, 110, 60, 30))
+        self.right_button.setGeometry(QtCore.QRect(140, 60, 60, 30))
         self.right_button.setObjectName("right_button")
 
         self.left_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.left_button.setGeometry(QtCore.QRect(20, 110, 60, 30))
+        self.left_button.setGeometry(QtCore.QRect(20, 60, 60, 30))
         self.left_button.setFlat(False)
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_in_button.setGeometry(QtCore.QRect(20, 10, 60, 30))
+        self.zoom_in_button.setGeometry(QtCore.QRect(240, 110, 60, 30))
         self.zoom_in_button.setObjectName("zoom_in_button")
 
         self.zoom_out_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_out_button.setGeometry(QtCore.QRect(140, 10, 60, 30))
+        self.zoom_out_button.setGeometry(QtCore.QRect(360, 110, 60, 30))
         self.zoom_out_button.setObjectName("zoom_out_button")
 
         self.anticlockwise_rotation_button = QtWidgets.QPushButton(
@@ -121,7 +128,7 @@ class Ui_MainDisplay(object):
         self.area_desenho.setGeometry(QtCore.QRect(10, 40, 451, 461))
 
         self.texto_controle_window = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_controle_window.setGeometry(QtCore.QRect(620, 275, 151, 21))
+        self.texto_controle_window.setGeometry(QtCore.QRect(620, 325, 151, 21))
         self.texto_controle_window.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_controle_window.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -132,7 +139,7 @@ class Ui_MainDisplay(object):
         self.texto_controle_window.setObjectName("texto_controle_window")
 
         self.texto_gerenciar_arquivos = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_gerenciar_arquivos.setGeometry(QtCore.QRect(620, 130, 151, 21))
+        self.texto_gerenciar_arquivos.setGeometry(QtCore.QRect(620, 180, 151, 21))
         self.texto_gerenciar_arquivos.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_gerenciar_arquivos.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -142,19 +149,30 @@ class Ui_MainDisplay(object):
         )
         self.texto_gerenciar_arquivos.setObjectName("texto_gerenciar_arquivos")
 
+        self.texto_gerenciar_objetos = QtWidgets.QTextBrowser(self.frame_viewport)
+        self.texto_gerenciar_objetos.setGeometry(QtCore.QRect(620, 30, 151, 21))
+        self.texto_gerenciar_objetos.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.texto_gerenciar_objetos.setVerticalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAlwaysOff
+        )
+        self.texto_gerenciar_objetos.setHorizontalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAlwaysOff
+        )
+        self.texto_gerenciar_objetos.setObjectName("texto_gerenciar_objetos")
+
         self.ListaDeObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 50, 150, 30))
+        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 95, 150, 30))
         self.ListaDeObjetos.setObjectName("ListaDeObjetos")
 
         self.AdicionarObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 50, 150, 30))
+        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 95, 150, 30))
         self.AdicionarObjetos.setObjectName("AdicionarObjetos")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
 
         self.texto_adicionar_objeto = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_adicionar_objeto.setGeometry(QtCore.QRect(480, 20, 151, 21))
+        self.texto_adicionar_objeto.setGeometry(QtCore.QRect(490, 70, 120, 21))
         self.texto_adicionar_objeto.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_adicionar_objeto.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -165,7 +183,7 @@ class Ui_MainDisplay(object):
         self.texto_adicionar_objeto.setObjectName("texto_adicionar_objeto")
 
         self.texto_lista_objetos = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_lista_objetos.setGeometry(QtCore.QRect(730, 20, 151, 21))
+        self.texto_lista_objetos.setGeometry(QtCore.QRect(740, 70, 120, 21))
         self.texto_lista_objetos.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_lista_objetos.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -183,28 +201,28 @@ class Ui_MainDisplay(object):
         self.texto_viewport.setObjectName("texto_viewport")
 
         self.adicionar_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.adicionar_button.setGeometry(QtCore.QRect(530, 90, 75, 30))
+        self.adicionar_button.setGeometry(QtCore.QRect(530, 135, 75, 30))
         self.adicionar_button.setObjectName("adicionar_button")
 
         self.operacoes_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.operacoes_button.setGeometry(QtCore.QRect(780, 90, 75, 30))
+        self.operacoes_button.setGeometry(QtCore.QRect(780, 135, 75, 30))
         self.operacoes_button.setObjectName("operacoes_button")
 
         self.ler_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.ler_arquivo_button.setGeometry(QtCore.QRect(530, 220, 75, 30))
+        self.ler_arquivo_button.setGeometry(QtCore.QRect(530, 270, 75, 30))
         self.ler_arquivo_button.setObjectName("ler_arquivo_button")
 
         self.gerar_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.gerar_arquivo_button.setGeometry(QtCore.QRect(780, 220, 75, 30))
+        self.gerar_arquivo_button.setGeometry(QtCore.QRect(780, 270, 75, 30))
         self.gerar_arquivo_button.setObjectName("gerar_arquivo_button")
 
         self.nome_arquivo_entrada = QLineEdit(self.frame_viewport)
-        self.nome_arquivo_entrada.setGeometry(QtCore.QRect(495, 175, 150, 30))
+        self.nome_arquivo_entrada.setGeometry(QtCore.QRect(495, 225, 150, 30))
         self.nome_arquivo_entrada.setObjectName("label_arquivo_entrada")
         self.nome_arquivo_entrada.setPlaceholderText("Nome para abrir arquivo")
 
         self.nome_arquivo_saida = QLineEdit(self.frame_viewport)
-        self.nome_arquivo_saida.setGeometry(QtCore.QRect(745, 175, 150, 30))
+        self.nome_arquivo_saida.setGeometry(QtCore.QRect(745, 225, 150, 30))
         self.nome_arquivo_saida.setObjectName("label_arquivo_saida")
         self.nome_arquivo_saida.setPlaceholderText("Nome do novo arquivo")
 
@@ -262,6 +280,16 @@ class Ui_MainDisplay(object):
                 "p, li { white-space: pre-wrap; }\n"
                 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
                 '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Gerenciar Arquivos</span></p></body></html>',
+            )
+        )
+        self.texto_gerenciar_objetos.setHtml(
+            _translate(
+                "MainDisplay",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Gerenciar Objetos</span></p></body></html>',
             )
         )
         self.AdicionarObjetos.setItemText(0, _translate("MainDisplay", "Ponto"))
