@@ -805,7 +805,60 @@ class Ui_MainDisplay(object):
         i = nao_encontrado.exec_()
 
     def gerar_arquivo(self):
-        print("Arquivo gerado!")
+        nome_arquivo = self.nome_arquivo_saida.text()
+
+        if exists(nome_arquivo):
+            if not self.arquivo_encontrado():
+                return
+
+        indices, vertices = self.gerar_lista_vertices()
+
+        with open(nome_arquivo, "w") as arquivo:
+            for i in range(len(vertices)):
+                saida = (
+                    "v " + str(vertices[i][0]) + " " + str(vertices[i][1]) + " 0.0\n"
+                )
+                arquivo.write(saida)
+            arquivo.write("\n")
+            for key, val in indices.items():
+                nome = "o " + key + "\n"
+                arquivo.write(nome)
+                pontos = (
+                    val[0]
+                    + " "
+                    + str(val[1]).replace("[", "").replace("]", "").replace(",", "")
+                    + "\n"
+                )
+                arquivo.write(pontos)
+
+    def gerar_lista_vertices(self):
+        indices = {}
+        vertices = []
+        for objeto in self.display_file.lista_elementos_graficos:
+            indices[objeto.get_nome()] = ["", []]
+            for ponto in objeto.get_coordenadas():
+                if ponto not in vertices:
+                    vertices.append(ponto)
+                if objeto.get_tipo() == "Ponto":
+                    indices[objeto.get_nome()][0] = "p"
+                else:
+                    indices[objeto.get_nome()][0] = "l"
+                indices[objeto.get_nome()][1].append(vertices.index(ponto) + 1)
+        return indices, vertices
+
+    def arquivo_encontrado(self) -> bool:
+        encontrado = QMessageBox()
+        encontrado.setWindowTitle("Atenção!")
+        encontrado.setText("O arquivo requisitado será sobrescrito")
+        encontrado.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        encontrado.setIcon(QMessageBox.Information)
+
+        x = encontrado.exec_()
+
+        if x == QMessageBox.Ok:
+            return True
+        else:
+            return False
 
 
 if __name__ == "__main__":
