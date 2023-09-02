@@ -84,17 +84,17 @@ class Ui_MainDisplay(object):
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_in_button.setGeometry(QtCore.QRect(240, 110, 60, 30))
+        self.zoom_in_button.setGeometry(QtCore.QRect(250, 30, 60, 30))
         self.zoom_in_button.setObjectName("zoom_in_button")
 
         self.zoom_out_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
-        self.zoom_out_button.setGeometry(QtCore.QRect(360, 110, 60, 30))
+        self.zoom_out_button.setGeometry(QtCore.QRect(250, 90, 60, 30))
         self.zoom_out_button.setObjectName("zoom_out_button")
 
         self.anticlockwise_rotation_button = QtWidgets.QPushButton(
             self.frame_movimentacao_window
         )
-        self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(240, 10, 60, 30))
+        self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(355, 30, 60, 30))
         self.anticlockwise_rotation_button.setObjectName(
             "anticlockwise_rotation_button"
         )
@@ -102,7 +102,7 @@ class Ui_MainDisplay(object):
         self.clockwise_rotation_button = QtWidgets.QPushButton(
             self.frame_movimentacao_window
         )
-        self.clockwise_rotation_button.setGeometry(QtCore.QRect(360, 10, 60, 30))
+        self.clockwise_rotation_button.setGeometry(QtCore.QRect(355, 90, 60, 30))
         self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
 
         self.viewport = QtWidgets.QFrame(self.frame_viewport)
@@ -161,18 +161,18 @@ class Ui_MainDisplay(object):
         self.texto_gerenciar_objetos.setObjectName("texto_gerenciar_objetos")
 
         self.ListaDeObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 95, 150, 30))
+        self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 90, 150, 30))
         self.ListaDeObjetos.setObjectName("ListaDeObjetos")
 
         self.AdicionarObjetos = QtWidgets.QComboBox(self.frame_viewport)
-        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 95, 150, 30))
+        self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 90, 150, 30))
         self.AdicionarObjetos.setObjectName("AdicionarObjetos")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
 
         self.texto_adicionar_objeto = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_adicionar_objeto.setGeometry(QtCore.QRect(490, 70, 120, 21))
+        self.texto_adicionar_objeto.setGeometry(QtCore.QRect(490, 60, 120, 21))
         self.texto_adicionar_objeto.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_adicionar_objeto.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -183,7 +183,7 @@ class Ui_MainDisplay(object):
         self.texto_adicionar_objeto.setObjectName("texto_adicionar_objeto")
 
         self.texto_lista_objetos = QtWidgets.QTextBrowser(self.frame_viewport)
-        self.texto_lista_objetos.setGeometry(QtCore.QRect(740, 70, 120, 21))
+        self.texto_lista_objetos.setGeometry(QtCore.QRect(740, 60, 120, 21))
         self.texto_lista_objetos.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_lista_objetos.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -209,7 +209,7 @@ class Ui_MainDisplay(object):
         self.operacoes_button.setObjectName("operacoes_button")
 
         self.ler_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
-        self.ler_arquivo_button.setGeometry(QtCore.QRect(530, 270, 75, 30))
+        self.ler_arquivo_button.setGeometry(QtCore.QRect(535, 270, 75, 30))
         self.ler_arquivo_button.setObjectName("ler_arquivo_button")
 
         self.gerar_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
@@ -217,7 +217,7 @@ class Ui_MainDisplay(object):
         self.gerar_arquivo_button.setObjectName("gerar_arquivo_button")
 
         self.nome_arquivo_entrada = QLineEdit(self.frame_viewport)
-        self.nome_arquivo_entrada.setGeometry(QtCore.QRect(495, 225, 150, 30))
+        self.nome_arquivo_entrada.setGeometry(QtCore.QRect(500, 225, 150, 30))
         self.nome_arquivo_entrada.setObjectName("label_arquivo_entrada")
         self.nome_arquivo_entrada.setPlaceholderText("Nome para abrir arquivo")
 
