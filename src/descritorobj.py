@@ -1,8 +1,6 @@
 class DescritorOBJ:
     def __init__(self, nome_arquivo):
-        vertices, elementos_graficos = self.lerArquivoOBJ(nome_arquivo)
-        print("Vértices:", vertices)
-        print("Elementos gráficos:", elementos_graficos)
+        self.vertices, self.elementos_graficos = self.lerArquivoOBJ(nome_arquivo)
 
     def lerArquivoMTL(self, nome_arquivo: str) -> dict:
         cores = {}
@@ -18,7 +16,7 @@ class DescritorOBJ:
                     cores[nome] = [rgb]
                 elif palavras[0] == "newmtl":
                     nome = palavras[1]
-            linha = arquivo.readline()
+                linha = arquivo.readline()
 
         return cores
 
@@ -48,17 +46,17 @@ class DescritorOBJ:
                     elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "l":
                     tipo = self.decidirTipo(len(palavras))
-                    pontos = self.lerLista(palavras)
+                    pontos = self.lerLista(palavras[1:])
                     elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "f":
                     tipo = "Face"
-                    pontos = self.lerLista(palavras)
+                    pontos = self.lerLista(palavras[1:])
                     elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "mtllib":
-                    cores = self.lerArquivoMTL(palavras[1])
+                    cores = self.lerArquivoMTL(palavras[1].strip())
                 elif palavras[0] == "usemtl":
                     cor = cores[palavras[1]]
-            linha = arquivo.readline()
+                linha = arquivo.readline()
 
         return vertices, elementos_graficos
 
@@ -77,4 +75,19 @@ class DescritorOBJ:
         return "Wireframe"
 
 
-d = DescritorOBJ("OBJ_teste.obj")
+teste = DescritorOBJ("OBJ_teste.obj")
+
+for i in range(len(teste.vertices)):
+    print("Vértice", str(i + 1) + ":", teste.vertices[i])
+print("\n")
+for key, val in teste.elementos_graficos.items():
+    print(
+        "O objeto",
+        key.strip(),
+        "é do tipo",
+        val[0],
+        "de cor",
+        val[1],
+        "e seus vértices são",
+        val[2],
+    )

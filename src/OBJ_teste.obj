@@ -1,17 +1,17 @@
 v 0.0 0.0 0.0
-v  1.0  1.0 0.0
-v  50.0  50.0 0.0
-v  −10.0  0.0 0.0
-v  10.0 0.0 0.0
-v  −10.0   20.0 0.0
-v  10.0  20.0 0.0
+v 1.0 1.0 0.0
+v 50.0 50.0 0.0
+v -10.0 0.0 0.0
+v 10.0 0.0 0.0
+v -10.0 20.0 0.0
+v 10.0 20.0 0.0
 v 0.0 0.0 0.0
-v  50.0  50.0 0.0
-mtllib  sample.mtl
+v 50.0 50.0 0.0
+mtllib sample.mtl
 	
 # definindo um ponto vermelho
-o  meu_ponto
-usemtl  red
+o meu_ponto
+usemtl red
 p 1
 o minha_linha
 usemtl red
@@ -21,4 +21,4 @@ usemtl red
 l 4 5 6 7 4
 o triangulo
 usemtl texture
-f 4 5 6 
+f 4 5 6
