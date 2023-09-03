@@ -807,6 +807,9 @@ class Ui_MainDisplay(object):
     def gerar_arquivo(self):
         nome_arquivo = self.nome_arquivo_saida.text()
 
+        if nome_arquivo.replace(" ", "") == "":
+            return
+
         if exists(nome_arquivo):
             if not self.arquivo_encontrado():
                 return
