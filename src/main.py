@@ -1,6 +1,6 @@
 import sys
 from math import cos, radians, sin
-from os.path import exists
+from os.path import exists, splitext
 
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -321,7 +321,7 @@ class Ui_MainDisplay(object):
                 '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
                 "p, li { white-space: pre-wrap; }\n"
                 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Viewport</p></body></html>',
+                '<p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Viewport</span></p></body></html>',
             )
         )
         self.adicionar_button.setText(_translate("MainDisplay", "Adicionar"))
@@ -771,6 +771,28 @@ class Ui_MainDisplay(object):
             self.arquivo_nao_encontrado()
             return
 
+        nome_base, extensao = splitext(nome_arquivo)
+        if extensao != ".obj":
+            self.extensao_invalida()
+            return
+
+        with open(nome_arquivo, "r") as arquivo:
+            linha = arquivo.readline()
+            while linha:
+                palavras = linha.split(" ")
+                if palavras[0] == "mtllib":
+                    nome_mtl = palavras[1].strip()
+                linha = arquivo.readline()
+
+        if not exists(nome_mtl):
+            self.arquivo_nao_encontrado()
+            return
+
+        nome_base, extensao = splitext(nome_arquivo)
+        if extensao != ".mtl":
+            self.extensao_invalida()
+            return
+
         leitor = LeitorOBJ(nome_arquivo)
 
         for key, val in leitor.elementos_graficos.items():
@@ -817,6 +839,18 @@ class Ui_MainDisplay(object):
         nao_encontrado.setIcon(QMessageBox.Warning)
 
         i = nao_encontrado.exec_()
+
+    def extensao_invalida(self):
+        invalida = QMessageBox()
+        invalida.setWindowTitle("Aviso!")
+        invalida.setText("O arquivo não possui extensão .obj ou .mtl")
+        invalida.setStyleSheet("background-color: rgb(212,208,200);")
+        invalida.setStandardButtons(QMessageBox.Ok)
+        botao_ok = invalida.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
+        invalida.setIcon(QMessageBox.Warning)
+
+        i = invalida.exec_()
 
     def gerar_arquivo(self):
         nome_arquivo = self.nome_arquivo_saida.text()
