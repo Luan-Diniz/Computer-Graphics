@@ -5,10 +5,8 @@ from os.path import exists
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
 from PyQt5.QtWidgets import QMessageBox
 
-from config import Config
 from descritorobj import GeradorOBJ, LeitorOBJ
 from display_file import DisplayFile
 from formulas_matematicas import FormulasMatematicas
@@ -622,8 +620,8 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo cor e tamanho do ponto
-        cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
-        pen = QPen(cor, 5)
+        cor = QtGui.QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
+        pen = QtGui.QPen(cor, 5)
         painter.setPen(pen)
 
         # Recalculando o X
@@ -649,8 +647,8 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho da reta
-        cor = QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
-        pen = QPen(cor, 5)
+        cor = QtGui.QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
+        pen = QtGui.QPen(cor, 5)
         painter.setPen(pen)
 
         # Desenhando a reta
@@ -667,10 +665,10 @@ class Ui_MainDisplay(object):
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho do wireframe
-        cor = QColor(
+        cor = QtGui.QColor(
             int(wireframe.cor[0]), int(wireframe.cor[1]), int(wireframe.cor[2])
         )
-        pen = QPen(cor, 5)
+        pen = QtGui.QPen(cor, 5)
         painter.setPen(pen)
 
         for i in range(len(pontos)):
