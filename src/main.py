@@ -788,7 +788,7 @@ class Ui_MainDisplay(object):
             self.arquivo_nao_encontrado()
             return
 
-        nome_base, extensao = splitext(nome_arquivo)
+        nome_base, extensao = splitext(nome_mtl)
         if extensao != ".mtl":
             self.extensao_invalida()
             return
