@@ -862,6 +862,10 @@ class Ui_MainDisplay(object):
             if not self.arquivo_encontrado():
                 return
 
+        if nome_arquivo[-4:] != ".obj":
+            self.extensao_invalida()
+            return
+
         objetos, vertices = self.gerar_lista_vertices()
 
         gerador = GeradorOBJ(nome_arquivo, objetos, vertices)
