@@ -858,13 +858,13 @@ class Ui_MainDisplay(object):
         if nome_arquivo.replace(" ", "") == "":
             return
 
-        if exists(nome_arquivo) or exists("cores.mtl"):
-            if not self.arquivo_encontrado():
-                return
-
         if nome_arquivo[-4:] != ".obj":
             self.extensao_invalida()
             return
+
+        if exists(nome_arquivo) or exists("cores.mtl"):
+            if not self.arquivo_encontrado():
+                return
 
         objetos, vertices = self.gerar_lista_vertices()
 
