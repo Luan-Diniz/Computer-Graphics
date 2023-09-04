@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (
     QDoubleSpinBox,
     QFormLayout,
     QGroupBox,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
     QMessageBox,
@@ -140,6 +141,11 @@ class AdicionarDialog(QDialog):
         pedirNome.setWindowTitle("Aviso!")
         pedirNome.setIcon(QMessageBox.Warning)
         pedirNome.setText("O objeto precisa ter um nome")
+        pedirNome.setStyleSheet("background-color: rgb(165,165,165);")
+
+        pedirNome.setStandardButtons(QMessageBox.Ok)
+        botao_ok = pedirNome.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
 
         x = pedirNome.exec_()
 
@@ -148,6 +154,11 @@ class AdicionarDialog(QDialog):
         nome_repetido.setWindowTitle("Aviso!")
         nome_repetido.setIcon(QMessageBox.Warning)
         nome_repetido.setText("Já existe um objeto com esse nome")
+        nome_repetido.setStyleSheet("background-color: rgb(165,165,165);")
+
+        nome_repetido.setStandardButtons(QMessageBox.Ok)
+        botao_ok = nome_repetido.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
 
         x = nome_repetido.exec_()
 
@@ -325,6 +336,11 @@ class transformacaoDialog(QDialog):
         pedirNome.setWindowTitle("Aviso!")
         pedirNome.setIcon(QMessageBox.Warning)
         pedirNome.setText("O valor do escalonamento não pode ser 0")
+        pedirNome.setStyleSheet("background-color: rgb(165,165,165);")
+
+        pedirNome.setStandardButtons(QMessageBox.Ok)
+        botao_ok = pedirNome.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
 
         x = pedirNome.exec_()
 
@@ -334,37 +350,45 @@ class recolorirDialog(QDialog):
         super().__init__()
         self.submitted = False
 
-        self.setWindowTitle("Recolorir Objeto")
+        self.setWindowTitle("Recolorir")
         self.formLayout = QFormLayout()
 
-        self.setMinimumSize(QtCore.QSize(275, 150))
-        self.setMaximumSize(QtCore.QSize(275, 150))
+        self.setMinimumSize(QtCore.QSize(215, 175))
+        self.setMaximumSize(QtCore.QSize(215, 175))
+        self.setStyleSheet("background-color: rgb(165, 165, 165);")
 
         # Cria o label e a entrada para a cor R
-        self.labelCorR = QLabel("R")
+        self.labelCorR = QLabel("<pre><b>    R</b></pre>")
         self.cor_R_objeto = QSpinBox()
+        self.cor_R_objeto.setFixedSize(85, 30)
         self.formLayout.addRow(self.labelCorR, self.cor_R_objeto)
         self.cor_R_objeto.setMinimum(0)
         self.cor_R_objeto.setMaximum(255)
 
         # Cria o label e a entrada para a cor G
-        self.labelCorG = QLabel("G")
+        self.labelCorG = QLabel("<pre><b>    G</b></pre>")
         self.cor_G_objeto = QSpinBox()
+        self.cor_G_objeto.setFixedSize(85, 30)
         self.formLayout.addRow(self.labelCorG, self.cor_G_objeto)
         self.cor_G_objeto.setMinimum(0)
         self.cor_G_objeto.setMaximum(255)
 
         # Cria o label e a entrada para a cor B
-        self.labelCorB = QLabel("B")
+        self.labelCorB = QLabel("<pre><b>    B</b></pre>")
         self.cor_B_objeto = QSpinBox()
+        self.cor_B_objeto.setFixedSize(85, 30)
         self.formLayout.addRow(self.labelCorB, self.cor_B_objeto)
         self.cor_B_objeto.setMinimum(0)
         self.cor_B_objeto.setMaximum(255)
 
         button_ok = QPushButton("OK")
-        button_cancel = QPushButton("Cancelar")
-
+        button_ok.setStyleSheet("background-color: rgb(212,208,200);")
+        button_ok.setFixedSize(85, 30)
         button_ok.clicked.connect(self.accept)
+
+        button_cancel = QPushButton("Cancelar")
+        button_cancel.setStyleSheet("background-color: rgb(212,208,200);")
+        button_cancel.setFixedSize(85, 30)
         button_cancel.clicked.connect(self.close)
 
         self.formLayout.addRow(button_ok, button_cancel)
@@ -389,24 +413,33 @@ class numero_pontosDialog(QDialog):
         self.submitted = False
 
         self.setWindowTitle("Criar Objeto")
-        layout = QVBoxLayout()
 
-        self.setMinimumSize(QtCore.QSize(300, 150))
-        self.setMaximumSize(QtCore.QSize(300, 150))
+        self.setMinimumSize(QtCore.QSize(300, 100))
+        self.setMaximumSize(QtCore.QSize(300, 100))
+        self.setStyleSheet("background-color: rgb(165, 165, 165);")
 
         self.label = QLabel("Escolha a quantidade de pontos do Polígono:")
         self.number_input = QSpinBox()
         self.number_input.setMinimum(3)
 
         button_ok = QPushButton("OK")
-
+        button_ok.setStyleSheet("background-color: rgb(212,208,200);")
         button_ok.clicked.connect(self.accept)
+        button_ok.setFixedSize(85, 30)
 
-        layout.addWidget(self.label)
-        layout.addWidget(self.number_input)
-        layout.addWidget(button_ok)
+        vertical_layout = QVBoxLayout()
 
-        self.setLayout(layout)
+        horizontal_layout = QHBoxLayout()  # Layout horizontal para widgets lado a lado
+
+        vertical_layout.addWidget(self.label)
+        horizontal_layout.addWidget(self.number_input)
+        horizontal_layout.addWidget(button_ok)
+
+        vertical_layout.addLayout(
+            horizontal_layout  # Adiciona o layout horizontal ao layout vertical
+        )
+
+        self.setLayout(vertical_layout)
 
     def accept(self):
         self.submitted = True

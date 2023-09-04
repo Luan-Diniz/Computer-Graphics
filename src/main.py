@@ -401,6 +401,7 @@ class Ui_MainDisplay(object):
         fazOperacao = QMessageBox()
         fazOperacao.setWindowTitle("Operações")
         fazOperacao.setText("Escolha a operação a ser realizada")
+        fazOperacao.setStyleSheet("background-color: rgb(165,165,165);")
 
         # Criando os botoes
         fazOperacao.setStandardButtons(
@@ -410,18 +411,27 @@ class Ui_MainDisplay(object):
         # Renomeando o botao de troca de cor
         botao_cor = fazOperacao.button(QMessageBox.Ok)
         botao_cor.setText("Recolorir Objeto")
+        botao_cor.setFixedSize(150, 30)
+        botao_cor.setStyleSheet("background-color: rgb(212,208,200);")
 
         # Renomeando o botao de realizar transformacao 2D
         botao_transformacao = fazOperacao.button(QMessageBox.Save)
-        botao_transformacao.setText("Realizar Transformação 2D")
+        botao_transformacao.setText("Transformação 2D")
+        botao_transformacao.setFixedSize(150, 30)
+        botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
 
         # Renomeando o botao de deletar objeto
         botao_deletar = fazOperacao.button(QMessageBox.Open)
         botao_deletar.setText("Deletar Objeto")
+        botao_deletar.setFixedSize(150, 30)
+        botao_deletar.setStyleSheet("background-color: rgb(212,208,200);")
 
         # Renomeando o botao de cancelar
         botao_cancelar = fazOperacao.button(QMessageBox.Cancel)
         botao_cancelar.setText("Cancelar")
+        botao_cancelar.setFixedSize(150, 30)
+        botao_cancelar.setStyleSheet("background-color: rgb(212,208,200);")
+
         fazOperacao.setDefaultButton(QMessageBox.Cancel)
 
         i = fazOperacao.exec_()
@@ -800,7 +810,10 @@ class Ui_MainDisplay(object):
         nao_encontrado = QMessageBox()
         nao_encontrado.setWindowTitle("Aviso!")
         nao_encontrado.setText("O arquivo requisitado não foi encontrado")
+        nao_encontrado.setStyleSheet("background-color: rgb(212,208,200);")
         nao_encontrado.setStandardButtons(QMessageBox.Ok)
+        botao_ok = nao_encontrado.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
         nao_encontrado.setIcon(QMessageBox.Warning)
 
         i = nao_encontrado.exec_()
@@ -840,7 +853,12 @@ class Ui_MainDisplay(object):
         encontrado = QMessageBox()
         encontrado.setWindowTitle("Atenção!")
         encontrado.setText("O arquivo requisitado será sobrescrito")
+        encontrado.setStyleSheet("background-color: rgb(165,165,165);")
         encontrado.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        botao_ok = encontrado.button(QMessageBox.Ok)
+        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_cancel = encontrado.button(QMessageBox.Cancel)
+        botao_cancel.setStyleSheet("background-color: rgb(212,208,200);")
         encontrado.setIcon(QMessageBox.Information)
 
         x = encontrado.exec_()
