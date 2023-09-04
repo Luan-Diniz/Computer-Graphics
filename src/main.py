@@ -416,7 +416,7 @@ class Ui_MainDisplay(object):
 
         # Renomeando o botao de realizar transformacao 2D
         botao_transformacao = fazOperacao.button(QMessageBox.Save)
-        botao_transformacao.setText("Transformação 2D")
+        botao_transformacao.setText("Transformações 2D")
         botao_transformacao.setFixedSize(150, 30)
         botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
 
@@ -824,7 +824,7 @@ class Ui_MainDisplay(object):
         if nome_arquivo.replace(" ", "") == "":
             return
 
-        if exists(nome_arquivo):
+        if exists(nome_arquivo) or exists("cores.mtl"):
             if not self.arquivo_encontrado():
                 return
 

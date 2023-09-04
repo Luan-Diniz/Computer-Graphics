@@ -83,6 +83,8 @@ class GeradorOBJ:
         self.cores = []
 
     def gerarArquivoOBJ(self):
+        with open("cores.mtl", "w") as arquivo:
+            arquivo.write("")
         with open(self.nome_arquivo, "w") as arquivo:
             for i in range(len(self.vertices)):
                 saida = (
