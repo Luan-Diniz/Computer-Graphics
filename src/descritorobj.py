@@ -1,4 +1,4 @@
-class DescritorOBJ:
+class LeitorOBJ:
     def __init__(self, nome_arquivo):
         self.vertices, self.elementos_graficos = self.lerArquivoOBJ(nome_arquivo)
 
@@ -73,3 +73,51 @@ class DescritorOBJ:
         if tamanho == 2:
             return "Reta"
         return "Wireframe"
+
+
+class GeradorOBJ:
+    def __init__(self, nome_arquivo, objetos, vertices):
+        self.nome_arquivo = nome_arquivo
+        self.objetos = objetos
+        self.vertices = vertices
+        self.cores = []
+
+    def gerarArquivoOBJ(self):
+        with open(self.nome_arquivo, "w") as arquivo:
+            for i in range(len(self.vertices)):
+                saida = (
+                    "v "
+                    + str(self.vertices[i][0])
+                    + " "
+                    + str(self.vertices[i][1])
+                    + " 0.0\n"
+                )
+                arquivo.write(saida)
+            arquivo.write("mtllib cores.mtl\n\n")
+            for key, val in self.objetos.items():
+                nome = "o " + key + "\n"
+                arquivo.write(nome)
+                cor = self.gerarArquivoMTL(val[1])
+                arquivo.write(cor)
+                pontos = (
+                    val[0]
+                    + " "
+                    + str(val[2]).replace("[", "").replace("]", "").replace(",", "")
+                    + "\n"
+                )
+                arquivo.write(pontos)
+
+    def gerarArquivoMTL(self, rgb):
+        nova_cor = False
+        if rgb not in self.cores:
+            nova_cor = True
+            self.cores.append(rgb)
+        nome = "Cor_" + str(self.cores.index(rgb) + 1) + "\n"
+        if nova_cor:
+            with open("cores.mtl", "a") as arquivo:
+                arquivo.write("newmtl " + nome)
+                cor = (
+                    "Kd " + str(rgb[0]) + " " + str(rgb[1]) + " " + str(rgb[2]) + "\n\n"
+                )
+                arquivo.write(cor)
+        return "usemtl " + nome

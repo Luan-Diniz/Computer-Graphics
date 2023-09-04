@@ -5,10 +5,8 @@ v -10.0 0.0 0.0
 v 10.0 0.0 0.0
 v -10.0 20.0 0.0
 v 10.0 20.0 0.0
-v 0.0 0.0 0.0
-v 50.0 50.0 0.0
 mtllib sample.mtl
-	
+
 # definindo um ponto vermelho
 o meu_ponto
 usemtl red

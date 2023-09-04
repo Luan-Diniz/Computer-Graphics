@@ -9,7 +9,7 @@ from PyQt5.QtGui import QBrush, QColor, QPainter, QPen
 from PyQt5.QtWidgets import QMessageBox
 
 from config import Config
-from descritorobj import DescritorOBJ
+from descritorobj import GeradorOBJ, LeitorOBJ
 from display_file import DisplayFile
 from formulas_matematicas import FormulasMatematicas
 from janelas_secundarias import *
@@ -756,32 +756,35 @@ class Ui_MainDisplay(object):
     def ler_arquivo(self):
         nome_arquivo = self.nome_arquivo_entrada.text()
 
+        if nome_arquivo.replace(" ", "") == "":
+            return
+
         if not exists(nome_arquivo):
             self.arquivo_nao_encontrado()
             return
 
-        desc = DescritorOBJ(nome_arquivo)
+        leitor = LeitorOBJ(nome_arquivo)
 
-        for key, val in desc.elementos_graficos.items():
+        for key, val in leitor.elementos_graficos.items():
             if val[0] == "Ponto":
                 elemento_grafico = Ponto(
                     key.strip(),
                     val[1],
-                    self.obter_vertices(val[2], desc.vertices),
+                    self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_ponto(elemento_grafico)
             elif val[0] == "Reta":
                 elemento_grafico = Reta(
                     key.strip(),
                     val[1],
-                    self.obter_vertices(val[2], desc.vertices),
+                    self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_reta(elemento_grafico)
             else:
                 elemento_grafico = Wireframe(
                     key.strip(),
                     val[1],
-                    self.obter_vertices(val[2], desc.vertices),
+                    self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_wireframe(elemento_grafico)
 
@@ -814,40 +817,26 @@ class Ui_MainDisplay(object):
             if not self.arquivo_encontrado():
                 return
 
-        indices, vertices = self.gerar_lista_vertices()
+        objetos, vertices = self.gerar_lista_vertices()
 
-        with open(nome_arquivo, "w") as arquivo:
-            for i in range(len(vertices)):
-                saida = (
-                    "v " + str(vertices[i][0]) + " " + str(vertices[i][1]) + " 0.0\n"
-                )
-                arquivo.write(saida)
-            arquivo.write("\n")
-            for key, val in indices.items():
-                nome = "o " + key + "\n"
-                arquivo.write(nome)
-                pontos = (
-                    val[0]
-                    + " "
-                    + str(val[1]).replace("[", "").replace("]", "").replace(",", "")
-                    + "\n"
-                )
-                arquivo.write(pontos)
+        gerador = GeradorOBJ(nome_arquivo, objetos, vertices)
+        gerador.gerarArquivoOBJ()
 
     def gerar_lista_vertices(self):
-        indices = {}
+        objetos = {}
         vertices = []
         for objeto in self.display_file.lista_elementos_graficos:
-            indices[objeto.get_nome()] = ["", []]
+            objetos[objeto.get_nome()] = ["", (), []]
             for ponto in objeto.get_coordenadas():
                 if ponto not in vertices:
                     vertices.append(ponto)
                 if objeto.get_tipo() == "Ponto":
-                    indices[objeto.get_nome()][0] = "p"
+                    objetos[objeto.get_nome()][0] = "p"
                 else:
-                    indices[objeto.get_nome()][0] = "l"
-                indices[objeto.get_nome()][1].append(vertices.index(ponto) + 1)
-        return indices, vertices
+                    objetos[objeto.get_nome()][0] = "l"
+                objetos[objeto.get_nome()][1] = objeto.get_cor()
+                objetos[objeto.get_nome()][2].append(vertices.index(ponto) + 1)
+        return objetos, vertices
 
     def arquivo_encontrado(self) -> bool:
         encontrado = QMessageBox()

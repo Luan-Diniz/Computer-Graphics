@@ -1,7 +1,7 @@
 # cor difusa vermelho
 newmtl red
-Kd 1.000000 0.000000 0.000000
+Kd 255.000000 0.000000 0.000000
  
 # cor difusa cinza-claro
 newmtl texture
-Kd 0.800000 0.800000 0.800000
+Kd 204.000000 204.000000 204.000000
