@@ -796,30 +796,40 @@ class Ui_MainDisplay(object):
         leitor = LeitorOBJ(nome_arquivo)
 
         for key, val in leitor.elementos_graficos.items():
+            i = 2
+            nome = key.strip()
+            while nome in self.display_file.getNomesElementosGraficos():
+                if i > 2:
+                    novo_nome = list(nome)
+                    novo_nome[-1] = str(i)
+                    nome = ''.join(novo_nome)
+                else:
+                    nome = nome + "_" + str(i)
+                i += 1
             if val[0] == "Ponto":
                 elemento_grafico = Ponto(
-                    key.strip(),
+                    nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_ponto(elemento_grafico)
             elif val[0] == "Reta":
                 elemento_grafico = Reta(
-                    key.strip(),
+                    nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_reta(elemento_grafico)
             else:
                 elemento_grafico = Wireframe(
-                    key.strip(),
+                    nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
                 self.desenhar_wireframe(elemento_grafico)
 
             self.display_file.adicionar(elemento_grafico)
-            self.ListaDeObjetos.addItem(key.strip())
+            self.ListaDeObjetos.addItem(nome)
 
     def obter_vertices(self, indices, vertices):
         v = []
@@ -862,9 +872,15 @@ class Ui_MainDisplay(object):
             self.extensao_invalida()
             return
 
-        if exists(nome_arquivo) or exists("cores.mtl"):
+        if exists(nome_arquivo):
             if not self.arquivo_encontrado():
                 return
+
+        if exists("cores.mtl"):
+            nome_base, extensao = splitext("cores.mtl")
+            if extensao == ".mtl":
+                if not self.arquivo_encontrado():
+                    return
 
         objetos, vertices = self.gerar_lista_vertices()
 
