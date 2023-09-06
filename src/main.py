@@ -43,6 +43,9 @@ class Ui_MainDisplay(object):
 
         self.frame_movimentacao_window = QtWidgets.QFrame(self.frame_viewport)
         self.frame_movimentacao_window.setGeometry(QtCore.QRect(480, 350, 435, 150))
+        self.frame_movimentacao_window.setStyleSheet(
+            "background-color: rgb(165,165,165);"
+        )
         self.frame_movimentacao_window.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_movimentacao_window.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_movimentacao_window.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -50,6 +53,9 @@ class Ui_MainDisplay(object):
 
         self.frame_gerenciar_arquivos = QtWidgets.QFrame(self.frame_viewport)
         self.frame_gerenciar_arquivos.setGeometry(QtCore.QRect(480, 205, 435, 110))
+        self.frame_gerenciar_arquivos.setStyleSheet(
+            "background-color: rgb(165,165,165);"
+        )
         self.frame_gerenciar_arquivos.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_gerenciar_arquivos.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_gerenciar_arquivos.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -57,6 +63,9 @@ class Ui_MainDisplay(object):
 
         self.frame_gerenciar_objetos = QtWidgets.QFrame(self.frame_viewport)
         self.frame_gerenciar_objetos.setGeometry(QtCore.QRect(480, 55, 435, 120))
+        self.frame_gerenciar_objetos.setStyleSheet(
+            "background-color: rgb(165,165,165);"
+        )
         self.frame_gerenciar_objetos.setMaximumSize(QtCore.QSize(500, 500))
         self.frame_gerenciar_objetos.setFrameShape(QtWidgets.QFrame.Box)
         self.frame_gerenciar_objetos.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -64,6 +73,7 @@ class Ui_MainDisplay(object):
 
         self.up_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.up_button.setGeometry(QtCore.QRect(80, 10, 60, 30))
+        self.up_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.up_button.setAutoDefault(False)
         self.up_button.setDefault(False)
         self.up_button.setFlat(False)
@@ -71,29 +81,37 @@ class Ui_MainDisplay(object):
 
         self.down_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.down_button.setGeometry(QtCore.QRect(80, 110, 60, 30))
+        self.down_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.down_button.setObjectName("down_button")
 
         self.right_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.right_button.setGeometry(QtCore.QRect(140, 60, 60, 30))
+        self.right_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.right_button.setObjectName("right_button")
 
         self.left_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.left_button.setGeometry(QtCore.QRect(20, 60, 60, 30))
+        self.left_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.left_button.setFlat(False)
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.zoom_in_button.setGeometry(QtCore.QRect(250, 30, 60, 30))
+        self.zoom_in_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.zoom_in_button.setObjectName("zoom_in_button")
 
         self.zoom_out_button = QtWidgets.QPushButton(self.frame_movimentacao_window)
         self.zoom_out_button.setGeometry(QtCore.QRect(250, 90, 60, 30))
+        self.zoom_out_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.zoom_out_button.setObjectName("zoom_out_button")
 
         self.anticlockwise_rotation_button = QtWidgets.QPushButton(
             self.frame_movimentacao_window
         )
         self.anticlockwise_rotation_button.setGeometry(QtCore.QRect(355, 30, 60, 30))
+        self.anticlockwise_rotation_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200);"
+        )
         self.anticlockwise_rotation_button.setObjectName(
             "anticlockwise_rotation_button"
         )
@@ -102,6 +120,9 @@ class Ui_MainDisplay(object):
             self.frame_movimentacao_window
         )
         self.clockwise_rotation_button.setGeometry(QtCore.QRect(355, 90, 60, 30))
+        self.clockwise_rotation_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200);"
+        )
         self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
 
         self.viewport = QtWidgets.QFrame(self.frame_viewport)
@@ -161,10 +182,12 @@ class Ui_MainDisplay(object):
 
         self.ListaDeObjetos = QtWidgets.QComboBox(self.frame_viewport)
         self.ListaDeObjetos.setGeometry(QtCore.QRect(750, 90, 150, 30))
+        self.ListaDeObjetos.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.ListaDeObjetos.setObjectName("ListaDeObjetos")
 
         self.AdicionarObjetos = QtWidgets.QComboBox(self.frame_viewport)
         self.AdicionarObjetos.setGeometry(QtCore.QRect(500, 90, 150, 30))
+        self.AdicionarObjetos.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.AdicionarObjetos.setObjectName("AdicionarObjetos")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
@@ -172,6 +195,7 @@ class Ui_MainDisplay(object):
 
         self.texto_adicionar_objeto = QtWidgets.QTextBrowser(self.frame_viewport)
         self.texto_adicionar_objeto.setGeometry(QtCore.QRect(490, 60, 120, 21))
+        self.texto_adicionar_objeto.setStyleSheet("background-color: rgb(165,165,165);")
         self.texto_adicionar_objeto.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_adicionar_objeto.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -183,6 +207,7 @@ class Ui_MainDisplay(object):
 
         self.texto_lista_objetos = QtWidgets.QTextBrowser(self.frame_viewport)
         self.texto_lista_objetos.setGeometry(QtCore.QRect(740, 60, 120, 21))
+        self.texto_lista_objetos.setStyleSheet("background-color: rgb(165,165,165);")
         self.texto_lista_objetos.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.texto_lista_objetos.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOff
@@ -201,27 +226,33 @@ class Ui_MainDisplay(object):
 
         self.adicionar_button = QtWidgets.QPushButton(self.frame_viewport)
         self.adicionar_button.setGeometry(QtCore.QRect(530, 135, 75, 30))
+        self.adicionar_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.adicionar_button.setObjectName("adicionar_button")
 
         self.operacoes_button = QtWidgets.QPushButton(self.frame_viewport)
         self.operacoes_button.setGeometry(QtCore.QRect(780, 135, 75, 30))
+        self.operacoes_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.operacoes_button.setObjectName("operacoes_button")
 
         self.ler_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
         self.ler_arquivo_button.setGeometry(QtCore.QRect(535, 270, 75, 30))
+        self.ler_arquivo_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.ler_arquivo_button.setObjectName("ler_arquivo_button")
 
         self.gerar_arquivo_button = QtWidgets.QPushButton(self.frame_viewport)
         self.gerar_arquivo_button.setGeometry(QtCore.QRect(780, 270, 75, 30))
+        self.gerar_arquivo_button.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.gerar_arquivo_button.setObjectName("gerar_arquivo_button")
 
         self.nome_arquivo_entrada = QLineEdit(self.frame_viewport)
         self.nome_arquivo_entrada.setGeometry(QtCore.QRect(500, 225, 150, 30))
+        self.nome_arquivo_entrada.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.nome_arquivo_entrada.setObjectName("label_arquivo_entrada")
         self.nome_arquivo_entrada.setPlaceholderText("Nome para abrir arquivo")
 
         self.nome_arquivo_saida = QLineEdit(self.frame_viewport)
         self.nome_arquivo_saida.setGeometry(QtCore.QRect(745, 225, 150, 30))
+        self.nome_arquivo_saida.setStyleSheet("background-color: rgb(212, 208, 200);")
         self.nome_arquivo_saida.setObjectName("label_arquivo_saida")
         self.nome_arquivo_saida.setPlaceholderText("Nome do novo arquivo")
 
@@ -802,7 +833,7 @@ class Ui_MainDisplay(object):
                 if i > 2:
                     novo_nome = list(nome)
                     novo_nome[-1] = str(i)
-                    nome = ''.join(novo_nome)
+                    nome = "".join(novo_nome)
                 else:
                     nome = nome + "_" + str(i)
                 i += 1
