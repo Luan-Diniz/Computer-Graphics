@@ -72,3 +72,5 @@ class Window:
 
     def currentAngle(self):
         return self.angle
+    def setAngle(self, angulo):
+        self.angle = angulo

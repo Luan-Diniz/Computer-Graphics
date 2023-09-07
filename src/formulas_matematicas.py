@@ -1,7 +1,7 @@
 from viewport import ViewPort
 from window import Window
 import numpy as np
-from math import sin, cos
+from math import sin, cos, radians
 
 class FormulasMatematicas:
     @staticmethod
@@ -44,6 +44,7 @@ class FormulasMatematicas:
 
     @staticmethod
     def cria_matriz_rotacao(angulo):
+        angulo = radians(- angulo)
         return np.array([
                             [cos(angulo), -sin(angulo), 0],
                             [sin(angulo), cos(angulo), 0],
