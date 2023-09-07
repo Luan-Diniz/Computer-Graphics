@@ -10,6 +10,8 @@ class Window:
         self.Ywmax = Config.window_Ywmax()
         self.scale = Config.scale()
 
+        self.angle = 0  #Em graus
+
     def moveuDireita(self):
         tempXwmax = self.Xwmax
         tempXwmin = self.Xwmin
@@ -57,3 +59,16 @@ class Window:
         self.Xwmax += (tempXwmax - tempXwmin) * self.scale
         self.Ywmin -= (tempXwmax - tempXwmin) * self.scale
         self.Ywmax += (tempXwmax - tempXwmin) * self.scale
+
+    def getCenter(self) -> tuple:
+        return ((self.Xwmax - self.Xwmin)/2, (self.Ywmax - self.Ywmin)/2)
+
+
+    def rotateLeft(self):
+        self.angle += Config.window_rotation_angle()
+
+    def rotateRight(self):
+        self.angle -= Config.window_rotation_angle()
+
+    def currentAngle(self):
+        return self.angle

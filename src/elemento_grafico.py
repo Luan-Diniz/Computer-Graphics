@@ -4,6 +4,7 @@ class ElementoGrafico:
         self.cor = cor
         self.tipo = tipo
         self.coordenadas = coordenadas  #lista de tuplas
+        self.coordenadas_normalizadas = []
 
     def set_nome(self, nome: str) -> None:
         self.nome = nome

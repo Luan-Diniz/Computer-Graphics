@@ -27,5 +27,12 @@ class Config:
         return 100
 
     @staticmethod
+    def window_rotation_angle():
+        return 30    #30 graus
+
+
+    @staticmethod
     def scale():
         return 0.1
+
+
