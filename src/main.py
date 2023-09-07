@@ -653,6 +653,8 @@ class Ui_MainDisplay(object):
         canvas.fill(Qt.white)
         self.area_desenho.setPixmap(canvas)
 
+
+        #self.display_file.calculaNormalizadas(self.window)
         # Redesenhando todos os objetos
         for objeto in self.display_file.getListaElementosGraficos():
             self.desenhar_objeto(objeto)
