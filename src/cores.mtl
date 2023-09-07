@@ -1,0 +1,9 @@
+newmtl Cor_1
+Kd 0 0 0
+
+newmtl Cor_2
+Kd 255.0 0.0 0.0
+
+newmtl Cor_3
+Kd 204.0 204.0 204.0
+

@@ -407,21 +407,21 @@ class Ui_MainDisplay(object):
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_ponto(elemento_grafico)
+                    self.desenhar_objeto(elemento_grafico)
                 elif self.AdicionarObjetos.currentText() == "Reta":
                     elemento_grafico = Reta(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_reta(elemento_grafico)
+                    self.desenhar_objeto(elemento_grafico)
                 else:
                     elemento_grafico = Wireframe(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_wireframe(elemento_grafico)
+                    self.desenhar_objeto(elemento_grafico)
 
                 self.display_file.adicionar(elemento_grafico)
 
@@ -644,7 +644,7 @@ class Ui_MainDisplay(object):
             self.desenhar_ponto(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Reta":
             self.desenhar_reta(elemento_grafico)
-        else:
+        elif elemento_grafico.get_tipo() == "Wireframe":
             self.desenhar_wireframe(elemento_grafico)
 
     def resetar_desenhos(self):
@@ -845,21 +845,21 @@ class Ui_MainDisplay(object):
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_ponto(elemento_grafico)
+                self.desenhar_objeto(elemento_grafico)
             elif val[0] == "Reta":
                 elemento_grafico = Reta(
                     nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_reta(elemento_grafico)
+                self.desenhar_objeto(elemento_grafico)
             else:
                 elemento_grafico = Wireframe(
                     nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_wireframe(elemento_grafico)
+                self.desenhar_objeto(elemento_grafico)
 
             self.display_file.adicionar(elemento_grafico)
             self.ListaDeObjetos.addItem(nome)
