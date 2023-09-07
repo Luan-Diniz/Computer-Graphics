@@ -30,9 +30,19 @@ class ElementoGrafico:
     def get_coordenadas(self) -> list:
         return self.coordenadas
 
+    def set_coordenadas_normalizadas(self, coordenadas_normalizadas):
+        self.coordenadas_normalizadas = coordenadas_normalizadas
+
+    def get_coordenadas_normalizadas(self) -> list:
+        return self.coordenadas_normalizadas
+
+
+
     def add_ponto(self, novo_ponto: tuple) -> None:
         self.coordenadas.append(novo_ponto)
 
+
+    #TODO: Change --> Get the Normal Coordinates (self.coordenadas_normalizadas) instead of the Real World Coordinates
     def get_centro(self) -> tuple:
         cx = 0
         cy = 0

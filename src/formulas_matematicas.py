@@ -1,6 +1,7 @@
 from viewport import ViewPort
 from window import Window
 import numpy as np
+from math import sin, cos
 
 class FormulasMatematicas:
     @staticmethod
@@ -36,3 +37,20 @@ class FormulasMatematicas:
             else:
                 matriz_final = np.dot(matriz_final, i)  #Multiplica as matrizes
         return matriz_final
+
+    @staticmethod
+    def cria_matriz_translacao(desvio_x, desvio_y):
+        return  np.array( [[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y, 1]] )
+
+    @staticmethod
+    def cria_matriz_rotacao(angulo):
+        return np.array([
+                            [cos(angulo), -sin(angulo), 0],
+                            [sin(angulo), cos(angulo), 0],
+                            [0, 0, 1],
+                        ])
+    @staticmethod
+    def cria_matriz_escalonamento(coef_escalonamento):
+        return np.array([[coef_escalonamento, 0, 0],
+                        [0, coef_escalonamento, 0],
+                        [0, 0, 1]])
