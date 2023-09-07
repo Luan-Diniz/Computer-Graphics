@@ -407,24 +407,24 @@ class Ui_MainDisplay(object):
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_objeto(elemento_grafico)
+
                 elif self.AdicionarObjetos.currentText() == "Reta":
                     elemento_grafico = Reta(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_objeto(elemento_grafico)
+
                 else:
                     elemento_grafico = Wireframe(
                         getCoordenadas.dict_info["nome"],
                         getCoordenadas.dict_info["cor"],
                         getCoordenadas.dict_info["coordenadas"],
                     )
-                    self.desenhar_objeto(elemento_grafico)
+
 
                 self.display_file.adicionar(elemento_grafico)
-
+                self.resetar_desenhos()
                 # Adicionando objeto criado na lista de objetos
                 self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
 
@@ -655,6 +655,7 @@ class Ui_MainDisplay(object):
 
 
         #self.display_file.calculaNormalizadas(self.window)
+
         # Redesenhando todos os objetos
         for objeto in self.display_file.getListaElementosGraficos():
             self.desenhar_objeto(objeto)
@@ -790,9 +791,11 @@ class Ui_MainDisplay(object):
 
     def rotaciona_antihorario(self):
         print("Rotaciona Anti-horário")
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_horario(self):
         print("Rotaciona Horário")
+        self.resetar_desenhos()  # Redesenha o viewport
 
     def ler_arquivo(self):
         nome_arquivo = self.nome_arquivo_entrada.text()
@@ -845,24 +848,25 @@ class Ui_MainDisplay(object):
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_objeto(elemento_grafico)
+
             elif val[0] == "Reta":
                 elemento_grafico = Reta(
                     nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_objeto(elemento_grafico)
+
             else:
                 elemento_grafico = Wireframe(
                     nome,
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-                self.desenhar_objeto(elemento_grafico)
+
 
             self.display_file.adicionar(elemento_grafico)
             self.ListaDeObjetos.addItem(nome)
+        self.resetar_desenhos()
 
     def obter_vertices(self, indices, vertices):
         v = []
