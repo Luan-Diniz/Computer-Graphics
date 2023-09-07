@@ -64,13 +64,14 @@ class Window:
         return ((self.Xwmax - self.Xwmin)/2, (self.Ywmax - self.Ywmin)/2)
 
 
-    def rotateLeft(self):
+    def rotacionaAntiHorario(self):
         self.angle += Config.window_rotation_angle()
 
-    def rotateRight(self):
+    def rotatacionaHorario(self):
         self.angle -= Config.window_rotation_angle()
 
     def currentAngle(self):
         return self.angle
+
     def setAngle(self, angulo):
         self.angle = angulo

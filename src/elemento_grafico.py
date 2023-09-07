@@ -42,16 +42,15 @@ class ElementoGrafico:
         self.coordenadas.append(novo_ponto)
 
 
-    #TODO: Change --> Get the Normal Coordinates (self.coordenadas_normalizadas) instead of the Real World Coordinates
     def get_centro(self) -> tuple:
         cx = 0
         cy = 0
 
-        for i,j in self.coordenadas:
+        for i,j in self.coordenadas_normalizadas:
             cx += i
             cy += j
 
-        n_pontos = len(self.coordenadas)
+        n_pontos = len(self.coordenadas_normalizadas)
 
         cx = cx/n_pontos
         cy = cy/n_pontos

@@ -49,7 +49,7 @@ class DisplayFile:
             elemento.set_coordenadas_normalizadas(novas_coordenadas)  #Atualiza as coordenadas normalizadas
 
         if window.currentAngle() != 0:
-            window.setAngle(0)
+             window.setAngle(0)
 
 
 

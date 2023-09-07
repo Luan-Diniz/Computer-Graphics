@@ -791,10 +791,12 @@ class Ui_MainDisplay(object):
 
     def rotaciona_antihorario(self):
         print("Rotaciona Anti-horário")
+        self.window.rotacionaAntiHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_horario(self):
         print("Rotaciona Horário")
+        self.window.rotatacionaHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def ler_arquivo(self):
