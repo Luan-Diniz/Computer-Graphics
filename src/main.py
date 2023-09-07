@@ -653,8 +653,8 @@ class Ui_MainDisplay(object):
         canvas.fill(Qt.white)
         self.area_desenho.setPixmap(canvas)
 
+        self.display_file.calculaNormalizadas(self.window)
 
-        #self.display_file.calculaNormalizadas(self.window)
 
         # Redesenhando todos os objetos
         for objeto in self.display_file.getListaElementosGraficos():
@@ -671,14 +671,14 @@ class Ui_MainDisplay(object):
         # Recalculando o X
         coordenadaX = int(
             FormulasMatematicas.calcular_x_viewport(
-                ponto.get_coordenadas()[0][0], self.window
+                ponto.get_coordenadas_normalizadas()[0][0], self.window
             )
         )
 
         # Recalculando o Y
         coordenadaY = int(
             FormulasMatematicas.calcular_y_viewport(
-                ponto.get_coordenadas()[0][1], self.window
+                ponto.get_coordenadas_normalizadas()[0][1], self.window
             )
         )
 
@@ -687,7 +687,7 @@ class Ui_MainDisplay(object):
         painter.end()
 
     def desenhar_reta(self, reta: Reta):
-        pontos = reta.get_coordenadas()
+        pontos = reta.get_coordenadas_normalizadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho da reta
@@ -705,7 +705,7 @@ class Ui_MainDisplay(object):
         painter.end()
 
     def desenhar_wireframe(self, wireframe: Wireframe):
-        pontos = wireframe.get_coordenadas()
+        pontos = wireframe.get_coordenadas_normalizadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho do wireframe
