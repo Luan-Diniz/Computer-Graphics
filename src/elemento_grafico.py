@@ -3,7 +3,7 @@ class ElementoGrafico:
         self.nome = nome
         self.cor = cor
         self.tipo = tipo
-        self.coordenadas = coordenadas  #lista de tuplas
+        self.coordenadas = coordenadas  # lista de tuplas
         self.coordenadas_normalizadas = []
 
     def set_nome(self, nome: str) -> None:
@@ -36,23 +36,20 @@ class ElementoGrafico:
     def get_coordenadas_normalizadas(self) -> list:
         return self.coordenadas_normalizadas
 
-
-
     def add_ponto(self, novo_ponto: tuple) -> None:
         self.coordenadas.append(novo_ponto)
-
 
     def get_centro(self) -> tuple:
         cx = 0
         cy = 0
 
-        for i,j in self.coordenadas_normalizadas:
+        for i, j in self.coordenadas_normalizadas:
             cx += i
             cy += j
 
         n_pontos = len(self.coordenadas_normalizadas)
 
-        cx = cx/n_pontos
-        cy = cy/n_pontos
+        cx = cx / n_pontos
+        cy = cy / n_pontos
 
         return (cx, cy)

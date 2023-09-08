@@ -422,7 +422,6 @@ class Ui_MainDisplay(object):
                         getCoordenadas.dict_info["coordenadas"],
                     )
 
-
                 self.display_file.adicionar(elemento_grafico)
                 self.resetar_desenhos()
                 # Adicionando objeto criado na lista de objetos
@@ -655,7 +654,6 @@ class Ui_MainDisplay(object):
 
         self.display_file.calculaNormalizadas(self.window)
 
-
         # Redesenhando todos os objetos
         for objeto in self.display_file.getListaElementosGraficos():
             self.desenhar_objeto(objeto)
@@ -864,7 +862,6 @@ class Ui_MainDisplay(object):
                     val[1],
                     self.obter_vertices(val[2], leitor.vertices),
                 )
-
 
             self.display_file.adicionar(elemento_grafico)
             self.ListaDeObjetos.addItem(nome)
