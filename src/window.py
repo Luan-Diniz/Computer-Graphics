@@ -1,4 +1,5 @@
 from config import Config
+import numpy as np
 
 
 class Window:
@@ -10,6 +11,12 @@ class Window:
         self.Ywmax = Config.window_Ywmax()
         self.scale = Config.scale()
 
+        self.Xwminnormalizado = -1
+        self.Xwmaxnormalizado = 1
+        self.Ywminnormalizado = -1
+        self.Ywmaxnormalizado = 1
+
+
         self.angle = 0  # Em graus
 
     def moveuDireita(self):
@@ -18,7 +25,6 @@ class Window:
         self.Xwmin += (deltax) * self.scale
         self.Xwmax += (deltax) * self.scale
 
-        print(self.getCenter())
 
     def moveuEsquerda(self):
         deltax = self.Xwmax - self.Xwmin
@@ -26,7 +32,6 @@ class Window:
         self.Xwmin -= (deltax) * self.scale
         self.Xwmax -= (deltax) * self.scale
 
-        print(self.getCenter())
 
     def moveuCima(self):
         deltay = self.Ywmax - self.Ywmin
@@ -34,7 +39,6 @@ class Window:
         self.Ywmin += (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
 
-        print(self.getCenter())
 
     def moveuBaixo(self):
         deltay = self.Ywmax - self.Ywmin
@@ -42,7 +46,6 @@ class Window:
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
 
-        print(self.getCenter())
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
@@ -54,7 +57,6 @@ class Window:
         self.Ywmin += (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
 
-        print(self.getCenter())
 
     def ZoomOut(self):
         # A Window fica maior, logo as imagens que ela ve sao "menores"
@@ -65,8 +67,6 @@ class Window:
         self.Xwmax += (deltax) * self.scale
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
-
-        print(self.getCenter())
 
     def getCenter(self) -> tuple:
         return ((self.Xwmax + self.Xwmin) / 2, (self.Ywmax + self.Ywmin) / 2)
@@ -83,5 +83,4 @@ class Window:
     def setAngle(self, angulo):
         self.angle = angulo
 
-    def printCenter(self):
-        print(self.getCenter())
+

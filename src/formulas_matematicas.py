@@ -11,14 +11,14 @@ class FormulasMatematicas:
     def calcular_x_viewport(Xw: float, window: Window) -> float:
         # Xw é uma coordenada X no sistema cartesiano da Window
         viewport_variance = ViewPort.viewportXmax() - ViewPort.viewportXmin()
-        return ((Xw - window.Xwmin) / (window.Xwmax - window.Xwmin)) * viewport_variance
+        return ((Xw - window.Xwminnormalizado) / (window.Xwmaxnormalizado - window.Xwminnormalizado)) * viewport_variance
 
     @staticmethod
     def calcular_y_viewport(Yw: float, window: Window) -> float:
         # Yw é uma coordenada Y no sistema cartesiano da Window
         viewport_variance = ViewPort.viewportYmax() - ViewPort.viewportYmin()
         return (
-            1 - ((Yw - window.Ywmin) / (window.Ywmax - window.Ywmin))
+            1 - ((Yw - window.Ywminnormalizado) / (window.Ywmaxnormalizado - window.Ywminnormalizado))
         ) * viewport_variance
 
     @staticmethod
@@ -57,7 +57,7 @@ class FormulasMatematicas:
         )
 
     @staticmethod
-    def cria_matriz_escalonamento(coef_escalonamento):
+    def cria_matriz_escalonamento(Sx, Sy):
         return np.array(
-            [[coef_escalonamento, 0, 0], [0, coef_escalonamento, 0], [0, 0, 1]]
+            [[Sx, 0, 0], [0, Sy, 0], [0, 0, 1]]
         )
