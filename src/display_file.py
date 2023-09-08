@@ -31,12 +31,16 @@ class DisplayFile:
         (Wxc, Wyc) = window.getCenter()
 
         matriz_tras_ao_centro = FormulasMatematicas.cria_matriz_translacao(-Wxc, -Wyc)
-        matriz_rotaciona = FormulasMatematicas.cria_matriz_rotacao(-window.currentAngle())  # Dentro da funcao vira radianos
-        #matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_translacao(+Wxc, +Wyc)
+        matriz_rotaciona = FormulasMatematicas.cria_matriz_rotacao(
+            -window.currentAngle()
+        )  # Dentro da funcao vira radianos
+        # matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_translacao(+Wxc, +Wyc)
 
         Sx = 1 / (0.5 * (window.Xwmax - window.Xwmin))
         Sy = 1 / (0.5 * (window.Ywmax - window.Ywmin))
-        matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_escalonamento(Sx, Sy)
+        matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_escalonamento(
+            Sx, Sy
+        )
 
         matriz_resultante = FormulasMatematicas.junta_matrizes(
             matriz_tras_ao_centro, matriz_rotaciona, matriz_devolve_onde_estava
@@ -50,15 +54,14 @@ class DisplayFile:
                 pontos = np.array([[x, y, 1]])
                 pontos_atualizados = np.dot(pontos, matriz_resultante)
 
-                novas_coordenadas.append(pontos_atualizados.tolist()[0])
+                novas_coordenadas.append(pontos_atualizados.tolist()[0][0:2])
                 # print(f"ANTES: {(x,y)}    DEPOIS: {pontos_atualizados.tolist()[0]}")
 
             elemento.set_coordenadas_normalizadas(
                 novas_coordenadas
             )  # Atualiza as coordenadas normalizadas
 
-
-    '''
+    """
         print("CHEGOU NOP TESTE")
         # teste
 
@@ -76,4 +79,4 @@ class DisplayFile:
         # fim do teste
 
         print("PASSOU NO TESTE")
-    '''
+    """

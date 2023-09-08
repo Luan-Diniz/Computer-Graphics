@@ -1,5 +1,6 @@
-from config import Config
 import numpy as np
+
+from config import Config
 
 
 class Window:
@@ -16,7 +17,6 @@ class Window:
         self.Ywminnormalizado = -1
         self.Ywmaxnormalizado = 1
 
-
         self.angle = 0  # Em graus
 
     def moveuDireita(self):
@@ -25,13 +25,11 @@ class Window:
         self.Xwmin += (deltax) * self.scale
         self.Xwmax += (deltax) * self.scale
 
-
     def moveuEsquerda(self):
         deltax = self.Xwmax - self.Xwmin
 
         self.Xwmin -= (deltax) * self.scale
         self.Xwmax -= (deltax) * self.scale
-
 
     def moveuCima(self):
         deltay = self.Ywmax - self.Ywmin
@@ -39,13 +37,11 @@ class Window:
         self.Ywmin += (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
 
-
     def moveuBaixo(self):
         deltay = self.Ywmax - self.Ywmin
 
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
-
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
@@ -56,7 +52,6 @@ class Window:
         self.Xwmax -= (deltax) * self.scale
         self.Ywmin += (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
-
 
     def ZoomOut(self):
         # A Window fica maior, logo as imagens que ela ve sao "menores"
@@ -82,5 +77,3 @@ class Window:
 
     def setAngle(self, angulo):
         self.angle = angulo
-
-
