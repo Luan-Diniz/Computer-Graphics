@@ -13,52 +13,60 @@ class Window:
         self.angle = 0  #Em graus
 
     def moveuDireita(self):
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltax =  self.Xwmax - self.Xwmin
 
-        self.Xwmin += (tempXwmax - tempXwmin) * self.scale
-        self.Xwmax += (tempXwmax - tempXwmin) * self.scale
+        self.Xwmin += (deltax) * self.scale
+        self.Xwmax += (deltax) * self.scale
+
+        print(self.getCenter())
 
     def moveuEsquerda(self):
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltax =  self.Xwmax - self.Xwmin
 
-        self.Xwmin -= (tempXwmax - tempXwmin) * self.scale
-        self.Xwmax -= (tempXwmax - tempXwmin) * self.scale
+        self.Xwmin -= (deltax) * self.scale
+        self.Xwmax -= (deltax) * self.scale
+
+        print(self.getCenter())
 
     def moveuCima(self):
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltay = self.Ywmax - self.Ywmin
 
-        self.Ywmin += (tempXwmax - tempXwmin) * self.scale
-        self.Ywmax += (tempXwmax - tempXwmin) * self.scale
+        self.Ywmin += (deltay) * self.scale
+        self.Ywmax += (deltay) * self.scale
+
+        print(self.getCenter())
 
     def moveuBaixo(self):
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltay = self.Ywmax - self.Ywmin
 
-        self.Ywmin -= (tempXwmax - tempXwmin) * self.scale
-        self.Ywmax -= (tempXwmax - tempXwmin) * self.scale
+        self.Ywmin -= (deltay) * self.scale
+        self.Ywmax -= (deltay) * self.scale
+
+        print(self.getCenter())
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltax = self.Xwmax - self.Xwmin
+        deltay = self.Ywmax - self.Ywmin
 
-        self.Xwmin += (tempXwmax - tempXwmin) * self.scale
-        self.Xwmax -= (tempXwmax - tempXwmin) * self.scale
-        self.Ywmin += (tempXwmax - tempXwmin) * self.scale
-        self.Ywmax -= (tempXwmax - tempXwmin) * self.scale
+        self.Xwmin += (deltax) * self.scale
+        self.Xwmax -= (deltax) * self.scale
+        self.Ywmin += (deltay) * self.scale
+        self.Ywmax -= (deltay) * self.scale
+
+        print(self.getCenter())
 
     def ZoomOut(self):
         # A Window fica maior, logo as imagens que ela ve sao "menores"
-        tempXwmax = self.Xwmax
-        tempXwmin = self.Xwmin
+        deltax = self.Xwmax - self.Xwmin
+        deltay = self.Ywmax - self.Ywmin
 
-        self.Xwmin -= (tempXwmax - tempXwmin) * self.scale
-        self.Xwmax += (tempXwmax - tempXwmin) * self.scale
-        self.Ywmin -= (tempXwmax - tempXwmin) * self.scale
-        self.Ywmax += (tempXwmax - tempXwmin) * self.scale
+        self.Xwmin -= (deltax) * self.scale
+        self.Xwmax += (deltax) * self.scale
+        self.Ywmin -= (deltay) * self.scale
+        self.Ywmax += (deltay) * self.scale
+
+        print(self.getCenter())
 
     def getCenter(self) -> tuple:
         return ((self.Xwmax - self.Xwmin)/2, (self.Ywmax - self.Ywmin)/2)
@@ -75,3 +83,7 @@ class Window:
 
     def setAngle(self, angulo):
         self.angle = angulo
+
+
+    def printCenter(self):
+        print(self.getCenter())

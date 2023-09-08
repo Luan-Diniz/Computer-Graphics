@@ -46,7 +46,7 @@ class DisplayFile:
                 pontos_atualizados = np.dot(pontos, matriz_resultante)
 
                 novas_coordenadas.append(pontos_atualizados.tolist()[0])
-                print(f"ANTES: {(x,y)}    DEPOIS: {pontos_atualizados.tolist()[0]}")
+                #print(f"ANTES: {(x,y)}    DEPOIS: {pontos_atualizados.tolist()[0]}")
 
             elemento.set_coordenadas_normalizadas(novas_coordenadas)  #Atualiza as coordenadas normalizadas
 
