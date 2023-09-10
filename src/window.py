@@ -1,5 +1,5 @@
 import numpy as np
-
+from math import cos, sin
 from config import Config
 
 
@@ -17,7 +17,10 @@ class Window:
         self.Ywminnormalizado = -1
         self.Ywmaxnormalizado = 1
 
+        self.coordenadas = [(self.Xwmin, self.Ywmin),(self.Xwmax, self.Ywmin),(self.Xwmin, self.Ywmax),(self.Xwmax, self.Ywmax)]
+
         self.angle = 0  # Em graus
+        self.angle_variation = 0 #Quando a window rotacionar, isso armazenara o angulo até que seus pontos sejam atualizados. (Um buffer)
 
     def moveuDireita(self):
         deltax = self.Xwmax - self.Xwmin
@@ -64,13 +67,49 @@ class Window:
         self.Ywmax += (deltay) * self.scale
 
     def getCenter(self) -> tuple:
-        return ((self.Xwmax + self.Xwmin) / 2, (self.Ywmax + self.Ywmin) / 2)
+        contx, conty = 0, 0
+
+        for x, y in self.coordenadas:
+            contx+= x
+            conty+= y
+
+        return (contx / 4, conty / 4)
 
     def rotacionaAntiHorario(self):
         self.angle += Config.window_rotation_angle()
+        self.angle_variation += Config.window_rotation_angle()
 
     def rotatacionaHorario(self):
         self.angle -= Config.window_rotation_angle()
+        self.angle_variation -= Config.window_rotation_angle()
+
+    def atualizaCoordenadaAposRotacao(self):
+        if self.angle_variation != 0: #Ou seja, houve uma rotacao
+            dx,dy = self.getCenter()
+            matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
+            matriz_rotacao = np.array(
+                [
+                    [cos(self.angle_variation), -sin(self.angle_variation), 0],
+                    [sin(self.angle_variation), cos(self.angle_variation), 0],
+                    [0, 0, 1],
+                ]
+            )
+            matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
+            matriz_resultante = np.dot(matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2))
+
+
+
+
+            novos_pontos_lista = []
+            for x,y in self.coordenadas:
+                pontos = np.array([[x,y,1]])
+                novos_pontos = np.dot(pontos, matriz_resultante)
+
+                novos_pontos_lista.append(   novos_pontos.tolist()[0][0:2])
+                #print(novos_pontos.tolist()[0][0:2])
+
+            self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
+
 
     def currentAngle(self):
         return self.angle
