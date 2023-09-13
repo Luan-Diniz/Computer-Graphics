@@ -27,7 +27,7 @@ class Window:
 
     def moveuDireita(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
-        distance = distance * self.view_up_vector
+        distance = distance * self.view_up_vector * -1
 
         matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
 
@@ -52,17 +52,43 @@ class Window:
         '''
 
     def moveuCima(self):
-        deltay = self.Ywmax - self.Ywmin
+        distance = (self.Xwmax - self.Xwmin) * self.scale
+        distance = distance * self.view_up_vector * -1
+
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+
+        novas_coordenadas = []
+        for x, y in self.coordenadas:
+            novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+
+        self.coordenadas = novas_coordenadas
+
 
         '''
+        deltay = self.Ywmax - self.Ywmin
+
+        
         self.Ywmin += (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
         '''
 
     def moveuBaixo(self):
-        deltay = self.Ywmax - self.Ywmin
+        distance = (self.Xwmax - self.Xwmin) * self.scale
+        distance = distance * self.view_up_vector
+
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+
+        novas_coordenadas = []
+        for x, y in self.coordenadas:
+            novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+
+        self.coordenadas = novas_coordenadas
 
         '''
+        deltay = self.Ywmax - self.Ywmin
+
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
         '''
