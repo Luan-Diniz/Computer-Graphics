@@ -43,11 +43,11 @@ class ElementoGrafico:
         cx = 0
         cy = 0
 
-        for i, j in self.coordenadas_normalizadas:
+        for i, j in self.coordenadas:
             cx += i
             cy += j
 
-        n_pontos = len(self.coordenadas_normalizadas)
+        n_pontos = len(self.coordenadas)
 
         cx = cx / n_pontos
         cy = cy / n_pontos

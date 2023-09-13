@@ -134,7 +134,9 @@ class Window:
                 novos_pontos_lista.append(   novos_pontos.tolist()[0][0:2])
                 #print(novos_pontos.tolist()[0][0:2])
 
+            self.coordenadas = novos_pontos_lista
             self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
+            print(self.coordenadas)
 
     def atualizaViewUpVector(self):
         n = self.view_up_vector[0]
