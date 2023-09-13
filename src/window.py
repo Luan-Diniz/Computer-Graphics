@@ -1,3 +1,4 @@
+import numpy
 import numpy as np
 from math import cos, sin, tan, radians
 from config import Config
@@ -27,7 +28,15 @@ class Window:
 
     def moveuDireita(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
-        distance = distance * self.view_up_vector * -1
+
+        n = self.view_up_vector[0]
+        m = self.view_up_vector[1]
+        vetor = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(-90))
+
+        vetor = np.array([vetor[0][0], vetor[0][1]])
+
+        distance = distance * vetor
+
 
         matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
 
@@ -44,9 +53,27 @@ class Window:
         self.Xwmax += (deltax) * self.scale
         '''
     def moveuEsquerda(self):
-        deltax = self.Xwmax - self.Xwmin
+        distance = (self.Xwmax - self.Xwmin) * self.scale
+
+        n = self.view_up_vector[0]
+        m = self.view_up_vector[1]
+        vetor = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(90))
+
+        vetor = np.array([vetor[0][0], vetor[0][1]])
+
+        distance = distance * vetor
+
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+
+        novas_coordenadas = []
+        for x, y in self.coordenadas:
+            novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+
+        self.coordenadas = novas_coordenadas
 
         '''
+        deltax = self.Xwmax - self.Xwmin
         self.Xwmin -= (deltax) * self.scale
         self.Xwmax -= (deltax) * self.scale
         '''
@@ -162,7 +189,7 @@ class Window:
 
             self.coordenadas = novos_pontos_lista
             self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
-            print(self.coordenadas)
+
 
     def atualizaViewUpVector(self):
         n = self.view_up_vector[0]
@@ -172,7 +199,7 @@ class Window:
         n = pontos[0][0]
         m = pontos[0][1]
         self.view_up_vector = np.array([n,m])
-        print(self.view_up_vector)
+
 
 
     def currentAngle(self):

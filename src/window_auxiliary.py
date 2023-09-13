@@ -58,7 +58,6 @@ class WindowAuxiliary:
 
         dx, dy = 0, 0
 
-
         matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
 
         matriz_rotacao = np.array(
@@ -68,10 +67,10 @@ class WindowAuxiliary:
                 [0, 0, 1],
             ]
         )
-
         matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
 
         matriz_resultante = np.dot(matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2))
+
 
         for i, j in lista_pontos:
             pontos = np.array([[i, j, 1]])
