@@ -1,5 +1,5 @@
 import numpy as np
-from math import cos, sin, tan
+from math import cos, sin, tan, radians
 from config import Config
 from window_auxiliary import WindowAuxiliary
 
@@ -26,28 +26,46 @@ class Window:
         self.angle_variation = 0 #Quando a window rotacionar, isso armazenara o angulo até que seus pontos sejam atualizados. (Um buffer)
 
     def moveuDireita(self):
-        deltax = self.Xwmax - self.Xwmin
+        distance = (self.Xwmax - self.Xwmin) * self.scale
+        distance = distance * self.view_up_vector
 
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+
+        novas_coordenadas = []
+        for x,y in self.coordenadas:
+            novos_pontos = np.dot(np.array([x,y,1]), matriz_translacao)
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+
+        self.coordenadas = novas_coordenadas
+
+
+        '''
         self.Xwmin += (deltax) * self.scale
         self.Xwmax += (deltax) * self.scale
-
+        '''
     def moveuEsquerda(self):
         deltax = self.Xwmax - self.Xwmin
 
+        '''
         self.Xwmin -= (deltax) * self.scale
         self.Xwmax -= (deltax) * self.scale
+        '''
 
     def moveuCima(self):
         deltay = self.Ywmax - self.Ywmin
 
+        '''
         self.Ywmin += (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
+        '''
 
     def moveuBaixo(self):
         deltay = self.Ywmax - self.Ywmin
 
+        '''
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
+        '''
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
@@ -90,6 +108,7 @@ class Window:
 
         self.atualizaViewUpVector()
 
+
     def atualizaCoordenadaAposRotacao(self):
         if self.angle_variation != 0: #Ou seja, houve uma rotacao
             dx,dy = self.getCenter()
@@ -118,20 +137,14 @@ class Window:
             self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
 
     def atualizaViewUpVector(self):
-        if self.angle == 90:
-            self.view_up_vector = np.array([-1,0])
+        n = self.view_up_vector[0]
+        m = self.view_up_vector[1]
 
-        elif self.angle == 270:
-            self.view_up_vector = np.array([1,0])
-
-        else:
-            #Recalculando valor do vetor unitário.
-            (n,m) = WindowAuxiliary.float_to_fraction(tan(self.angle))
-            modulo_vetor = (n**2 + m**2) ** 0.5
-            n = n/modulo_vetor
-            m = m/modulo_vetor
-
-            self.view_up_vector = np.array([n,m])
+        pontos = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(-self.angle_variation))
+        n = pontos[0][0]
+        m = pontos[0][1]
+        self.view_up_vector = np.array([n,m])
+        print(self.view_up_vector)
 
 
     def currentAngle(self):
