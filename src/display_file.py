@@ -28,7 +28,7 @@ class DisplayFile:
 
     def calculaNormalizadas(self, window: Window):
 
-        #window.atualizaCoordenadaAposRotacao()
+        window.atualizaCoordenadaAposRotacao()
         # Centro da Window
         (Wxc, Wyc) = window.getCenter()
 
@@ -65,4 +65,4 @@ class DisplayFile:
                 novas_coordenadas
             )  # Atualiza as coordenadas normalizadas
 
-        window.atualizaCoordenadaAposRotacao()
+        #window.atualizaCoordenadaAposRotacao()

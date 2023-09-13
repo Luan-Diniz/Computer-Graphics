@@ -1,6 +1,7 @@
 import numpy as np
-from math import cos, sin
+from math import cos, sin, tan
 from config import Config
+from window_auxiliary import WindowAuxiliary
 
 
 class Window:
@@ -11,6 +12,8 @@ class Window:
         self.Ywmin = Config.window_Ywmin()
         self.Ywmax = Config.window_Ywmax()
         self.scale = Config.scale()
+
+        self.view_up_vector = np.array([0,1])
 
         self.Xwminnormalizado = -1
         self.Xwmaxnormalizado = 1
@@ -79,9 +82,13 @@ class Window:
         self.angle += Config.window_rotation_angle()
         self.angle_variation += Config.window_rotation_angle()
 
+        self.atualizaViewUpVector()
+
     def rotatacionaHorario(self):
         self.angle -= Config.window_rotation_angle()
         self.angle_variation -= Config.window_rotation_angle()
+
+        self.atualizaViewUpVector()
 
     def atualizaCoordenadaAposRotacao(self):
         if self.angle_variation != 0: #Ou seja, houve uma rotacao
@@ -109,6 +116,22 @@ class Window:
                 #print(novos_pontos.tolist()[0][0:2])
 
             self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
+
+    def atualizaViewUpVector(self):
+        if self.angle == 90:
+            self.view_up_vector = np.array([-1,0])
+
+        elif self.angle == 270:
+            self.view_up_vector = np.array([1,0])
+
+        else:
+            #Recalculando valor do vetor unitário.
+            (n,m) = WindowAuxiliary.float_to_fraction(tan(self.angle))
+            modulo_vetor = (n**2 + m**2) ** 0.5
+            n = n/modulo_vetor
+            m = m/modulo_vetor
+
+            self.view_up_vector = np.array([n,m])
 
 
     def currentAngle(self):
