@@ -67,22 +67,20 @@ class FormulasMatematicas:
     def cria_matriz_escalonamento(Sx, Sy):
         return np.array([[Sx, 0, 0], [0, Sy, 0], [0, 0, 1]])
 
-
-
     @staticmethod
     def rotaciona_pontos(lista_pontos, angulo):
         novos_pontos = []
         angulo = angulo
 
         dx, dy = 0, 0
-        '''
+
+        """
         for x,y in lista_pontos:
             dx += x
             dy += y
         dx = dx / len(lista_pontos)
         dy = dy / len(lista_pontos)
-        '''
-
+        """
 
         matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
 
@@ -104,8 +102,6 @@ class FormulasMatematicas:
             pontos = np.array([[i, j, 1]])
             pontos_atualizados = np.dot(pontos, matriz_resultante)
 
-            novos_pontos.append(
-                (pontos_atualizados[0][0], pontos_atualizados[0][1])
-            )
+            novos_pontos.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
 
         return novos_pontos

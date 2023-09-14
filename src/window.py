@@ -1,6 +1,8 @@
+from math import cos, radians, sin, tan
+
 import numpy
 import numpy as np
-from math import cos, sin, tan, radians
+
 from config import Config
 from window_auxiliary import WindowAuxiliary
 
@@ -14,17 +16,22 @@ class Window:
         self.Ywmax = Config.window_Ywmax()
         self.scale = Config.scale()
 
-        self.view_up_vector = np.array([0,1])
+        self.view_up_vector = np.array([0, 1])
 
         self.Xwminnormalizado = -1
         self.Xwmaxnormalizado = 1
         self.Ywminnormalizado = -1
         self.Ywmaxnormalizado = 1
 
-        self.coordenadas = [(self.Xwmin, self.Ywmin),(self.Xwmax, self.Ywmin),(self.Xwmin, self.Ywmax),(self.Xwmax, self.Ywmax)]
+        self.coordenadas = [
+            (self.Xwmin, self.Ywmin),
+            (self.Xwmax, self.Ywmin),
+            (self.Xwmin, self.Ywmax),
+            (self.Xwmax, self.Ywmax),
+        ]
 
         self.angle = 0  # Em graus
-        self.angle_variation = 0 #Quando a window rotacionar, isso armazenara o angulo até que seus pontos sejam atualizados. (Um buffer)
+        self.angle_variation = 0  # Quando a window rotacionar, isso armazenara o angulo até que seus pontos sejam atualizados. (Um buffer)
 
     def moveuDireita(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
@@ -37,21 +44,22 @@ class Window:
 
         distance = distance * vetor
 
-
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+            distance[0], distance[1]
+        )
 
         novas_coordenadas = []
-        for x,y in self.coordenadas:
-            novos_pontos = np.dot(np.array([x,y,1]), matriz_translacao)
+        for x, y in self.coordenadas:
+            novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
             novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
 
         self.coordenadas = novas_coordenadas
 
-
-        '''
+        """
         self.Xwmin += (deltax) * self.scale
         self.Xwmax += (deltax) * self.scale
-        '''
+        """
+
     def moveuEsquerda(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
 
@@ -63,7 +71,9 @@ class Window:
 
         distance = distance * vetor
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+            distance[0], distance[1]
+        )
 
         novas_coordenadas = []
         for x, y in self.coordenadas:
@@ -72,17 +82,19 @@ class Window:
 
         self.coordenadas = novas_coordenadas
 
-        '''
+        """
         deltax = self.Xwmax - self.Xwmin
         self.Xwmin -= (deltax) * self.scale
         self.Xwmax -= (deltax) * self.scale
-        '''
+        """
 
     def moveuCima(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
         distance = distance * self.view_up_vector * -1
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+            distance[0], distance[1]
+        )
 
         novas_coordenadas = []
         for x, y in self.coordenadas:
@@ -91,20 +103,21 @@ class Window:
 
         self.coordenadas = novas_coordenadas
 
-
-        '''
+        """
         deltay = self.Ywmax - self.Ywmin
 
         
         self.Ywmin += (deltay) * self.scale
         self.Ywmax += (deltay) * self.scale
-        '''
+        """
 
     def moveuBaixo(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
         distance = distance * self.view_up_vector
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(distance[0], distance[1])
+        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+            distance[0], distance[1]
+        )
 
         novas_coordenadas = []
         for x, y in self.coordenadas:
@@ -113,12 +126,12 @@ class Window:
 
         self.coordenadas = novas_coordenadas
 
-        '''
+        """
         deltay = self.Ywmax - self.Ywmin
 
         self.Ywmin -= (deltay) * self.scale
         self.Ywmax -= (deltay) * self.scale
-        '''
+        """
 
     def ZoomIn(self):
         # A Window fica menor, logo as imagens que ela ve sao "maiores"
@@ -144,8 +157,8 @@ class Window:
         contx, conty = 0, 0
 
         for x, y in self.coordenadas:
-            contx+= x
-            conty+= y
+            contx += x
+            conty += y
 
         return (contx / 4, conty / 4)
 
@@ -161,10 +174,9 @@ class Window:
 
         self.atualizaViewUpVector()
 
-
     def atualizaCoordenadaAposRotacao(self):
-        if self.angle_variation != 0: #Ou seja, houve uma rotacao
-            dx,dy = self.getCenter()
+        if self.angle_variation != 0:  # Ou seja, houve uma rotacao
+            dx, dy = self.getCenter()
             matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
             matriz_rotacao = np.array(
                 [
@@ -174,33 +186,32 @@ class Window:
                 ]
             )
             matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
-            matriz_resultante = np.dot(matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2))
-
-
-
+            matriz_resultante = np.dot(
+                matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2)
+            )
 
             novos_pontos_lista = []
-            for x,y in self.coordenadas:
-                pontos = np.array([[x,y,1]])
+            for x, y in self.coordenadas:
+                pontos = np.array([[x, y, 1]])
                 novos_pontos = np.dot(pontos, matriz_resultante)
 
-                novos_pontos_lista.append(   novos_pontos.tolist()[0][0:2])
-                #print(novos_pontos.tolist()[0][0:2])
+                novos_pontos_lista.append(novos_pontos.tolist()[0][0:2])
 
             self.coordenadas = novos_pontos_lista
-            self.angle_variation = 0 #Coordenadas foram atualizadas, logo reseta o buffer
-
+            self.angle_variation = (
+                0  # Coordenadas foram atualizadas, logo reseta o buffer
+            )
 
     def atualizaViewUpVector(self):
         n = self.view_up_vector[0]
         m = self.view_up_vector[1]
 
-        pontos = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(-self.angle_variation))
+        pontos = WindowAuxiliary.rotaciona_pontos(
+            [(n, m)], radians(-self.angle_variation)
+        )
         n = pontos[0][0]
         m = pontos[0][1]
-        self.view_up_vector = np.array([n,m])
-
-
+        self.view_up_vector = np.array([n, m])
 
     def currentAngle(self):
         return self.angle

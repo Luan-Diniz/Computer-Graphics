@@ -1,5 +1,7 @@
-from math import floor, sin, cos, tan
+from math import cos, floor, sin, tan
+
 import numpy as np
+
 
 class WindowAuxiliary:
     @staticmethod
@@ -69,15 +71,14 @@ class WindowAuxiliary:
         )
         matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
 
-        matriz_resultante = np.dot(matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2))
-
+        matriz_resultante = np.dot(
+            matriz_translacao1, np.dot(matriz_rotacao, matriz_translacao2)
+        )
 
         for i, j in lista_pontos:
             pontos = np.array([[i, j, 1]])
             pontos_atualizados = np.dot(pontos, matriz_resultante)
 
-            novos_pontos.append(
-                (pontos_atualizados[0][0], pontos_atualizados[0][1])
-            )
+            novos_pontos.append((pontos_atualizados[0][0], pontos_atualizados[0][1]))
 
         return novos_pontos

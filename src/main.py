@@ -510,19 +510,16 @@ class Ui_MainDisplay(object):
                     (desvio_x, desvio_y) = transf.transformacao["argumento"][0]
 
                     matriz_translacao = np.array(
-                        [[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y , 1]]
+                        [[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y, 1]]
                     )
 
                     for i, j in elemento_grafico.get_coordenadas():
                         pontos = np.array([[i, j, 1]])
                         pontos_atualizados = np.dot(pontos, matriz_translacao)
 
-                        coordenadas_atualizadas.append((pontos_atualizados[0][0] , pontos_atualizados[0][1]))
-
-                    #print(f"ANTES: {elemento_grafico.get_coordenadas()}")
-                    #print(f"DEPOIS: {coordenadas_atualizadas}")
-                    #coordenadas_atualizadas = FormulasMatematicas.rotaciona_pontos(coordenadas_atualizadas, self.window.angle)
-
+                        coordenadas_atualizadas.append(
+                            (pontos_atualizados[0][0], pontos_atualizados[0][1])
+                        )
 
                     # Atualiza as coordenadas
                     elemento_grafico.set_coordenadas(coordenadas_atualizadas)
@@ -791,12 +788,10 @@ class Ui_MainDisplay(object):
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_antihorario(self):
-        #print("Rotaciona Anti-horário")
         self.window.rotacionaAntiHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_horario(self):
-        #print("Rotaciona Horário")
         self.window.rotatacionaHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 

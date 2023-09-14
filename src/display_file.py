@@ -27,7 +27,6 @@ class DisplayFile:
         return self.lista_elementos_graficos[i]
 
     def calculaNormalizadas(self, window: Window):
-
         window.atualizaCoordenadaAposRotacao()
         # Centro da Window
         (Wxc, Wyc) = window.getCenter()
@@ -37,10 +36,8 @@ class DisplayFile:
             -window.currentAngle()
         )  # Dentro da funcao vira radianos
 
-
         Sx = 1 / (0.5 * (window.Xwmax - window.Xwmin))
         Sy = 1 / (0.5 * (window.Ywmax - window.Ywmin))
-
 
         matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_escalonamento(
             Sx, Sy
@@ -59,10 +56,9 @@ class DisplayFile:
                 pontos_atualizados = np.dot(pontos, matriz_resultante)
 
                 novas_coordenadas.append(pontos_atualizados.tolist()[0][0:2])
-                # print(f"ANTES: {(x,y)}    DEPOIS: {pontos_atualizados.tolist()[0]}")
 
             elemento.set_coordenadas_normalizadas(
                 novas_coordenadas
             )  # Atualiza as coordenadas normalizadas
 
-        #window.atualizaCoordenadaAposRotacao()
+        # window.atualizaCoordenadaAposRotacao()
