@@ -1,4 +1,3 @@
-from math import cos, radians, sin
 from os.path import exists, splitext
 
 import numpy as np
@@ -12,7 +11,8 @@ from src.dialogs.recolorir_objeto import *
 from src.dialogs.transformacoes import *
 from src.interface.display_file import *
 from src.interface.window import *
-from src.math.formulas_matematicas import *
+from src.math.interface_operations import InterfaceOperations
+from src.math.object_operations import ObjectOperations
 from src.messages.arquivo_encontrado import *
 from src.messages.arquivo_nao_encontrado import *
 from src.messages.extensao_invalida import *
@@ -382,8 +382,9 @@ class Ui_MainDisplay(object):
 
     def pedir_pontos(self):
         error = False
+        object_type = self.AdicionarObjetos.currentText()
 
-        if self.AdicionarObjetos.currentText() == "Wireframe":
+        if object_type == "Wireframe":
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
             qtd_pontos = self.pedir_quantidade_de_pontos()
 
@@ -394,11 +395,11 @@ class Ui_MainDisplay(object):
             else:
                 error = True
 
-        elif self.AdicionarObjetos.currentText() == "Ponto":
+        elif object_type == "Ponto":
             getCoordenadas = AdicionarObjetoDialog(
                 1, self.display_file.getNomesElementosGraficos()
             )
-        elif self.AdicionarObjetos.currentText() == "Reta":
+        elif object_type == "Reta":
             getCoordenadas = AdicionarObjetoDialog(
                 2, self.display_file.getNomesElementosGraficos()
             )
@@ -407,31 +408,39 @@ class Ui_MainDisplay(object):
             x = getCoordenadas.exec_()
             # Aqui roda apos "fechar a janela, mas ainda eh possivel acessar seus atributos"
             if getCoordenadas.submitted:
-                if self.AdicionarObjetos.currentText() == "Ponto":
-                    elemento_grafico = Ponto(
-                        getCoordenadas.dict_info["nome"],
-                        getCoordenadas.dict_info["cor"],
-                        getCoordenadas.dict_info["coordenadas"],
-                    )
+                self.adicionar_objeto(
+                    object_type,
+                    getCoordenadas.dict_info["nome"],
+                    getCoordenadas.dict_info["cor"],
+                    getCoordenadas.dict_info["coordenadas"],
+                )
 
-                elif self.AdicionarObjetos.currentText() == "Reta":
-                    elemento_grafico = Reta(
-                        getCoordenadas.dict_info["nome"],
-                        getCoordenadas.dict_info["cor"],
-                        getCoordenadas.dict_info["coordenadas"],
-                    )
+    def adicionar_objeto(self, type, name, color, coordinates):
+        if type == "Ponto":
+            elemento_grafico = Ponto(
+                name,
+                color,
+                coordinates,
+            )
 
-                else:
-                    elemento_grafico = Wireframe(
-                        getCoordenadas.dict_info["nome"],
-                        getCoordenadas.dict_info["cor"],
-                        getCoordenadas.dict_info["coordenadas"],
-                    )
+        elif type == "Reta":
+            elemento_grafico = Reta(
+                name,
+                color,
+                coordinates,
+            )
 
-                self.display_file.adicionar(elemento_grafico)
-                self.resetar_desenhos()
-                # Adicionando objeto criado na lista de objetos
-                self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
+        elif type == "Wireframe":
+            elemento_grafico = Wireframe(
+                name,
+                color,
+                coordinates,
+            )
+
+        self.display_file.adicionar(elemento_grafico)
+        self.resetar_desenhos()
+        # Adicionando objeto criado na lista de objetos
+        self.ListaDeObjetos.addItem(name)
 
     def pedir_operacao(self):
         operacao = OperacoesMessage()
@@ -450,111 +459,28 @@ class Ui_MainDisplay(object):
             transf = TransformacoesDialog()
             x = transf.exec_()
             if transf.submitted:
-                coordenadas_atualizadas = []
-
                 # Obtendo o objeto desejado
                 i = self.ListaDeObjetos.currentIndex()
                 elemento_grafico = self.display_file.getElementoGrafico(i)
+                transf_name = transf.transformacao["transformacao"]
 
-                if transf.transformacao["transformacao"] == "translacao":
-                    (desvio_x, desvio_y) = transf.transformacao["argumento"][0]
+                if transf_name == "translacao":
+                    coordinates = transf.transformacao["argumento"][0]
+                    ObjectOperations.translacao(elemento_grafico, coordinates)
 
-                    matriz_translacao = np.array(
-                        [[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y, 1]]
+                elif transf_name == "rotacao":
+                    ObjectOperations.rotacao(
+                        elemento_grafico,
+                        transf.transformacao["argumento"][0],
+                        transf.transformacao["argumento"][1],
                     )
-
-                    for i, j in elemento_grafico.get_coordenadas():
-                        pontos = np.array([[i, j, 1]])
-                        pontos_atualizados = np.dot(pontos, matriz_translacao)
-
-                        coordenadas_atualizadas.append(
-                            (pontos_atualizados[0][0], pontos_atualizados[0][1])
-                        )
-
-                    # Atualiza as coordenadas
-                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
-
-                elif transf.transformacao["transformacao"] == "rotacao":
-                    angulo = radians(
-                        -transf.transformacao["argumento"][0]
-                    )  # Angulo em radianos
-                    (x_rot, y_rot) = transf.transformacao["argumento"][1]
-                    dx, dy = (None, None)  # desvios.
-
-                    if y_rot == "origem":
-                        dx, dy = 0, 0
-                    elif y_rot == "centro_objeto":
-                        (cx, cy) = elemento_grafico.get_centro()
-                        dx, dy = cx, cy
-                    else:
-                        # Funciona
-                        dx = x_rot
-                        dy = y_rot
-
-                    matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
-
-                    matriz_rotacao = np.array(
-                        [
-                            [cos(angulo), -sin(angulo), 0],
-                            [sin(angulo), cos(angulo), 0],
-                            [0, 0, 1],
-                        ]
-                    )
-
-                    matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
-
-                    matriz_resultante = FormulasMatematicas.junta_matrizes(
-                        matriz_translacao1, matriz_rotacao, matriz_translacao2
-                    )
-
-                    for i, j in elemento_grafico.get_coordenadas():
-                        pontos = np.array([[i, j, 1]])
-                        pontos_atualizados = np.dot(pontos, matriz_resultante)
-
-                        coordenadas_atualizadas.append(
-                            (pontos_atualizados[0][0], pontos_atualizados[0][1])
-                        )
-
-                    # Atualiza as coordenadas
-                    elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 else:  # eh escalonamento
-                    (cx, cy) = elemento_grafico.get_centro()
-                    coef_escalonamento = transf.transformacao["argumento"][0]
-
-                    if coef_escalonamento == 0:
+                    result = ObjectOperations.escalonamento(
+                        elemento_grafico, transf.transformacao["argumento"][0]
+                    )
+                    if result == -1:
                         transf.aviso_escalonamento_zero()
-                    else:
-                        matriz_traz_ao_centro = np.array(
-                            [[1, 0, 0], [0, 1, 0], [-cx, -cy, 1]]
-                        )
-                        matriz_escalona = np.array(
-                            [
-                                [coef_escalonamento, 0, 0],
-                                [0, coef_escalonamento, 0],
-                                [0, 0, 1],
-                            ]
-                        )
-                        matriz_devolve_ao_local_original = np.array(
-                            [[1, 0, 0], [0, 1, 0], [cx, cy, 1]]
-                        )
-
-                        matriz_resultante = FormulasMatematicas.junta_matrizes(
-                            matriz_traz_ao_centro,
-                            matriz_escalona,
-                            matriz_devolve_ao_local_original,
-                        )
-
-                        for i, j in elemento_grafico.get_coordenadas():
-                            pontos = np.array([[i, j, 1]])
-                            pontos_atualizados = np.dot(pontos, matriz_resultante)
-
-                            coordenadas_atualizadas.append(
-                                (pontos_atualizados[0][0], pontos_atualizados[0][1])
-                            )
-
-                        # Atualiza as coordenadas
-                        elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
                 # atualizando desenhos
                 self.resetar_desenhos()
@@ -618,14 +544,14 @@ class Ui_MainDisplay(object):
 
         # Recalculando o X
         coordenadaX = int(
-            FormulasMatematicas.calcular_x_viewport(
+            InterfaceOperations.calcular_x_viewport(
                 ponto.get_coordenadas_normalizadas()[0][0], self.window
             )
         )
 
         # Recalculando o Y
         coordenadaY = int(
-            FormulasMatematicas.calcular_y_viewport(
+            InterfaceOperations.calcular_y_viewport(
                 ponto.get_coordenadas_normalizadas()[0][1], self.window
             )
         )
@@ -645,10 +571,10 @@ class Ui_MainDisplay(object):
 
         # Desenhando a reta
         painter.drawLine(
-            int(FormulasMatematicas.calcular_x_viewport(pontos[0][0], self.window)),
-            int(FormulasMatematicas.calcular_y_viewport(pontos[0][1], self.window)),
-            int(FormulasMatematicas.calcular_x_viewport(pontos[1][0], self.window)),
-            int(FormulasMatematicas.calcular_y_viewport(pontos[1][1], self.window)),
+            int(InterfaceOperations.calcular_x_viewport(pontos[0][0], self.window)),
+            int(InterfaceOperations.calcular_y_viewport(pontos[0][1], self.window)),
+            int(InterfaceOperations.calcular_x_viewport(pontos[1][0], self.window)),
+            int(InterfaceOperations.calcular_y_viewport(pontos[1][1], self.window)),
         )
         painter.end()
 
@@ -667,22 +593,22 @@ class Ui_MainDisplay(object):
             if i != (len(pontos) - 1):
                 painter.drawLine(
                     int(
-                        FormulasMatematicas.calcular_x_viewport(
+                        InterfaceOperations.calcular_x_viewport(
                             pontos[i][0], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_y_viewport(
+                        InterfaceOperations.calcular_y_viewport(
                             pontos[i][1], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_x_viewport(
+                        InterfaceOperations.calcular_x_viewport(
                             pontos[i + 1][0], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_y_viewport(
+                        InterfaceOperations.calcular_y_viewport(
                             pontos[i + 1][1], self.window
                         )
                     ),
@@ -690,22 +616,22 @@ class Ui_MainDisplay(object):
             else:
                 painter.drawLine(
                     int(
-                        FormulasMatematicas.calcular_x_viewport(
+                        InterfaceOperations.calcular_x_viewport(
                             pontos[i][0], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_y_viewport(
+                        InterfaceOperations.calcular_y_viewport(
                             pontos[i][1], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_x_viewport(
+                        InterfaceOperations.calcular_x_viewport(
                             pontos[0][0], self.window
                         )
                     ),
                     int(
-                        FormulasMatematicas.calcular_y_viewport(
+                        InterfaceOperations.calcular_y_viewport(
                             pontos[0][1], self.window
                         )
                     ),

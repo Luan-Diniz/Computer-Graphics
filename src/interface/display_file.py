@@ -1,7 +1,7 @@
 from math import fmod
 
 from src.interface.window import Window
-from src.math.formulas_matematicas import *
+from src.math.interface_operations import *
 
 
 class DisplayFile:
@@ -31,19 +31,19 @@ class DisplayFile:
         # Centro da Window
         (Wxc, Wyc) = window.getCenter()
 
-        matriz_tras_ao_centro = FormulasMatematicas.cria_matriz_translacao(-Wxc, -Wyc)
-        matriz_rotaciona = FormulasMatematicas.cria_matriz_rotacao(
+        matriz_tras_ao_centro = InterfaceOperations.cria_matriz_translacao(-Wxc, -Wyc)
+        matriz_rotaciona = InterfaceOperations.cria_matriz_rotacao(
             -window.currentAngle()
         )  # Dentro da funcao vira radianos
 
         Sx = 1 / (0.5 * (window.Xwmax - window.Xwmin))
         Sy = 1 / (0.5 * (window.Ywmax - window.Ywmin))
 
-        matriz_devolve_onde_estava = FormulasMatematicas.cria_matriz_escalonamento(
+        matriz_devolve_onde_estava = InterfaceOperations.cria_matriz_escalonamento(
             Sx, Sy
         )
 
-        matriz_resultante = FormulasMatematicas.junta_matrizes(
+        matriz_resultante = InterfaceOperations.junta_matrizes(
             matriz_tras_ao_centro, matriz_rotaciona, matriz_devolve_onde_estava
         )
 

@@ -6,7 +6,7 @@ from src.interface.viewport import ViewPort
 from src.interface.window import Window
 
 
-class FormulasMatematicas:
+class InterfaceOperations:
     @staticmethod
     def calcular_x_viewport(Xw: float, window: Window) -> float:
         # Xw é uma coordenada X no sistema cartesiano da Window
@@ -30,8 +30,8 @@ class FormulasMatematicas:
 
     @staticmethod
     def transformada_viewport(Xw: float, Yw: float, window: Window) -> tuple:
-        X_viewport = FormulasMatematicas.calcular_x_viewport(Xw, window)
-        Y_viewport = FormulasMatematicas.calcular_y_viewport(Yw, window)
+        X_viewport = InterfaceOperations.calcular_x_viewport(Xw, window)
+        Y_viewport = InterfaceOperations.calcular_y_viewport(Yw, window)
 
         return (X_viewport, Y_viewport)
 
@@ -94,7 +94,7 @@ class FormulasMatematicas:
 
         matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
 
-        matriz_resultante = FormulasMatematicas.junta_matrizes(
+        matriz_resultante = InterfaceOperations.junta_matrizes(
             matriz_translacao1, matriz_rotacao, matriz_translacao2
         )
 
