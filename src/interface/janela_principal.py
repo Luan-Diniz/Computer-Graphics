@@ -1,21 +1,19 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QLineEdit, QMessageBox
 
-from src.dialogs.adicionar_objeto import *
-from src.dialogs.quantidade_de_pontos import *
-from src.dialogs.recolorir_objeto import *
-from src.dialogs.transformacoes import *
-from src.interface.display_file import *
-from src.interface.window import *
+from src.dialogs.adicionar_objeto import AdicionarObjetoDialog
+from src.dialogs.quantidade_de_pontos import QuantidadeDePontosDialog
+from src.dialogs.recolorir_objeto import RecolorirObjetoDialog
+from src.dialogs.transformacoes import TransformacoesDialog
+from src.interface.display_file import DisplayFile
+from src.interface.window import Window
 from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
-from src.messages.operacoes import *
-
-from src.objects.leitor_obj import LeitorOBJ
-from src.objects.gerador_obj import GeradorOBJ
-
+from src.messages.operacoes import OperacoesMessage
 from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
+from src.objects.gerador_obj import GeradorOBJ
+from src.objects.leitor_obj import LeitorOBJ
 
 
 class Ui_MainDisplay(object):
@@ -426,25 +424,13 @@ class Ui_MainDisplay(object):
 
     def adicionar_objeto(self, type, name, color, coordinates):
         if type == "Ponto":
-            elemento_grafico = Ponto(
-                name,
-                color,
-                coordinates,
-            )
+            elemento_grafico = Ponto(name, color, coordinates)
 
         elif type == "Reta":
-            elemento_grafico = Reta(
-                name,
-                color,
-                coordinates,
-            )
+            elemento_grafico = Reta(name, color, coordinates)
 
         elif type == "Wireframe":
-            elemento_grafico = Wireframe(
-                name,
-                color,
-                coordinates,
-            )
+            elemento_grafico = Wireframe(name, color, coordinates)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(name)
@@ -679,4 +665,5 @@ class Ui_MainDisplay(object):
     def gerar_arquivo(self):
         nome_arquivo = self.nome_arquivo_saida.text()
         gerador = GeradorOBJ(nome_arquivo, self.display_file)
-        gerador.gerarArquivoOBJ()
+        if not gerador.erro:
+            gerador.gerarArquivoOBJ()

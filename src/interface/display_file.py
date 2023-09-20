@@ -1,7 +1,7 @@
-from math import fmod
+import numpy as np
 
 from src.interface.window import Window
-from src.math.interface_operations import *
+from src.math.interface_operations import InterfaceOperations
 
 
 class DisplayFile:

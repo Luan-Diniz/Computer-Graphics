@@ -1,4 +1,4 @@
-from math import cos, floor, sin, tan
+from math import cos, floor, sin
 
 import numpy as np
 

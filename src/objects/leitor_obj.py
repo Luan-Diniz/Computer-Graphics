@@ -1,4 +1,3 @@
-from os.path import exists, splitext
 from src.objects.descritor_obj import DescritorOBJ
 from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
 
@@ -10,7 +9,6 @@ class LeitorOBJ(DescritorOBJ):
             return
 
         self.lista_objetos = self.abrir(nome_arquivo, display_file)
-
 
     def abrir(self, nome_arquivo, display_file):
         objetos = []
@@ -129,4 +127,3 @@ class LeitorOBJ(DescritorOBJ):
         if tamanho == 2:
             return "Reta"
         return "Wireframe"
-

@@ -1,6 +1,8 @@
 from math import cos, radians, sin
 
-from src.math.interface_operations import *
+import numpy as np
+
+from src.math.interface_operations import InterfaceOperations
 
 
 class ObjectOperations:

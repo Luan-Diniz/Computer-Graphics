@@ -1,13 +1,15 @@
 from os.path import exists, splitext
 
-from src.messages.arquivo_encontrado import *
-from src.messages.arquivo_nao_encontrado import *
-from src.messages.extensao_invalida import *
+from PyQt5.QtWidgets import QMessageBox
+
+from src.messages.arquivo_encontrado import ArquivoEncontradoMessage
+from src.messages.arquivo_nao_encontrado import ArquivoNaoEncontradoMessage
+from src.messages.extensao_invalida import ExtensaoInvalidaMessage
 
 
 class DescritorOBJ:
     def __init__(self):
-         pass
+        pass
 
     def verificar_nome_leitura(self, nome_arquivo):
         if nome_arquivo.replace(" ", "") == "":
@@ -58,7 +60,7 @@ class DescritorOBJ:
             if extensao == ".mtl":
                 if not self.arquivo_encontrado():
                     return True
-        
+
         return False
 
     def arquivo_encontrado(self) -> bool:

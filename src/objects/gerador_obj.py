@@ -1,5 +1,3 @@
-from os.path import exists, splitext
-
 from src.objects.descritor_obj import DescritorOBJ
 
 
@@ -15,8 +13,6 @@ class GeradorOBJ(DescritorOBJ):
         self.objetos = objetos
         self.vertices = vertices
         self.cores = []
-
-        self.gerarArquivoOBJ()
 
     def gerarArquivoOBJ(self):
         with open("cores.mtl", "w") as arquivo:
@@ -75,4 +71,3 @@ class GeradorOBJ(DescritorOBJ):
                 objetos[objeto.get_nome()][1] = objeto.get_cor()
                 objetos[objeto.get_nome()][2].append(vertices.index(ponto) + 1)
         return objetos, vertices
-

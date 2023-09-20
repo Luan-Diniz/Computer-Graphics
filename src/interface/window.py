@@ -1,4 +1,4 @@
-from math import cos, radians, sin, tan
+from math import cos, radians, sin
 
 import numpy as np
 
