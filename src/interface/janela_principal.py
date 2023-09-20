@@ -11,7 +11,10 @@ from src.interface.window import *
 from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
 from src.messages.operacoes import *
-from src.objects.descritor_obj import *
+
+from src.objects.leitor_obj import LeitorOBJ
+from src.objects.gerador_obj import GeradorOBJ
+
 from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
 
 
@@ -666,7 +669,7 @@ class Ui_MainDisplay(object):
 
     def ler_arquivo(self):
         nome_arquivo = self.nome_arquivo_entrada.text()
-        leitor = LeitorOBJ(nome_arquivo)
+        leitor = LeitorOBJ(nome_arquivo, self.display_file)
         if not leitor.erro:
             for objeto in leitor.lista_objetos:
                 self.display_file.adicionar(objeto)
@@ -675,6 +678,5 @@ class Ui_MainDisplay(object):
 
     def gerar_arquivo(self):
         nome_arquivo = self.nome_arquivo_saida.text()
-        objetos = self.display_file.lista_elementos_graficos
-        gerador = GeradorOBJ(nome_arquivo, objetos)
+        gerador = GeradorOBJ(nome_arquivo, self.display_file)
         gerador.gerarArquivoOBJ()
