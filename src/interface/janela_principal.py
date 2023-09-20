@@ -7,12 +7,19 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
-from descritorobj import GeradorOBJ, LeitorOBJ
-from display_file import DisplayFile
-from formulas_matematicas import FormulasMatematicas
-from janelas_secundarias import *
-from shapes import Ponto, Reta, Wireframe
-from window import Window
+from src.dialogs.adicionar_objeto import *
+from src.dialogs.quantidade_de_pontos import *
+from src.dialogs.recolorir_objeto import *
+from src.dialogs.transformacoes import *
+from src.interface.display_file import DisplayFile
+from src.interface.window import Window
+from src.math.formulas_matematicas import FormulasMatematicas
+from src.messages.arquivo_encontrado import *
+from src.messages.arquivo_nao_encontrado import *
+from src.messages.extensao_invalida import *
+from src.messages.operacoes import *
+from src.objects.descritorobj import GeradorOBJ, LeitorOBJ
+from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
 
 
 class Ui_MainDisplay(object):
@@ -261,10 +268,10 @@ class Ui_MainDisplay(object):
         MainDisplay.setCentralWidget(self.centralwidget)
 
         # Configurando os botoes
-        self.adicionar_button.clicked.connect(self.pop_up_digitar_pontos)
+        self.adicionar_button.clicked.connect(self.pedir_pontos)
         self.ler_arquivo_button.clicked.connect(self.ler_arquivo)
         self.gerar_arquivo_button.clicked.connect(self.gerar_arquivo)
-        self.operacoes_button.clicked.connect(self.pop_up_realizar_operacao)
+        self.operacoes_button.clicked.connect(self.pedir_operacao)
         self.right_button.clicked.connect(self.move_esquerda)
         self.left_button.clicked.connect(self.move_direita)
         self.up_button.clicked.connect(self.move_baixo)
@@ -360,40 +367,40 @@ class Ui_MainDisplay(object):
         self.gerar_arquivo_button.setText(_translate("MainDisplay", "Salvar"))
         self.operacoes_button.setText(_translate("MainDisplay", "Operações"))
 
-    def quantidade_de_pontos(self):
-        qtdPontos = numero_pontosDialog()
-        x = qtdPontos.exec_()
-        if qtdPontos.submitted:
-            return qtdPontos.numero_pontos()
+    def pedir_quantidade_de_pontos(self):
+        pontos = QuantidadeDePontosDialog()
+        x = pontos.exec_()
+        if pontos.submitted:
+            return pontos.numero_pontos()
         return -1
 
     def pedir_cores(self):
-        cores = recolorirDialog()
+        cores = RecolorirObjetoDialog()
         x = cores.exec_()
         if cores.submitted:
             return cores.cores()
         return (-1, -1, -1)
 
-    def pop_up_digitar_pontos(self):
+    def pedir_pontos(self):
         error = False
 
         if self.AdicionarObjetos.currentText() == "Wireframe":
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos = self.quantidade_de_pontos()
+            qtd_pontos = self.pedir_quantidade_de_pontos()
 
             if qtd_pontos != -1:
-                getCoordenadas = AdicionarDialog(
+                getCoordenadas = AdicionarObjetoDialog(
                     qtd_pontos, self.display_file.getNomesElementosGraficos()
                 )
             else:
                 error = True
 
         elif self.AdicionarObjetos.currentText() == "Ponto":
-            getCoordenadas = AdicionarDialog(
+            getCoordenadas = AdicionarObjetoDialog(
                 1, self.display_file.getNomesElementosGraficos()
             )
         elif self.AdicionarObjetos.currentText() == "Reta":
-            getCoordenadas = AdicionarDialog(
+            getCoordenadas = AdicionarObjetoDialog(
                 2, self.display_file.getNomesElementosGraficos()
             )
 
@@ -427,45 +434,9 @@ class Ui_MainDisplay(object):
                 # Adicionando objeto criado na lista de objetos
                 self.ListaDeObjetos.addItem(getCoordenadas.dict_info["nome"])
 
-    def pop_up_realizar_operacao(self):
-        fazOperacao = QMessageBox()
-        fazOperacao.setWindowTitle("Operações")
-        fazOperacao.setText("Escolha a operação a ser realizada")
-        fazOperacao.setStyleSheet("background-color: rgb(165,165,165);")
-
-        # Criando os botoes
-        fazOperacao.setStandardButtons(
-            QMessageBox.Ok | QMessageBox.Save | QMessageBox.Open | QMessageBox.Cancel
-        )
-
-        # Renomeando o botao de troca de cor
-        botao_cor = fazOperacao.button(QMessageBox.Ok)
-        botao_cor.setText("Recolorir Objeto")
-        botao_cor.setFixedSize(150, 30)
-        botao_cor.setStyleSheet("background-color: rgb(212,208,200);")
-
-        # Renomeando o botao de realizar transformacao 2D
-        botao_transformacao = fazOperacao.button(QMessageBox.Save)
-        botao_transformacao.setText("Transformações 2D")
-        botao_transformacao.setFixedSize(150, 30)
-        botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
-
-        # Renomeando o botao de deletar objeto
-        botao_deletar = fazOperacao.button(QMessageBox.Open)
-        botao_deletar.setText("Deletar Objeto")
-        botao_deletar.setFixedSize(150, 30)
-        botao_deletar.setStyleSheet("background-color: rgb(212,208,200);")
-
-        # Renomeando o botao de cancelar
-        botao_cancelar = fazOperacao.button(QMessageBox.Cancel)
-        botao_cancelar.setText("Cancelar")
-        botao_cancelar.setFixedSize(150, 30)
-        botao_cancelar.setStyleSheet("background-color: rgb(212,208,200);")
-
-        fazOperacao.setDefaultButton(QMessageBox.Cancel)
-
-        i = fazOperacao.exec_()
-
+    def pedir_operacao(self):
+        operacao = OperacoesMessage()
+        i = operacao.exec_()
         if i == QMessageBox.Ok:
             self.recolorir_objeto()
         elif i == QMessageBox.Save:
@@ -475,29 +446,9 @@ class Ui_MainDisplay(object):
         else:
             pass
 
-        """
-        QMessageBox.Ok
-        QMessageBox.Save
-        QMessageBox.Open
-        QMessageBox.Cancel
-        QMessageBox.Close
-        QMessageBox.Apply
-        QMessageBox.Reset
-        QMessageBox.RestoreDefaults
-        QMessageBox.Help
-        QMessageBox.SaveAll
-        QMessageBox.Yes
-        QMessageBox.No
-        QMessageBox.YesToAll
-        QMessageBox.NoToAll
-        QMessageBox.Abort
-        QMessageBox.Retry
-        QMessageBox.Ignore
-        """
-
     def escolher_transformacao_2D(self):
         if self.ListaDeObjetos.count() > 0:
-            transf = transformacaoDialog()
+            transf = TransformacoesDialog()
             x = transf.exec_()
             if transf.submitted:
                 coordenadas_atualizadas = []
@@ -872,28 +823,20 @@ class Ui_MainDisplay(object):
             v.append((vertices[indice - 1][0], vertices[indice - 1][1]))
         return v
 
-    def arquivo_nao_encontrado(self):
-        nao_encontrado = QMessageBox()
-        nao_encontrado.setWindowTitle("Aviso!")
-        nao_encontrado.setText("O arquivo requisitado não foi encontrado")
-        nao_encontrado.setStyleSheet("background-color: rgb(212,208,200);")
-        nao_encontrado.setStandardButtons(QMessageBox.Ok)
-        botao_ok = nao_encontrado.button(QMessageBox.Ok)
-        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
-        nao_encontrado.setIcon(QMessageBox.Warning)
+    def arquivo_encontrado(self) -> bool:
+        encontrado = ArquivoEncontradoMessage()
+        x = encontrado.exec_()
+        if x == QMessageBox.Ok:
+            return True
+        else:
+            return False
 
+    def arquivo_nao_encontrado(self):
+        nao_encontrado = ArquivoNaoEncontradoMessage()
         i = nao_encontrado.exec_()
 
     def extensao_invalida(self):
-        invalida = QMessageBox()
-        invalida.setWindowTitle("Aviso!")
-        invalida.setText("O arquivo não possui extensão .obj ou .mtl")
-        invalida.setStyleSheet("background-color: rgb(212,208,200);")
-        invalida.setStandardButtons(QMessageBox.Ok)
-        botao_ok = invalida.button(QMessageBox.Ok)
-        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
-        invalida.setIcon(QMessageBox.Warning)
-
+        invalida = ExtensaoInvalidaMessage()
         i = invalida.exec_()
 
     def gerar_arquivo(self):
@@ -936,31 +879,3 @@ class Ui_MainDisplay(object):
                 objetos[objeto.get_nome()][1] = objeto.get_cor()
                 objetos[objeto.get_nome()][2].append(vertices.index(ponto) + 1)
         return objetos, vertices
-
-    def arquivo_encontrado(self) -> bool:
-        encontrado = QMessageBox()
-        encontrado.setWindowTitle("Atenção!")
-        encontrado.setText("O arquivo requisitado será sobrescrito")
-        encontrado.setStyleSheet("background-color: rgb(165,165,165);")
-        encontrado.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        botao_ok = encontrado.button(QMessageBox.Ok)
-        botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
-        botao_cancel = encontrado.button(QMessageBox.Cancel)
-        botao_cancel.setStyleSheet("background-color: rgb(212,208,200);")
-        encontrado.setIcon(QMessageBox.Information)
-
-        x = encontrado.exec_()
-
-        if x == QMessageBox.Ok:
-            return True
-        else:
-            return False
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    MainDisplay = QtWidgets.QMainWindow()
-    ui = Ui_MainDisplay()
-    ui.setupUi(MainDisplay)
-    MainDisplay.show()
-    sys.exit(app.exec_())

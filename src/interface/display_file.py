@@ -1,7 +1,7 @@
 from math import fmod
 
-from formulas_matematicas import *
-from window import Window
+from src.interface.window import Window
+from src.math.formulas_matematicas import *
 
 
 class DisplayFile:

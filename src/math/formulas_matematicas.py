@@ -2,8 +2,8 @@ from math import cos, radians, sin
 
 import numpy as np
 
-from viewport import ViewPort
-from window import Window
+from src.interface.viewport import ViewPort
+from src.interface.window import Window
 
 
 class FormulasMatematicas:

@@ -1,10 +1,9 @@
 from math import cos, radians, sin, tan
 
-import numpy
 import numpy as np
 
-from config import Config
-from window_auxiliary import WindowAuxiliary
+from src.interface.config import Config
+from src.math.window_auxiliary import WindowAuxiliary
 
 
 class Window:

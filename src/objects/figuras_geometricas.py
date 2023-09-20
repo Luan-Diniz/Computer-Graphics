@@ -1,4 +1,4 @@
-from elemento_grafico import ElementoGrafico
+from src.objects.elemento_grafico import ElementoGrafico
 
 
 class Ponto(ElementoGrafico):
