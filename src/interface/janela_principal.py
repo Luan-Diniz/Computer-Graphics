@@ -1,4 +1,3 @@
-import sys
 from math import cos, radians, sin
 from os.path import exists, splitext
 
@@ -11,15 +10,15 @@ from src.dialogs.adicionar_objeto import *
 from src.dialogs.quantidade_de_pontos import *
 from src.dialogs.recolorir_objeto import *
 from src.dialogs.transformacoes import *
-from src.interface.display_file import DisplayFile
-from src.interface.window import Window
-from src.math.formulas_matematicas import FormulasMatematicas
+from src.interface.display_file import *
+from src.interface.window import *
+from src.math.formulas_matematicas import *
 from src.messages.arquivo_encontrado import *
 from src.messages.arquivo_nao_encontrado import *
 from src.messages.extensao_invalida import *
 from src.messages.operacoes import *
-from src.objects.descritorobj import GeradorOBJ, LeitorOBJ
-from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
+from src.objects.descritorobj import *
+from src.objects.figuras_geometricas import *
 
 
 class Ui_MainDisplay(object):

@@ -1,3 +1,5 @@
+import sys
+
 from src.interface.janela_principal import *
 
 if __name__ == "__main__":
