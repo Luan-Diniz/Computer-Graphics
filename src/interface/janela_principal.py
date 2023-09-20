@@ -1,6 +1,3 @@
-from os.path import exists, splitext
-
-import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
@@ -13,12 +10,9 @@ from src.interface.display_file import *
 from src.interface.window import *
 from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
-from src.messages.arquivo_encontrado import *
-from src.messages.arquivo_nao_encontrado import *
-from src.messages.extensao_invalida import *
 from src.messages.operacoes import *
-from src.objects.descritorobj import *
-from src.objects.figuras_geometricas import *
+from src.objects.descritor_obj import *
+from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
 
 
 class Ui_MainDisplay(object):
@@ -415,6 +409,18 @@ class Ui_MainDisplay(object):
                     getCoordenadas.dict_info["coordenadas"],
                 )
 
+    def pedir_operacao(self):
+        operacao = OperacoesMessage()
+        i = operacao.exec_()
+        if i == QMessageBox.Ok:
+            self.recolorir_objeto()
+        elif i == QMessageBox.Save:
+            self.escolher_transformacao_2D()
+        elif i == QMessageBox.Open:
+            self.deletar_objeto()
+        else:
+            pass
+
     def adicionar_objeto(self, type, name, color, coordinates):
         if type == "Ponto":
             elemento_grafico = Ponto(
@@ -438,21 +444,8 @@ class Ui_MainDisplay(object):
             )
 
         self.display_file.adicionar(elemento_grafico)
-        self.resetar_desenhos()
-        # Adicionando objeto criado na lista de objetos
         self.ListaDeObjetos.addItem(name)
-
-    def pedir_operacao(self):
-        operacao = OperacoesMessage()
-        i = operacao.exec_()
-        if i == QMessageBox.Ok:
-            self.recolorir_objeto()
-        elif i == QMessageBox.Save:
-            self.escolher_transformacao_2D()
-        elif i == QMessageBox.Open:
-            self.deletar_objeto()
-        else:
-            pass
+        self.resetar_desenhos()
 
     def escolher_transformacao_2D(self):
         if self.ListaDeObjetos.count() > 0:
@@ -673,134 +666,15 @@ class Ui_MainDisplay(object):
 
     def ler_arquivo(self):
         nome_arquivo = self.nome_arquivo_entrada.text()
-
-        if nome_arquivo.replace(" ", "") == "":
-            return
-
-        if not exists(nome_arquivo):
-            self.arquivo_nao_encontrado()
-            return
-
-        nome_base, extensao = splitext(nome_arquivo)
-        if extensao != ".obj":
-            self.extensao_invalida()
-            return
-
-        with open(nome_arquivo, "r") as arquivo:
-            linha = arquivo.readline()
-            while linha:
-                palavras = linha.split(" ")
-                if palavras[0] == "mtllib":
-                    nome_mtl = palavras[1].strip()
-                linha = arquivo.readline()
-
-        if not exists(nome_mtl):
-            self.arquivo_nao_encontrado()
-            return
-
-        nome_base, extensao = splitext(nome_mtl)
-        if extensao != ".mtl":
-            self.extensao_invalida()
-            return
-
         leitor = LeitorOBJ(nome_arquivo)
-
-        for key, val in leitor.elementos_graficos.items():
-            i = 2
-            nome = key.strip()
-            while nome in self.display_file.getNomesElementosGraficos():
-                if i > 2:
-                    novo_nome = list(nome)
-                    novo_nome[-1] = str(i)
-                    nome = "".join(novo_nome)
-                else:
-                    nome = nome + "_" + str(i)
-                i += 1
-            if val[0] == "Ponto":
-                elemento_grafico = Ponto(
-                    nome,
-                    val[1],
-                    self.obter_vertices(val[2], leitor.vertices),
-                )
-
-            elif val[0] == "Reta":
-                elemento_grafico = Reta(
-                    nome,
-                    val[1],
-                    self.obter_vertices(val[2], leitor.vertices),
-                )
-
-            else:
-                elemento_grafico = Wireframe(
-                    nome,
-                    val[1],
-                    self.obter_vertices(val[2], leitor.vertices),
-                )
-
-            self.display_file.adicionar(elemento_grafico)
-            self.ListaDeObjetos.addItem(nome)
-        self.resetar_desenhos()
-
-    def obter_vertices(self, indices, vertices):
-        v = []
-        for indice in indices:
-            # Alterar quando for usar uma coordenada a mais
-            v.append((vertices[indice - 1][0], vertices[indice - 1][1]))
-        return v
-
-    def arquivo_encontrado(self) -> bool:
-        encontrado = ArquivoEncontradoMessage()
-        x = encontrado.exec_()
-        if x == QMessageBox.Ok:
-            return True
-        else:
-            return False
-
-    def arquivo_nao_encontrado(self):
-        nao_encontrado = ArquivoNaoEncontradoMessage()
-        i = nao_encontrado.exec_()
-
-    def extensao_invalida(self):
-        invalida = ExtensaoInvalidaMessage()
-        i = invalida.exec_()
+        if not leitor.erro:
+            for objeto in leitor.lista_objetos:
+                self.display_file.adicionar(objeto)
+                self.ListaDeObjetos.addItem(objeto.get_nome())
+            self.resetar_desenhos()
 
     def gerar_arquivo(self):
         nome_arquivo = self.nome_arquivo_saida.text()
-
-        if nome_arquivo.replace(" ", "") == "":
-            return
-
-        if nome_arquivo[-4:] != ".obj":
-            self.extensao_invalida()
-            return
-
-        if exists(nome_arquivo):
-            if not self.arquivo_encontrado():
-                return
-
-        if exists("cores.mtl"):
-            nome_base, extensao = splitext("cores.mtl")
-            if extensao == ".mtl":
-                if not self.arquivo_encontrado():
-                    return
-
-        objetos, vertices = self.gerar_lista_vertices()
-
-        gerador = GeradorOBJ(nome_arquivo, objetos, vertices)
+        objetos = self.display_file.lista_elementos_graficos
+        gerador = GeradorOBJ(nome_arquivo, objetos)
         gerador.gerarArquivoOBJ()
-
-    def gerar_lista_vertices(self):
-        objetos = {}
-        vertices = []
-        for objeto in self.display_file.lista_elementos_graficos:
-            objetos[objeto.get_nome()] = ["", (), []]
-            for ponto in objeto.get_coordenadas():
-                if ponto not in vertices:
-                    vertices.append(ponto)
-                if objeto.get_tipo() == "Ponto":
-                    objetos[objeto.get_nome()][0] = "p"
-                else:
-                    objetos[objeto.get_nome()][0] = "l"
-                objetos[objeto.get_nome()][1] = objeto.get_cor()
-                objetos[objeto.get_nome()][2].append(vertices.index(ponto) + 1)
-        return objetos, vertices
