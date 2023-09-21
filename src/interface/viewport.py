@@ -10,16 +10,16 @@ class ViewPort:
 
     @staticmethod
     def viewportXmin():
-        return 10
+        return ViewPort.viewport_dimensions()[0]
 
     @staticmethod
     def viewportXmax():
-        return 10 + 451
+        return ViewPort.viewport_dimensions()[0] + ViewPort.viewport_dimensions()[2]
 
     @staticmethod
     def viewportYmin():
-        return 40
+        return ViewPort.viewport_dimensions()[1]
 
     @staticmethod
     def viewportYmax():
-        return 40 + 461
+        return ViewPort.viewport_dimensions()[1] + ViewPort.viewport_dimensions()[3]
