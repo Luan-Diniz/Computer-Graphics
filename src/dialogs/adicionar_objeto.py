@@ -81,6 +81,8 @@ class AdicionarObjetoDialog(QDialog):
         self.cor_B_objeto.setMinimum(0)
         self.cor_B_objeto.setMaximum(255)
 
+
+
         # Cria os QDoubleSpinBox para entrada numerica
         for i in range(0, self.qtdade_coordenadas):
             self.labelXList.append(QLabel(f"X{i + 1}"))

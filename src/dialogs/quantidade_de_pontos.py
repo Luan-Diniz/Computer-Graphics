@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QSpinBox,
     QVBoxLayout,
+    QCheckBox,
 )
 
 
@@ -24,6 +25,8 @@ class QuantidadeDePontosDialog(QDialog):
         self.number_input = QSpinBox()
         self.number_input.setMinimum(3)
 
+        self.preenchido = QCheckBox("Preencher polígono.")
+
         button_ok = QPushButton("OK")
         button_ok.setStyleSheet("background-color: rgb(212,208,200);")
         button_ok.clicked.connect(self.accept)
@@ -33,6 +36,7 @@ class QuantidadeDePontosDialog(QDialog):
 
         horizontal_layout = QHBoxLayout()  # Layout horizontal para widgets lado a lado
 
+        vertical_layout.addWidget(self.preenchido)
         vertical_layout.addWidget(self.label)
         horizontal_layout.addWidget(self.number_input)
         horizontal_layout.addWidget(button_ok)
@@ -47,5 +51,9 @@ class QuantidadeDePontosDialog(QDialog):
         self.submitted = True
         self.close()
 
+
     def numero_pontos(self):
         return self.number_input.value()
+
+    def poligono_preenchido(self):
+        return self.preenchido.isChecked()

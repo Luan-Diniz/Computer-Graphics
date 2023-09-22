@@ -365,7 +365,7 @@ class Ui_MainDisplay(object):
         pontos = QuantidadeDePontosDialog()
         x = pontos.exec_()
         if pontos.submitted:
-            return pontos.numero_pontos()
+            return (pontos.numero_pontos(), pontos.poligono_preenchido())
         return -1
 
     def pedir_cores(self):
@@ -376,12 +376,14 @@ class Ui_MainDisplay(object):
         return (-1, -1, -1)
 
     def pedir_pontos(self):
+        preenchido = False
         error = False
         object_type = self.AdicionarObjetos.currentText()
 
         if object_type == "Wireframe":
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos = self.pedir_quantidade_de_pontos()
+            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos()
+
 
             if qtd_pontos != -1:
                 getCoordenadas = AdicionarObjetoDialog(
@@ -408,6 +410,7 @@ class Ui_MainDisplay(object):
                     getCoordenadas.dict_info["nome"],
                     getCoordenadas.dict_info["cor"],
                     getCoordenadas.dict_info["coordenadas"],
+                    preenchido
                 )
 
     def pedir_operacao(self):
@@ -422,7 +425,7 @@ class Ui_MainDisplay(object):
         else:
             pass
 
-    def adicionar_objeto(self, type, name, color, coordinates):
+    def adicionar_objeto(self, type, name, color, coordinates, preenchido):
         if type == "Ponto":
             elemento_grafico = Ponto(name, color, coordinates)
 
@@ -430,7 +433,7 @@ class Ui_MainDisplay(object):
             elemento_grafico = Reta(name, color, coordinates)
 
         elif type == "Wireframe":
-            elemento_grafico = Wireframe(name, color, coordinates)
+            elemento_grafico = Wireframe(name, color, coordinates, preenchido)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(name)
