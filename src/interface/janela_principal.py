@@ -7,6 +7,7 @@ from src.dialogs.quantidade_de_pontos import QuantidadeDePontosDialog
 from src.dialogs.recolorir_objeto import RecolorirObjetoDialog
 from src.dialogs.transformacoes import TransformacoesDialog
 from src.interface.ui_main_display import Ui_MainDisplay
+from src.math.clipping import Clipping
 from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
 from src.messages.operacoes import OperacoesMessage
@@ -174,13 +175,6 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_objeto(objeto)
 
     def desenhar_ponto(self, ponto: Ponto):
-        painter = QPainter(self.area_desenho.pixmap())
-
-        # Definindo cor e tamanho do ponto
-        cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
-        pen = QPen(cor, 5)
-        painter.setPen(pen)
-
         # Recalculando o X
         coordenadaX = int(
             InterfaceOperations.calcular_x_viewport(
@@ -195,12 +189,22 @@ class JanelaPrincipal(Ui_MainDisplay):
             )
         )
 
+        if not Clipping.point_clippig(coordenadaX, coordenadaY):
+            return
+
+        painter = QPainter(self.area_desenho.pixmap())
+        # Definindo cor e tamanho do ponto
+        cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
+        pen = QPen(cor, 5)
+        painter.setPen(pen)
+
         # Desenhando o ponto
         painter.drawPoint(coordenadaX, coordenadaY)
         painter.end()
 
     def desenhar_reta(self, reta: Reta):
         pontos = reta.get_coordenadas_normalizadas()
+        pontos = Clipping.cohen_sutherland(pontos)
         painter = QPainter(self.area_desenho.pixmap())
 
         # Definindo a cor e tamanho da reta

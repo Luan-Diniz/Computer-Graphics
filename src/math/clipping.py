@@ -1,13 +1,22 @@
 import numpy as np
 
+from src.interface.config import Config
+
 
 class Clipping:
     @staticmethod
-    def point_clippig():
-        pass
+    def point_clippig(X: int, Y: int) -> bool:
+        Xwmin = Config.window_Xwmin()
+        Xwmax = Config.window_Xwmax()
+        Ywmin = Config.window_Ywmin()
+        Ywmax = Config.window_Ywmax()
+        if (Xwmin <= X <= Xwmax) and (Ywmin <= Y <= Ywmax):
+            return True
+        return True  # Remover
+        return False
 
-    def cohen_sutherland():
-        pass
+    def cohen_sutherland(pontos):
+        return pontos
 
     def liang_barsky():
         pass

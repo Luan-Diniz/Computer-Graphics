@@ -121,27 +121,29 @@ class Ui_MainDisplay:
         )
         self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
 
-        self.viewport = QFrame(self.frame_viewport)
-        self.viewport.setGeometry(QRect(10, 40, 451, 461))
-        self.viewport.setMaximumSize(QSize(500, 16777215))
-        self.viewport.setStyleSheet(
-            "background-color: rgb(255, 255, 255);\n"
-            "\n"
-            "border-color: rgb(0, 0, 0);\n"
-            "border-width : 1.2px;\n"
-            "border-style:inset;\n"
-            ""
-        )
-        self.viewport.setFrameShape(QFrame.NoFrame)
-        self.viewport.setFrameShadow(QFrame.Raised)
-        self.viewport.setObjectName("viewport")
-
         # Criando uma Label para o desenho dos Objetos
         self.area_desenho = QLabel("", self.frame_viewport)
         canvas = QPixmap(451, 461)
         canvas.fill(Qt.white)
         self.area_desenho.setPixmap(canvas)
         self.area_desenho.setGeometry(QRect(10, 40, 451, 461))
+
+        # O frame do viewport começa no ponto (30, 60) e tem dimensões 411x421
+        # Já a área de desenho começa em (10, 40) e tem dimensões 451x461
+        self.viewport = QFrame(self.frame_viewport)
+        self.viewport.setGeometry(QRect(30, 60, 411, 421))
+        self.viewport.setMaximumSize(QSize(500, 500))
+        self.viewport.setStyleSheet(
+            "background-color: rgba(255, 255, 255, 0);\n"
+            "\n"
+            "border-color: rgb(255, 0, 0);\n"
+            "border-width: 2px;\n"
+            "border-style: solid;\n"
+            ""
+        )
+        self.viewport.setFrameShape(QFrame.NoFrame)
+        self.viewport.setFrameShadow(QFrame.Raised)
+        self.viewport.setObjectName("viewport")
 
         self.texto_controle_window = QTextBrowser(self.frame_viewport)
         self.texto_controle_window.setGeometry(QRect(620, 325, 151, 21))
