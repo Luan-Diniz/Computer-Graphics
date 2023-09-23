@@ -66,6 +66,8 @@ class GeradorOBJ(DescritorOBJ):
                     vertices.append(ponto)
                 if objeto.get_tipo() == "Ponto":
                     objetos[objeto.get_nome()][0] = "p"
+                elif objeto.get_tipo() == "Wireframe" and objeto.preenchido:
+                    objetos[objeto.get_nome()][0] = "f"
                 else:
                     objetos[objeto.get_nome()][0] = "l"
                 objetos[objeto.get_nome()][1] = objeto.get_cor()
