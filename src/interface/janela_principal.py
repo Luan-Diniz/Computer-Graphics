@@ -384,7 +384,6 @@ class Ui_MainDisplay(object):
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
             qtd_pontos, preenchido = self.pedir_quantidade_de_pontos()
 
-
             if qtd_pontos != -1:
                 getCoordenadas = AdicionarObjetoDialog(
                     qtd_pontos, self.display_file.getNomesElementosGraficos()
@@ -410,7 +409,7 @@ class Ui_MainDisplay(object):
                     getCoordenadas.dict_info["nome"],
                     getCoordenadas.dict_info["cor"],
                     getCoordenadas.dict_info["coordenadas"],
-                    preenchido
+                    preenchido,
                 )
 
     def pedir_operacao(self):
@@ -566,6 +565,7 @@ class Ui_MainDisplay(object):
     def desenhar_wireframe(self, wireframe: Wireframe):
         pontos = wireframe.get_coordenadas_normalizadas()
         painter = QtGui.QPainter(self.area_desenho.pixmap())
+        path = QtGui.QPainterPath()
 
         # Definindo a cor e tamanho do wireframe
         cor = QtGui.QColor(
@@ -574,9 +574,13 @@ class Ui_MainDisplay(object):
         pen = QtGui.QPen(cor, 5)
         painter.setPen(pen)
 
+        if wireframe.preenchido:
+            painter.setBrush(cor)
+
+
         for i in range(len(pontos)):
             if i != (len(pontos) - 1):
-                painter.drawLine(
+                path.moveTo(
                     int(
                         InterfaceOperations.calcular_x_viewport(
                             pontos[i][0], self.window
@@ -587,6 +591,8 @@ class Ui_MainDisplay(object):
                             pontos[i][1], self.window
                         )
                     ),
+                )
+                path.lineTo(
                     int(
                         InterfaceOperations.calcular_x_viewport(
                             pontos[i + 1][0], self.window
@@ -599,7 +605,7 @@ class Ui_MainDisplay(object):
                     ),
                 )
             else:
-                painter.drawLine(
+                path.lineTo(
                     int(
                         InterfaceOperations.calcular_x_viewport(
                             pontos[i][0], self.window
@@ -610,6 +616,8 @@ class Ui_MainDisplay(object):
                             pontos[i][1], self.window
                         )
                     ),
+                )
+                path.lineTo(
                     int(
                         InterfaceOperations.calcular_x_viewport(
                             pontos[0][0], self.window
@@ -621,7 +629,7 @@ class Ui_MainDisplay(object):
                         )
                     ),
                 )
-
+        painter.drawPath(path)
         painter.end()
 
     def move_direita(self):

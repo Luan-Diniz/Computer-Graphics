@@ -55,8 +55,8 @@ class DescritorOBJ:
             if not self.arquivo_encontrado():
                 return True
 
-        if exists("cores.mtl"):
-            nome_base, extensao = splitext("cores.mtl")
+        if exists("data/wavefront/cores.mtl"):
+            nome_base, extensao = splitext("data/wavefront/cores.mtl")
             if extensao == ".mtl":
                 if not self.arquivo_encontrado():
                     return True

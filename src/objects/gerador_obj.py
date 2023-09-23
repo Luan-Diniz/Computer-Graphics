@@ -9,13 +9,13 @@ class GeradorOBJ(DescritorOBJ):
 
         objetos, vertices = self.gerar_lista_vertices(display_file)
 
-        self.nome_arquivo = nome_arquivo
+        self.nome_arquivo = "data/wavefront/" + nome_arquivo
         self.objetos = objetos
         self.vertices = vertices
         self.cores = []
 
     def gerarArquivoOBJ(self):
-        with open("cores.mtl", "w") as arquivo:
+        with open("data/wavefront/cores.mtl", "w") as arquivo:
             arquivo.write("")
         with open(self.nome_arquivo, "w") as arquivo:
             for i in range(len(self.vertices)):
@@ -27,7 +27,7 @@ class GeradorOBJ(DescritorOBJ):
                     + " 0.0\n"
                 )
                 arquivo.write(saida)
-            arquivo.write("mtllib cores.mtl\n\n")
+            arquivo.write("mtllib data/wavefront/cores.mtl\n\n")
             for key, val in self.objetos.items():
                 nome = "o " + key + "\n"
                 arquivo.write(nome)
@@ -48,7 +48,7 @@ class GeradorOBJ(DescritorOBJ):
             self.cores.append(rgb)
         nome = "Cor_" + str(self.cores.index(rgb) + 1) + "\n"
         if nova_cor:
-            with open("cores.mtl", "a") as arquivo:
+            with open("data/wavefront/cores.mtl", "a") as arquivo:
                 arquivo.write("newmtl " + nome)
                 cor = (
                     "Kd " + str(rgb[0]) + " " + str(rgb[1]) + " " + str(rgb[2]) + "\n\n"
