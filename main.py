@@ -1,10 +1,12 @@
 import sys
 
-from src.interface.janela_principal import *
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+from src.interface.janela_principal import Ui_MainDisplay
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    MainDisplay = QtWidgets.QMainWindow()
+    app = QApplication(sys.argv)
+    MainDisplay = QMainWindow()
     ui = Ui_MainDisplay()
     ui.setupUi(MainDisplay)
     MainDisplay.show()

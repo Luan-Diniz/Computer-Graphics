@@ -7,7 +7,7 @@ class LeitorOBJ(DescritorOBJ):
         self.erro = self.verificar_nome_leitura(nome_arquivo)
         if self.erro:
             return
-
+        nome_arquivo = "data/wavefront/" + nome_arquivo
         self.lista_objetos = self.abrir(nome_arquivo, display_file)
 
     def abrir(self, nome_arquivo, display_file):
@@ -41,10 +41,7 @@ class LeitorOBJ(DescritorOBJ):
 
             else:
                 elemento_grafico = Wireframe(
-                    nome,
-                    val[1],
-                    self.obter_vertices(val[2], vertices),
-                    val[3]
+                    nome, val[1], self.obter_vertices(val[2], vertices), val[3]
                 )
 
             objetos.append(elemento_grafico)
@@ -110,10 +107,11 @@ class LeitorOBJ(DescritorOBJ):
                 elif palavras[0] == "f":
                     tipo = "Wireframe"
                     pontos = self.lerLista(palavras[1:])
-                    #Poligono preenchido (True)
+                    # Poligono preenchido (True)
                     elementos_graficos[nome] = [tipo, cor, pontos, True]
                 elif palavras[0] == "mtllib":
-                    cores = self.lerArquivoMTL(palavras[1].strip())
+                    nome_mtl = "data/wavefront/" + palavras[1].strip()
+                    cores = self.lerArquivoMTL(nome_mtl)
                 elif palavras[0] == "usemtl":
                     cor = cores[palavras[1]]
                 linha = arquivo.readline()

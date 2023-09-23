@@ -12,6 +12,8 @@ class DescritorOBJ:
         pass
 
     def verificar_nome_leitura(self, nome_arquivo):
+        nome_arquivo = "data/wavefront/" + nome_arquivo
+
         if nome_arquivo.replace(" ", "") == "":
             return True
 
@@ -31,6 +33,8 @@ class DescritorOBJ:
                 if palavras[0] == "mtllib":
                     nome_mtl = palavras[1].strip()
                 linha = arquivo.readline()
+
+        nome_mtl = "data/wavefront/" + nome_mtl
 
         if not exists(nome_mtl):
             self.arquivo_nao_encontrado()
