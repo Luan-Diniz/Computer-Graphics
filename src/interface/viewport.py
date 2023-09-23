@@ -7,7 +7,7 @@ class ViewPort:
     @staticmethod
     def viewport_dimensions():
         # O viewport tem o mesmo tamanho que o frame em ui_main_display.py
-        return 10, 40, 411, 421  # X ,Y , width, height
+        return 30, 60, 411, 421  # X ,Y , width, height
 
     @staticmethod
     def viewportXmin():
