@@ -44,6 +44,7 @@ class LeitorOBJ(DescritorOBJ):
                     nome,
                     val[1],
                     self.obter_vertices(val[2], vertices),
+                    val[3]
                 )
 
             objetos.append(elemento_grafico)
@@ -101,11 +102,16 @@ class LeitorOBJ(DescritorOBJ):
                 elif palavras[0] == "l":
                     tipo = self.decidirTipo(len(palavras))
                     pontos = self.lerLista(palavras[1:])
-                    elementos_graficos[nome] = [tipo, cor, pontos]
+                    if tipo == "Wireframe":
+                        # False se refere ao preenchimento ou nao do polígono.
+                        elementos_graficos[nome] = [tipo, cor, pontos, False]
+                    else:
+                        elementos_graficos[nome] = [tipo, cor, pontos]
                 elif palavras[0] == "f":
-                    tipo = "Face"
+                    tipo = "Wireframe"
                     pontos = self.lerLista(palavras[1:])
-                    elementos_graficos[nome] = [tipo, cor, pontos]
+                    #Poligono preenchido (True)
+                    elementos_graficos[nome] = [tipo, cor, pontos, True]
                 elif palavras[0] == "mtllib":
                     cores = self.lerArquivoMTL(palavras[1].strip())
                 elif palavras[0] == "usemtl":
