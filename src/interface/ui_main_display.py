@@ -135,11 +135,9 @@ class Ui_MainDisplay:
         self.viewport.setMaximumSize(QSize(500, 500))
         self.viewport.setStyleSheet(
             "background-color: rgba(255, 255, 255, 0);\n"
-            "\n"
             "border-color: rgb(255, 0, 0);\n"
-            "border-width: 2px;\n"
+            "border-width: 1.5px;\n"
             "border-style: solid;\n"
-            ""
         )
         self.viewport.setFrameShape(QFrame.NoFrame)
         self.viewport.setFrameShadow(QFrame.Raised)
