@@ -8,7 +8,7 @@ class Clipping:
             return True
         return False
 
-    # Cohen Sutherland ----------------------------------------------------------------------------------#
+    # - Cohen Sutherland ------------------------------------------------------------------------------------#
     @staticmethod
     def cohen_sutherland_calcular_codigo(X, Y, Xwmin, Xwmax, Ywmin, Ywmax):
         # Definindo códigos de região
@@ -105,10 +105,94 @@ class Clipping:
 
         return pontos
 
-    # ----------------------------------------------------------------------------------------------------#
+    # ------------------------------------------------------------------------------------------------------#
 
     def liang_barsky():
         pass
 
-    def sutherland_hodgeman():
-        pass
+    # - Sutherland Hodgeman ---------------------------------------------------------------------------------#
+    # Retorna o valor x da interseção de dois segmentos de reta
+    def sutherland_hodgeman_intersecao_x(x1, y1, x2, y2, x3, y3, x4, y4):
+        num = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
+        den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        return num / den
+
+    # Retorna o valor y da interseção de dois segmentos de reta
+    def sutherland_hodgeman_intersecao_y(x1, y1, x2, y2, x3, y3, x4, y4):
+        num = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)
+        den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        return num / den
+
+    def sutherland_hodgeman_recortar(pontos_poligono, x1, y1, x2, y2):
+        novos_pontos = []
+        novo_tamanho_poligono = 0
+
+        # (ix, iy), (kx, ky) são os valores das coordenadas dos pontos
+        for i in range(len(pontos_poligono)):
+            # i e k formam uma linha no polígono
+            k = (i + 1) % len(pontos_poligono)
+            ix, iy = pontos_poligono[i]
+            kx, ky = pontos_poligono[k]
+
+            # Calculando a posição do primeiro ponto em relação à linha de recorte
+            i_pos = (x2 - x1) * (iy - y1) - (y2 - y1) * (ix - x1)
+
+            # Calculando a posição do segundo ponto em relação à linha de recorte
+            k_pos = (x2 - x1) * (ky - y1) - (y2 - y1) * (kx - x1)
+
+            # Caso 1: Quando ambos os pontos estão dentro
+            if i_pos < 0 and k_pos < 0:
+                # Apenas o segundo ponto é adicionado
+                novos_pontos.append([kx, ky])
+                novo_tamanho_poligono += 1
+
+            # Caso 2: Quando apenas o primeiro ponto está fora
+            elif i_pos >= 0 and k_pos < 0:
+                # Ponto de interseção com a aresta e o segundo ponto são adicionados
+                novos_pontos.append(
+                    [
+                        Clipping.sutherland_hodgeman_intersecao_x(
+                            x1, y1, x2, y2, ix, iy, kx, ky
+                        ),
+                        Clipping.sutherland_hodgeman_intersecao_y(
+                            x1, y1, x2, y2, ix, iy, kx, ky
+                        ),
+                    ]
+                )
+                novo_tamanho_poligono += 1
+                novos_pontos.append([kx, ky])
+                novo_tamanho_poligono += 1
+
+            # Caso 3: Quando apenas o segundo ponto está fora
+            elif i_pos < 0 and k_pos >= 0:
+                # Apenas o ponto de interseção com a aresta é adicionado
+                novos_pontos.append(
+                    [
+                        Clipping.sutherland_hodgeman_intersecao_x(
+                            x1, y1, x2, y2, ix, iy, kx, ky
+                        ),
+                        Clipping.sutherland_hodgeman_intersecao_y(
+                            x1, y1, x2, y2, ix, iy, kx, ky
+                        ),
+                    ]
+                )
+                novo_tamanho_poligono += 1
+
+            # Caso 4: Quando ambos os pontos estão fora, nenhum ponto é adicionado
+
+        # Copiando novos pontos na matriz original e alterando o número de vértices
+        pontos_poligono[:] = novos_pontos
+
+    def sutherland_hodgeman(pontos_poligono, pontos_recorte):
+        # i e k são dois índices consecutivos
+        for i in range(len(pontos_recorte)):
+            k = (i + 1) % len(pontos_recorte)
+            Clipping.sutherland_hodgeman_recortar(
+                pontos_poligono,
+                pontos_recorte[i][0],
+                pontos_recorte[i][1],
+                pontos_recorte[k][0],
+                pontos_recorte[k][1],
+            )
+
+        return pontos_poligono

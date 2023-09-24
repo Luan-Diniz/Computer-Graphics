@@ -128,6 +128,6 @@ class LeitorOBJ(DescritorOBJ):
         return pontos
 
     def decidirTipo(self, tamanho: int) -> str:
-        if tamanho == 2:
+        if tamanho == 3:
             return "Reta"
         return "Wireframe"

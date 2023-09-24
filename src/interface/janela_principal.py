@@ -180,9 +180,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnponto, Ynponto) = ponto.get_coordenadas_normalizadas()[0]
 
         if not Clipping.point_clippig(Xnponto, Ynponto, Xwmin, Xwmax, Ywmin, Ywmax):
-            print("Não desenhou:", (Xnponto, Ynponto))
             return
-        print("Desenhou ponto:", (Xnponto, Ynponto))
 
         # Recalculando o X
         coordenadaX = int(InterfaceOperations.calcular_x_viewport(Xnponto, self.window))
@@ -206,32 +204,12 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
-        """
-        # Teste
-        (Xwmin, Ywmin) = (4, 4)
-        (Xwmax, Ywmax) = (10, 8)
-
-        # Aceita completamente
-        (Xnini, Ynini) = (5, 5)
-        (Xnfin, Ynfin) = (7, 7)
-
-        # Aceita de (7.80, 8.00) até (10.00, 5.25)
-        (Xnini, Ynini) = (7, 9)
-        (Xnfin, Ynfin) = (11, 4)
-   
-        # Não aceita
-        (Xnini, Ynini) = (1, 5)
-        (Xnfin, Ynfin) = (4, 1)
-        """
-
         pontos = Clipping.cohen_sutherland(
             Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
         )
 
         if pontos == []:
-            print("Não desenhou:", pontos)
             return
-        print("Desenhou reta de ", pontos[0], " até ", pontos[1])
 
         painter = QPainter(self.area_desenho.pixmap())
         # Definindo a cor e tamanho da reta
@@ -249,10 +227,20 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter.end()
 
     def desenhar_wireframe(self, wireframe: Wireframe):
-        pontos = wireframe.get_coordenadas_normalizadas()
+        (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
+        (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
+        pontos_poligono = wireframe.get_coordenadas_normalizadas()
+
+        pontos = Clipping.sutherland_hodgeman(
+            pontos_poligono,
+            [(Xwmin, Ywmin), (Xwmin, Ywmax), (Xwmax, Ywmax), (Xwmax, Ywmin)],
+        )
+
+        if pontos == []:
+            return
+
         painter = QPainter(self.area_desenho.pixmap())
         path = QPainterPath()
-
         # Definindo a cor e tamanho do wireframe
         cor = QColor(
             int(wireframe.cor[0]), int(wireframe.cor[1]), int(wireframe.cor[2])
