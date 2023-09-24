@@ -1,3 +1,5 @@
+from math import atan2
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtWidgets import QMessageBox
@@ -8,8 +10,8 @@ from src.dialogs.recolorir_objeto import RecolorirObjetoDialog
 from src.dialogs.transformacoes import TransformacoesDialog
 from src.interface.ui_main_display import Ui_MainDisplay
 from src.math.clipping import Clipping
-from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
+from src.math.viewport_operations import ViewportOperations
 from src.messages.operacoes import OperacoesMessage
 from src.messages.troca_clipping import TrocaClippingMessage
 from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
@@ -194,10 +196,10 @@ class JanelaPrincipal(Ui_MainDisplay):
             return
 
         # Recalculando o X
-        coordenadaX = int(InterfaceOperations.calcular_x_viewport(Xnponto, self.window))
+        coordenadaX = int(ViewportOperations.calcular_x_viewport(Xnponto, self.window))
 
         # Recalculando o Y
-        coordenadaY = int(InterfaceOperations.calcular_y_viewport(Ynponto, self.window))
+        coordenadaY = int(ViewportOperations.calcular_y_viewport(Ynponto, self.window))
 
         painter = QPainter(self.area_desenho.pixmap())
         # Definindo cor e tamanho do ponto
@@ -215,6 +217,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
+        pontos = []
         if self.clipping_algorithm == "Cohen-Sutherland":  # Change to user options
             pontos = Clipping.cohen_sutherland(
                 Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
@@ -235,10 +238,10 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         # Desenhando a reta
         painter.drawLine(
-            int(InterfaceOperations.calcular_x_viewport(pontos[0][0], self.window)),
-            int(InterfaceOperations.calcular_y_viewport(pontos[0][1], self.window)),
-            int(InterfaceOperations.calcular_x_viewport(pontos[1][0], self.window)),
-            int(InterfaceOperations.calcular_y_viewport(pontos[1][1], self.window)),
+            int(ViewportOperations.calcular_x_viewport(pontos[0][0], self.window)),
+            int(ViewportOperations.calcular_y_viewport(pontos[0][1], self.window)),
+            int(ViewportOperations.calcular_x_viewport(pontos[1][0], self.window)),
+            int(ViewportOperations.calcular_y_viewport(pontos[1][1], self.window)),
         )
         painter.end()
 
@@ -271,24 +274,24 @@ class JanelaPrincipal(Ui_MainDisplay):
             if i != (len(pontos) - 1):
                 path.moveTo(
                     int(
-                        InterfaceOperations.calcular_x_viewport(
+                        ViewportOperations.calcular_x_viewport(
                             pontos[i][0], self.window
                         )
                     ),
                     int(
-                        InterfaceOperations.calcular_y_viewport(
+                        ViewportOperations.calcular_y_viewport(
                             pontos[i][1], self.window
                         )
                     ),
                 )
                 path.lineTo(
                     int(
-                        InterfaceOperations.calcular_x_viewport(
+                        ViewportOperations.calcular_x_viewport(
                             pontos[i + 1][0], self.window
                         )
                     ),
                     int(
-                        InterfaceOperations.calcular_y_viewport(
+                        ViewportOperations.calcular_y_viewport(
                             pontos[i + 1][1], self.window
                         )
                     ),
@@ -296,24 +299,24 @@ class JanelaPrincipal(Ui_MainDisplay):
             else:
                 path.lineTo(
                     int(
-                        InterfaceOperations.calcular_x_viewport(
+                        ViewportOperations.calcular_x_viewport(
                             pontos[i][0], self.window
                         )
                     ),
                     int(
-                        InterfaceOperations.calcular_y_viewport(
+                        ViewportOperations.calcular_y_viewport(
                             pontos[i][1], self.window
                         )
                     ),
                 )
                 path.lineTo(
                     int(
-                        InterfaceOperations.calcular_x_viewport(
+                        ViewportOperations.calcular_x_viewport(
                             pontos[0][0], self.window
                         )
                     ),
                     int(
-                        InterfaceOperations.calcular_y_viewport(
+                        ViewportOperations.calcular_y_viewport(
                             pontos[0][1], self.window
                         )
                     ),

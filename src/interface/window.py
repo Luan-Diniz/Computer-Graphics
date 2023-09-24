@@ -3,7 +3,7 @@ from math import cos, radians, sin
 import numpy as np
 
 from src.interface.config import Config
-from src.math.window_auxiliary import WindowAuxiliary
+from src.math.window_operations import WindowOperations
 
 
 class Window:
@@ -37,13 +37,13 @@ class Window:
 
         n = self.view_up_vector[0]
         m = self.view_up_vector[1]
-        vetor = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(-90))
+        vetor = WindowOperations.rotaciona_pontos([(n, m)], radians(-90))
 
         vetor = np.array([vetor[0][0], vetor[0][1]])
 
         distance = distance * vetor
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+        matriz_translacao = WindowOperations.cria_matriz_translacao(
             distance[0], distance[1]
         )
 
@@ -64,13 +64,13 @@ class Window:
 
         n = self.view_up_vector[0]
         m = self.view_up_vector[1]
-        vetor = WindowAuxiliary.rotaciona_pontos([(n, m)], radians(90))
+        vetor = WindowOperations.rotaciona_pontos([(n, m)], radians(90))
 
         vetor = np.array([vetor[0][0], vetor[0][1]])
 
         distance = distance * vetor
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+        matriz_translacao = WindowOperations.cria_matriz_translacao(
             distance[0], distance[1]
         )
 
@@ -91,7 +91,7 @@ class Window:
         distance = (self.Xwmax - self.Xwmin) * self.scale
         distance = distance * self.view_up_vector * -1
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+        matriz_translacao = WindowOperations.cria_matriz_translacao(
             distance[0], distance[1]
         )
 
@@ -114,7 +114,7 @@ class Window:
         distance = (self.Xwmax - self.Xwmin) * self.scale
         distance = distance * self.view_up_vector
 
-        matriz_translacao = WindowAuxiliary.cria_matriz_translacao(
+        matriz_translacao = WindowOperations.cria_matriz_translacao(
             distance[0], distance[1]
         )
 
@@ -205,7 +205,7 @@ class Window:
         n = self.view_up_vector[0]
         m = self.view_up_vector[1]
 
-        pontos = WindowAuxiliary.rotaciona_pontos(
+        pontos = WindowOperations.rotaciona_pontos(
             [(n, m)], radians(-self.angle_variation)
         )
         n = pontos[0][0]

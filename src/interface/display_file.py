@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.interface.window import Window
-from src.math.interface_operations import InterfaceOperations
+from src.math.window_operations import WindowOperations
 
 
 class DisplayFile:
@@ -31,19 +31,17 @@ class DisplayFile:
         # Centro da Window
         (Wxc, Wyc) = window.getCenter()
 
-        matriz_tras_ao_centro = InterfaceOperations.cria_matriz_translacao(-Wxc, -Wyc)
-        matriz_rotaciona = InterfaceOperations.cria_matriz_rotacao(
+        matriz_tras_ao_centro = WindowOperations.cria_matriz_translacao(-Wxc, -Wyc)
+        matriz_rotaciona = WindowOperations.cria_matriz_rotacao(
             -window.currentAngle()
         )  # Dentro da funcao vira radianos
 
         Sx = 1 / (0.5 * (window.Xwmax - window.Xwmin))
         Sy = 1 / (0.5 * (window.Ywmax - window.Ywmin))
 
-        matriz_devolve_onde_estava = InterfaceOperations.cria_matriz_escalonamento(
-            Sx, Sy
-        )
+        matriz_devolve_onde_estava = WindowOperations.cria_matriz_escalonamento(Sx, Sy)
 
-        matriz_resultante = InterfaceOperations.junta_matrizes(
+        matriz_resultante = WindowOperations.junta_matrizes(
             matriz_tras_ao_centro, matriz_rotaciona, matriz_devolve_onde_estava
         )
 

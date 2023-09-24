@@ -1,9 +1,9 @@
-from math import cos, floor, sin
+from math import cos, floor, radians, sin
 
 import numpy as np
 
 
-class WindowAuxiliary:
+class WindowOperations:
     @staticmethod
     def float_to_fraction(x, error=0.000001):
         n = int(floor(x))
@@ -52,6 +52,22 @@ class WindowAuxiliary:
     @staticmethod
     def cria_matriz_translacao(desvio_x, desvio_y):
         return np.array([[1, 0, 0], [0, 1, 0], [desvio_x, desvio_y, 1]])
+
+    @staticmethod
+    def cria_matriz_rotacao(angulo):
+        angulo = radians(-angulo)
+
+        return np.array(
+            [
+                [cos(angulo), -sin(angulo), 0],
+                [sin(angulo), cos(angulo), 0],
+                [0, 0, 1],
+            ]
+        )
+
+    @staticmethod
+    def cria_matriz_escalonamento(Sx, Sy):
+        return np.array([[Sx, 0, 0], [0, Sy, 0], [0, 0, 1]])
 
     @staticmethod
     def rotaciona_pontos(lista_pontos, angulo):

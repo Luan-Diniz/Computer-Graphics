@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class Clipping:
     @staticmethod
     def point_clippig(Xnponto, Ynponto, Xwmin, Xwmax, Ywmin, Ywmax) -> bool:

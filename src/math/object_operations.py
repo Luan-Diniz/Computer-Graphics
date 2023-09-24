@@ -2,7 +2,7 @@ from math import cos, radians, sin
 
 import numpy as np
 
-from src.math.interface_operations import InterfaceOperations
+from src.math.window_operations import WindowOperations
 
 
 class ObjectOperations:
@@ -53,7 +53,7 @@ class ObjectOperations:
 
         matriz_translacao2 = np.array([[1, 0, 0], [0, 1, 0], [dx, dy, 1]])
 
-        matriz_resultante = InterfaceOperations.junta_matrizes(
+        matriz_resultante = WindowOperations.junta_matrizes(
             matriz_translacao1, matriz_rotacao, matriz_translacao2
         )
 
@@ -86,7 +86,7 @@ class ObjectOperations:
         )
         matriz_devolve_ao_local_original = np.array([[1, 0, 0], [0, 1, 0], [cx, cy, 1]])
 
-        matriz_resultante = InterfaceOperations.junta_matrizes(
+        matriz_resultante = WindowOperations.junta_matrizes(
             matriz_traz_ao_centro,
             matriz_escalona,
             matriz_devolve_ao_local_original,
