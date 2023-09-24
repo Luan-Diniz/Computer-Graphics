@@ -204,9 +204,16 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
-        pontos = Clipping.cohen_sutherland(
-            Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
-        )
+        if (False):    #Change to user options
+            pontos = Clipping.cohen_sutherland(
+                Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
+            )
+        else:
+            deu_certo, pontos1, pontos2 = Clipping.liang_barsky((Xnini, Ynini), (Xnfin, Ynfin))
+            if not deu_certo:
+                pontos = []
+            else:
+                pontos = [pontos1, pontos2]
 
         if pontos == []:
             return
