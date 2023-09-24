@@ -75,6 +75,13 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.recolorir_objeto()
         elif i == QMessageBox.Save:
             self.escolher_transformacao_2D()
+        elif i == QMessageBox.Abort:
+            #trocar clipping utilizado
+            if self.clipping_algorithm == "cohen-sutherland":
+                self.clipping_algorithm = "liang-barsky"
+            else:
+                self.clipping_algorithm = "cohen-sutherland"
+
         elif i == QMessageBox.Open:
             self.deletar_objeto()
         else:
@@ -204,7 +211,8 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
-        if (False):    #Change to user options
+        if (self.clipping_algorithm == "cohen-sutherland"):    #Change to user options
+
             pontos = Clipping.cohen_sutherland(
                 Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
             )
