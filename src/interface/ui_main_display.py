@@ -29,7 +29,7 @@ class Ui_MainDisplay:
             DisplayFile()
         )  # Os elementos graficos ficarao guardados no Display File
 
-        self.clipping_algorithm = "cohen-sutherland"
+        self.clipping_algorithm = "Cohen-Sutherland"
 
         self.centralwidget = QWidget(MainDisplay)
         self.centralwidget.setObjectName("centralwidget")

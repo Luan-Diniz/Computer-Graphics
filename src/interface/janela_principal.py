@@ -11,7 +11,7 @@ from src.math.clipping import Clipping
 from src.math.interface_operations import InterfaceOperations
 from src.math.object_operations import ObjectOperations
 from src.messages.operacoes import OperacoesMessage
-from src.messages.troca_clipping import TrocaClipping
+from src.messages.troca_clipping import TrocaClippingMessage
 from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
 from src.objects.gerador_obj import GeradorOBJ
 from src.objects.leitor_obj import LeitorOBJ
@@ -77,13 +77,13 @@ class JanelaPrincipal(Ui_MainDisplay):
         elif i == QMessageBox.Save:
             self.escolher_transformacao_2D()
         elif i == QMessageBox.Abort:
-            #trocar clipping utilizado
-            if self.clipping_algorithm == "cohen-sutherland":
-                self.clipping_algorithm = "liang-barsky"
+            # trocar clipping utilizado
+            if self.clipping_algorithm == "Cohen-Sutherland":
+                self.clipping_algorithm = "Liang-Barsky"
             else:
-                self.clipping_algorithm = "cohen-sutherland"
+                self.clipping_algorithm = "Cohen-Sutherland"
 
-            aviso_troca_clipping = TrocaClipping(self.clipping_algorithm)
+            aviso_troca_clipping = TrocaClippingMessage(self.clipping_algorithm)
             aviso_troca_clipping.exec_()
 
         elif i == QMessageBox.Open:
@@ -215,16 +215,14 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
-        if (self.clipping_algorithm == "cohen-sutherland"):    #Change to user options
+        if self.clipping_algorithm == "cohen-sutherland":  # Change to user options
             pontos = Clipping.cohen_sutherland(
                 Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
             )
         else:
-            deu_certo, pontos1, pontos2 = Clipping.liang_barsky((Xnini, Ynini), (Xnfin, Ynfin))
-            if not deu_certo:
-                pontos = []
-            else:
-                pontos = [pontos1, pontos2]
+            pontos = Clipping.liang_barsky(
+                Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
+            )
 
         if pontos == []:
             return
