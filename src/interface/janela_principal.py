@@ -215,7 +215,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
         (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
 
-        if self.clipping_algorithm == "cohen-sutherland":  # Change to user options
+        if self.clipping_algorithm == "Cohen-Sutherland":  # Change to user options
             pontos = Clipping.cohen_sutherland(
                 Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax
             )
