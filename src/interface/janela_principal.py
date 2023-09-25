@@ -321,6 +321,7 @@ class JanelaPrincipal(Ui_MainDisplay):
                         )
                     ),
                 )
+        path.closeSubpath()
         painter.drawPath(path)
         painter.end()
 
