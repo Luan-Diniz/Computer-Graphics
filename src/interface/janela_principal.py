@@ -271,8 +271,33 @@ class JanelaPrincipal(Ui_MainDisplay):
             painter.setBrush(cor)
 
         for i in range(len(pontos)):
-            if i != (len(pontos) - 1):
+            if i == 0:
                 path.moveTo(
+                    int(
+                        ViewportOperations.calcular_x_viewport(
+                            pontos[i][0], self.window
+                        )
+                    ),
+                    int(
+                        ViewportOperations.calcular_y_viewport(
+                            pontos[i][1], self.window
+                        )
+                    ),
+                )
+                path.lineTo(
+                    int(
+                        ViewportOperations.calcular_x_viewport(
+                            pontos[i + 1][0], self.window
+                        )
+                    ),
+                    int(
+                        ViewportOperations.calcular_y_viewport(
+                            pontos[i + 1][1], self.window
+                        )
+                    ),
+                )
+            elif i != (len(pontos) - 1):
+                path.lineTo(
                     int(
                         ViewportOperations.calcular_x_viewport(
                             pontos[i][0], self.window
