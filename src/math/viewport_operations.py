@@ -8,21 +8,29 @@ class ViewportOperations:
         # Xw é uma coordenada X no sistema cartesiano da Window
         viewport_variance = ViewPort.viewportXmax() - ViewPort.viewportXmin()
         return (
-            (Xw - window.Xwminnormalizado)
-            / (window.Xwmaxnormalizado - window.Xwminnormalizado)
-        ) * viewport_variance
+            20
+            + (
+                (Xw - window.Xwminnormalizado)
+                / (window.Xwmaxnormalizado - window.Xwminnormalizado)
+            )
+            * viewport_variance
+        )
 
     @staticmethod
     def calcular_y_viewport(Yw: float, window: Window) -> float:
         # Yw é uma coordenada Y no sistema cartesiano da Window
         viewport_variance = ViewPort.viewportYmax() - ViewPort.viewportYmin()
         return (
-            1
-            - (
-                (Yw - window.Ywminnormalizado)
-                / (window.Ywmaxnormalizado - window.Ywminnormalizado)
+            20
+            + (
+                1
+                - (
+                    (Yw - window.Ywminnormalizado)
+                    / (window.Ywmaxnormalizado - window.Ywminnormalizado)
+                )
             )
-        ) * viewport_variance
+            * viewport_variance
+        )
 
     @staticmethod
     def transformada_viewport(Xw: float, Yw: float, window: Window) -> tuple:

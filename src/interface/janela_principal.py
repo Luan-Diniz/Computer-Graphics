@@ -204,7 +204,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter = QPainter(self.area_desenho.pixmap())
         # Definindo cor e tamanho do ponto
         cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
-        pen = QPen(cor, 5)
+        pen = QPen(cor, 3)
         painter.setPen(pen)
 
         # Desenhando o ponto
@@ -233,7 +233,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter = QPainter(self.area_desenho.pixmap())
         # Definindo a cor e tamanho da reta
         cor = QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
-        pen = QPen(cor, 5)
+        pen = QPen(cor, 3)
         painter.setPen(pen)
 
         # Desenhando a reta
@@ -264,7 +264,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         cor = QColor(
             int(wireframe.cor[0]), int(wireframe.cor[1]), int(wireframe.cor[2])
         )
-        pen = QPen(cor, 5)
+        pen = QPen(cor, 3)
         painter.setPen(pen)
 
         if wireframe.preenchido:
