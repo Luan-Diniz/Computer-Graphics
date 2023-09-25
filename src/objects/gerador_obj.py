@@ -27,7 +27,7 @@ class GeradorOBJ(DescritorOBJ):
                     + " 0.0\n"
                 )
                 arquivo.write(saida)
-            arquivo.write("mtllib data/wavefront/cores.mtl\n\n")
+            arquivo.write("mtllib cores.mtl\n\n")
             for key, val in self.objetos.items():
                 nome = "o " + key + "\n"
                 arquivo.write(nome)
