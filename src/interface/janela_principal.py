@@ -25,7 +25,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         x = pontos.exec_()
         if pontos.submitted:
             return (pontos.numero_pontos(), pontos.poligono_preenchido())
-        return -1
+        return (-1, -1)
 
     def pedir_cores(self):
         cores = RecolorirObjetoDialog()
