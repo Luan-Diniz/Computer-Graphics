@@ -202,6 +202,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         coordenadaY = int(ViewportOperations.calcular_y_viewport(Ynponto, self.window))
 
         painter = QPainter(self.area_desenho.pixmap())
+        painter.setRenderHints(painter.Antialiasing)
         # Definindo cor e tamanho do ponto
         cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
         pen = QPen(cor, 3)
@@ -209,7 +210,6 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         # Desenhando o ponto
         painter.drawPoint(coordenadaX, coordenadaY)
-        painter.end()
 
     def desenhar_reta(self, reta: Reta):
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
@@ -231,6 +231,7 @@ class JanelaPrincipal(Ui_MainDisplay):
             return
 
         painter = QPainter(self.area_desenho.pixmap())
+        painter.setRenderHints(painter.Antialiasing)
         # Definindo a cor e tamanho da reta
         cor = QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
         pen = QPen(cor, 3)
@@ -243,7 +244,6 @@ class JanelaPrincipal(Ui_MainDisplay):
             int(ViewportOperations.calcular_x_viewport(pontos[1][0], self.window)),
             int(ViewportOperations.calcular_y_viewport(pontos[1][1], self.window)),
         )
-        painter.end()
 
     def desenhar_wireframe(self, wireframe: Wireframe):
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
@@ -259,6 +259,7 @@ class JanelaPrincipal(Ui_MainDisplay):
             return
 
         painter = QPainter(self.area_desenho.pixmap())
+        painter.setRenderHints(painter.Antialiasing)
         path = QPainterPath()
         # Definindo a cor e tamanho do wireframe
         cor = QColor(
@@ -275,49 +276,12 @@ class JanelaPrincipal(Ui_MainDisplay):
                 path.moveTo(
                     int(
                         ViewportOperations.calcular_x_viewport(
-                            pontos[i][0], self.window
+                            pontos[0][0], self.window
                         )
                     ),
                     int(
                         ViewportOperations.calcular_y_viewport(
-                            pontos[i][1], self.window
-                        )
-                    ),
-                )
-                path.lineTo(
-                    int(
-                        ViewportOperations.calcular_x_viewport(
-                            pontos[i + 1][0], self.window
-                        )
-                    ),
-                    int(
-                        ViewportOperations.calcular_y_viewport(
-                            pontos[i + 1][1], self.window
-                        )
-                    ),
-                )
-            elif i != (len(pontos) - 1):
-                path.lineTo(
-                    int(
-                        ViewportOperations.calcular_x_viewport(
-                            pontos[i][0], self.window
-                        )
-                    ),
-                    int(
-                        ViewportOperations.calcular_y_viewport(
-                            pontos[i][1], self.window
-                        )
-                    ),
-                )
-                path.lineTo(
-                    int(
-                        ViewportOperations.calcular_x_viewport(
-                            pontos[i + 1][0], self.window
-                        )
-                    ),
-                    int(
-                        ViewportOperations.calcular_y_viewport(
-                            pontos[i + 1][1], self.window
+                            pontos[0][1], self.window
                         )
                     ),
                 )
@@ -334,6 +298,7 @@ class JanelaPrincipal(Ui_MainDisplay):
                         )
                     ),
                 )
+            if i == (len(pontos) - 1):
                 path.lineTo(
                     int(
                         ViewportOperations.calcular_x_viewport(
@@ -348,7 +313,6 @@ class JanelaPrincipal(Ui_MainDisplay):
                 )
         path.closeSubpath()
         painter.drawPath(path)
-        painter.end()
 
     def move_direita(self):
         self.window.moveuDireita()
