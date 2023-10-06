@@ -102,3 +102,31 @@ class ObjectOperations:
 
         # Atualiza as coordenadas
         elemento_grafico.set_coordenadas(coordenadas_atualizadas)
+
+    # --- Bezier ------------------------------------------------------------------------------------------ #
+    def bezier(
+        ponto_inicial,
+        primeiro_controle,
+        segundo_controle,
+        pronto_final,
+        quantidade_de_pontos,
+    ):
+        pontos_da_curva = []
+
+        for t in range(quantidade_de_pontos + 1):
+            t /= quantidade_de_pontos
+            x = (
+                (1 - t) ** 3 * ponto_inicial[0]
+                + 3 * (1 - t) ** 2 * t * primeiro_controle[0]
+                + 3 * (1 - t) * t**2 * segundo_controle[0]
+                + t**3 * pronto_final[0]
+            )
+            y = (
+                (1 - t) ** 3 * ponto_inicial[1]
+                + 3 * (1 - t) ** 2 * t * primeiro_controle[1]
+                + 3 * (1 - t) * t**2 * segundo_controle[1]
+                + t**3 * pronto_final[1]
+            )
+            pontos_da_curva.append((x, y))
+
+        return pontos_da_curva

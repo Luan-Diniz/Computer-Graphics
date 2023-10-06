@@ -18,5 +18,6 @@ class Wireframe(ElementoGrafico):
 
 
 class Curva(ElementoGrafico):
-    def __init__(self, nome, cor, coordenadas):
+    def __init__(self, nome, cor, coordenadas, pontos):
         super().__init__(nome=nome, cor=cor, tipo="Curva", coordenadas=coordenadas)
+        self.pontos = pontos

@@ -1,11 +1,17 @@
+import numpy as np
+
+
 class Clipping:
+    # --- Clipping de Pontos ------------------------------------------------------------------------------- #
     @staticmethod
     def point_clippig(Xnponto, Ynponto, Xwmin, Xwmax, Ywmin, Ywmax) -> bool:
         if (Xwmin <= Xnponto <= Xwmax) and (Ywmin <= Ynponto <= Ywmax):
             return True
         return False
 
-    # --- Cohen-Sutherland ----------------------------------------------------------------------------------#
+    # ------------------------------------------------------------------------------------------------------ #
+
+    # --- Cohen-Sutherland --------------------------------------------------------------------------------- #
     @staticmethod
     def cohen_sutherland_calcular_codigo(X, Y, Xwmin, Xwmax, Ywmin, Ywmax):
         DENTRO = 0  # 0000
@@ -87,7 +93,9 @@ class Clipping:
 
         return pontos
 
-    # --- Liang-Barsky --------------------------------------------------------------------------------------#
+    # ------------------------------------------------------------------------------------------------------ #
+
+    # --- Liang-Barsky ------------------------------------------------------------------------------------- #
     @staticmethod
     def liang_barsky(Xnini, Ynini, Xnfin, Ynfin, Xwmin, Xwmax, Ywmin, Ywmax):
         p1 = -(Xnfin - Xnini)
@@ -121,7 +129,7 @@ class Clipping:
 
         return [(novo_Xnini, novo_Ynini), (novo_Xnfin, novo_Ynfin)]
 
-    # --- Sutherland-Hodgeman -------------------------------------------------------------------------------#
+    # --- Sutherland-Hodgeman ------------------------------------------------------------------------------ #
     def sutherland_hodgeman_intersecao_x(x1, y1, x2, y2, x3, y3, x4, y4):
         num = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)
         den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
@@ -190,3 +198,5 @@ class Clipping:
             )
 
         return pontos_poligono
+
+    # ------------------------------------------------------------------------------------------------------ #

@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtWidgets import QMessageBox
 
+from src.dialogs.adicionar_curva import AdicionarCurvaDialog
 from src.dialogs.adicionar_objeto import AdicionarObjetoDialog
 from src.dialogs.quantidade_de_pontos import QuantidadeDePontosDialog
 from src.dialogs.recolorir_objeto import RecolorirObjetoDialog
@@ -20,8 +21,8 @@ from src.objects.leitor_obj import LeitorOBJ
 
 
 class JanelaPrincipal(Ui_MainDisplay):
-    def pedir_quantidade_de_pontos(self, tipo: int):
-        pontos = QuantidadeDePontosDialog(tipo)
+    def pedir_quantidade_de_pontos(self):
+        pontos = QuantidadeDePontosDialog()
         x = pontos.exec_()
         if pontos.submitted:
             return (pontos.numero_pontos(), pontos.poligono_preenchido())
@@ -35,7 +36,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         return (-1, -1, -1)
 
     def pedir_pontos(self):
-        preenchido = False
+        extra = False
         error = False
         object_type = self.AdicionarObjetos.currentText()
 
@@ -49,22 +50,19 @@ class JanelaPrincipal(Ui_MainDisplay):
             )
         elif object_type == "Wireframe":
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos(0)
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos()
             if qtd_pontos != -1:
                 getCoordenadas = AdicionarObjetoDialog(
                     qtd_pontos, self.display_file.getNomesElementosGraficos()
                 )
             else:
                 error = True
+
         elif object_type == "Curva":
-            # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos(1)
-            if qtd_pontos != -1:
-                getCoordenadas = AdicionarObjetoDialog(
-                    qtd_pontos, self.display_file.getNomesElementosGraficos()
-                )
-            else:
-                error = True
+            getCoordenadas = AdicionarCurvaDialog(
+                self.display_file.getNomesElementosGraficos(),
+            )
+            extra = getCoordenadas.pontos()
 
         if not error:
             x = getCoordenadas.exec_()
@@ -75,7 +73,7 @@ class JanelaPrincipal(Ui_MainDisplay):
                     getCoordenadas.dict_info["nome"],
                     getCoordenadas.dict_info["cor"],
                     getCoordenadas.dict_info["coordenadas"],
-                    preenchido,
+                    extra,
                 )
 
     def pedir_operacao(self):
@@ -100,7 +98,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         else:
             pass
 
-    def adicionar_objeto(self, tipo, nome, cor, coordenadas, preenchido):
+    def adicionar_objeto(self, tipo, nome, cor, coordenadas, extra):
         if tipo == "Ponto":
             elemento_grafico = Ponto(nome, cor, coordenadas)
 
@@ -108,10 +106,10 @@ class JanelaPrincipal(Ui_MainDisplay):
             elemento_grafico = Reta(nome, cor, coordenadas)
 
         elif tipo == "Wireframe":
-            elemento_grafico = Wireframe(nome, cor, coordenadas, preenchido)
+            elemento_grafico = Wireframe(nome, cor, coordenadas, extra)
 
         elif tipo == "Curva":
-            elemento_grafico = Curva(nome, cor, coordenadas)
+            elemento_grafico = Curva(nome, cor, coordenadas, extra)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(nome)
@@ -333,21 +331,15 @@ class JanelaPrincipal(Ui_MainDisplay):
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
         (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
         pontos_curva = curva.get_coordenadas_normalizadas()
-
-        # Realizando o clipping da curva
-        pontos = []
-
-        if pontos == []:
-            return
-
-        painter = QPainter(self.area_desenho.pixmap())
-        painter.setRenderHints(painter.Antialiasing)
-        path = QPainterPath()
-
-        # Definindo a cor e tamanho da curva
-        cor = QColor(int(curva.cor[0]), int(curva.cor[1]), int(curva.cor[2]))
-        pen = QPen(cor, 3)
-        painter.setPen(pen)
+        pontos = ObjectOperations.bezier(
+            pontos_curva[0],
+            pontos_curva[1],
+            pontos_curva[2],
+            pontos_curva[3],
+            curva.pontos,
+        )
+        print(pontos)
+        return
 
     def move_direita(self):
         self.window.moveuDireita()

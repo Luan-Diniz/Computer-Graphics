@@ -15,8 +15,8 @@ from PyQt5.QtWidgets import (
 from src.interface.config import Config
 
 
-class AdicionarObjetoDialog(QDialog):
-    def __init__(self, qtdade_coordenadas: int, nomes_elementos_graficos: list):
+class AdicionarCurvaDialog(QDialog):
+    def __init__(self, nomes_elementos_graficos: list):
         super().__init__()
 
         # Aqui estao armazenados todos os nomes dos elementos graficos atualmente existentes
@@ -31,7 +31,6 @@ class AdicionarObjetoDialog(QDialog):
             "coordenadas": [],
         }
 
-        self.qtdade_coordenadas = qtdade_coordenadas
         self.setWindowTitle("Criar Objeto")
 
         self.resize(400, 300)
@@ -49,11 +48,6 @@ class AdicionarObjetoDialog(QDialog):
 
         self.formLayout = QFormLayout()
         self.groupBox = QGroupBox()
-
-        self.labelXList = []
-        self.labelYList = []
-        self.coordinateXList = []
-        self.coordinateYList = []
 
         # Cria o label e a entrada para um nome
         self.labelNome = QLabel("Nome: ")
@@ -81,20 +75,67 @@ class AdicionarObjetoDialog(QDialog):
         self.cor_B_objeto.setMinimum(0)
         self.cor_B_objeto.setMaximum(255)
 
-        # Cria os QDoubleSpinBox para entrada numerica
-        for i in range(0, self.qtdade_coordenadas):
-            self.labelXList.append(QLabel(f"X{i + 1}"))
-            self.coordinateXList.append(QDoubleSpinBox())
-            self.labelYList.append(QLabel(f"Y{i + 1}"))
-            self.coordinateYList.append(QDoubleSpinBox())
-            self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
-            self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
+        self.label_numero_pontos = QLabel("Número de Pontos:")
 
-            # Seta o range de numeros que o QDoubleSpinBox aceita
-            self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
-            self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
-            self.coordinateXList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
-            self.coordinateYList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
+        self.spin_box_numero_pontos = QDoubleSpinBox()
+        self.spin_box_numero_pontos.setMinimum(3)
+        self.spin_box_numero_pontos.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(self.label_numero_pontos, self.spin_box_numero_pontos)
+
+        self.label_ponto_inicial = QLabel("(X, Y) do Ponto Inicial:")
+
+        self.x_ponto_inicial = QDoubleSpinBox()
+        self.x_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.x_ponto_inicial.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.y_ponto_inicial = QDoubleSpinBox()
+        self.y_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.y_ponto_inicial.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(self.label_ponto_inicial, QLabel(""))
+        self.formLayout.addRow(self.x_ponto_inicial, self.y_ponto_inicial)
+
+        self.label_primeiro_controle = QLabel("(X, Y) do Primeiro Controle:")
+
+        self.x_primeiro_controle = QDoubleSpinBox()
+        self.x_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.x_primeiro_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.y_primeiro_controle = QDoubleSpinBox()
+        self.y_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.y_primeiro_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(self.label_primeiro_controle, QLabel(""))
+        self.formLayout.addRow(self.x_primeiro_controle, self.y_primeiro_controle)
+
+        self.label_segundo_controle = QLabel("(X, Y) do Segundo Controle:")
+
+        self.x_segundo_controle = QDoubleSpinBox()
+        self.x_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.x_segundo_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.y_segundo_controle = QDoubleSpinBox()
+        self.y_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.y_segundo_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(self.label_segundo_controle, QLabel(""))
+        self.formLayout.addRow(self.x_segundo_controle, self.y_segundo_controle)
+
+        self.label_ponto_final = QLabel("(X, Y) do Ponto Final:")
+
+        self.x_ponto_final = QDoubleSpinBox()
+        self.x_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.x_ponto_final.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.y_ponto_final = QDoubleSpinBox()
+        self.y_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.y_ponto_final.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(self.label_ponto_final, QLabel(""))
+        self.formLayout.addRow(self.x_ponto_final, self.y_ponto_final)
+
+        self.formLayout.setVerticalSpacing(20)
 
         self.groupBox.setLayout(self.formLayout)
 
@@ -124,10 +165,21 @@ class AdicionarObjetoDialog(QDialog):
                 self.cor_G_objeto.value(),
                 self.cor_B_objeto.value(),
             )
-            for i in range(0, self.qtdade_coordenadas):
-                self.dict_info["coordenadas"].append(
-                    (self.coordinateXList[i].value(), self.coordinateYList[i].value())
-                )
+
+            self.dict_info["coordenadas"].append(
+                (self.x_ponto_inicial.value(), self.y_ponto_inicial.value())
+            )
+            self.dict_info["coordenadas"].append(
+                (self.x_primeiro_controle.value(), self.y_primeiro_controle.value())
+            )
+            self.dict_info["coordenadas"].append(
+                (self.x_segundo_controle.value(), self.y_segundo_controle.value())
+            )
+            self.dict_info["coordenadas"].append(
+                (self.x_ponto_final.value(), self.y_ponto_final.value())
+            )
+
+            self.pontos = self.spin_box_numero_pontos.value()
 
             self.submitted = True
 
@@ -158,3 +210,6 @@ class AdicionarObjetoDialog(QDialog):
         botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
 
         x = nome_repetido.exec_()
+
+    def pontos(self):
+        return self.pontos
