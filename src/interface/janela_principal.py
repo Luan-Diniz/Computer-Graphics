@@ -14,18 +14,18 @@ from src.math.object_operations import ObjectOperations
 from src.math.viewport_operations import ViewportOperations
 from src.messages.operacoes import OperacoesMessage
 from src.messages.troca_clipping import TrocaClippingMessage
-from src.objects.figuras_geometricas import Ponto, Reta, Wireframe
+from src.objects.figuras_geometricas import Curva, Ponto, Reta, Wireframe
 from src.objects.gerador_obj import GeradorOBJ
 from src.objects.leitor_obj import LeitorOBJ
 
 
 class JanelaPrincipal(Ui_MainDisplay):
-    def pedir_quantidade_de_pontos(self):
-        pontos = QuantidadeDePontosDialog()
+    def pedir_quantidade_de_pontos(self, tipo: int):
+        pontos = QuantidadeDePontosDialog(tipo)
         x = pontos.exec_()
         if pontos.submitted:
             return (pontos.numero_pontos(), pontos.poligono_preenchido())
-        return (-1, -1)
+        return (-1, False)
 
     def pedir_cores(self):
         cores = RecolorirObjetoDialog()
@@ -39,18 +39,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         error = False
         object_type = self.AdicionarObjetos.currentText()
 
-        if object_type == "Wireframe":
-            # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos()
-
-            if qtd_pontos != -1:
-                getCoordenadas = AdicionarObjetoDialog(
-                    qtd_pontos, self.display_file.getNomesElementosGraficos()
-                )
-            else:
-                error = True
-
-        elif object_type == "Ponto":
+        if object_type == "Ponto":
             getCoordenadas = AdicionarObjetoDialog(
                 1, self.display_file.getNomesElementosGraficos()
             )
@@ -58,6 +47,24 @@ class JanelaPrincipal(Ui_MainDisplay):
             getCoordenadas = AdicionarObjetoDialog(
                 2, self.display_file.getNomesElementosGraficos()
             )
+        elif object_type == "Wireframe":
+            # Abre uma janela secundaria perguntando quantos pontos tem o poligono
+            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos(0)
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    qtd_pontos, self.display_file.getNomesElementosGraficos()
+                )
+            else:
+                error = True
+        elif object_type == "Curva":
+            # Abre uma janela secundaria perguntando quantos pontos tem o poligono
+            qtd_pontos, preenchido = self.pedir_quantidade_de_pontos(1)
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    qtd_pontos, self.display_file.getNomesElementosGraficos()
+                )
+            else:
+                error = True
 
         if not error:
             x = getCoordenadas.exec_()
@@ -93,18 +100,21 @@ class JanelaPrincipal(Ui_MainDisplay):
         else:
             pass
 
-    def adicionar_objeto(self, type, name, color, coordinates, preenchido):
-        if type == "Ponto":
-            elemento_grafico = Ponto(name, color, coordinates)
+    def adicionar_objeto(self, tipo, nome, cor, coordenadas, preenchido):
+        if tipo == "Ponto":
+            elemento_grafico = Ponto(nome, cor, coordenadas)
 
-        elif type == "Reta":
-            elemento_grafico = Reta(name, color, coordinates)
+        elif tipo == "Reta":
+            elemento_grafico = Reta(nome, cor, coordenadas)
 
-        elif type == "Wireframe":
-            elemento_grafico = Wireframe(name, color, coordinates, preenchido)
+        elif tipo == "Wireframe":
+            elemento_grafico = Wireframe(nome, cor, coordenadas, preenchido)
+
+        elif tipo == "Curva":
+            elemento_grafico = Curva(nome, cor, coordenadas)
 
         self.display_file.adicionar(elemento_grafico)
-        self.ListaDeObjetos.addItem(name)
+        self.ListaDeObjetos.addItem(nome)
         self.resetar_desenhos()
 
     def escolher_transformacao_2D(self):
@@ -174,6 +184,8 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_reta(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Wireframe":
             self.desenhar_wireframe(elemento_grafico)
+        elif elemento_grafico.get_tipo() == "Curva":
+            self.desenhar_curva(elemento_grafico)
 
     def resetar_desenhos(self):
         # Preenchendo tela de branco
@@ -203,6 +215,7 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         painter = QPainter(self.area_desenho.pixmap())
         painter.setRenderHints(painter.Antialiasing)
+
         # Definindo cor e tamanho do ponto
         cor = QColor(int(ponto.cor[0]), int(ponto.cor[1]), int(ponto.cor[2]))
         pen = QPen(cor, 3)
@@ -232,6 +245,7 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         painter = QPainter(self.area_desenho.pixmap())
         painter.setRenderHints(painter.Antialiasing)
+
         # Definindo a cor e tamanho da reta
         cor = QColor(int(reta.cor[0]), int(reta.cor[1]), int(reta.cor[2]))
         pen = QPen(cor, 3)
@@ -261,6 +275,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter = QPainter(self.area_desenho.pixmap())
         painter.setRenderHints(painter.Antialiasing)
         path = QPainterPath()
+
         # Definindo a cor e tamanho do wireframe
         cor = QColor(
             int(wireframe.cor[0]), int(wireframe.cor[1]), int(wireframe.cor[2])
@@ -313,6 +328,26 @@ class JanelaPrincipal(Ui_MainDisplay):
                 )
         path.closeSubpath()
         painter.drawPath(path)
+
+    def desenhar_curva(self, curva: Curva):
+        (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
+        (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
+        pontos_curva = curva.get_coordenadas_normalizadas()
+
+        # Realizando o clipping da curva
+        pontos = []
+
+        if pontos == []:
+            return
+
+        painter = QPainter(self.area_desenho.pixmap())
+        painter.setRenderHints(painter.Antialiasing)
+        path = QPainterPath()
+
+        # Definindo a cor e tamanho da curva
+        cor = QColor(int(curva.cor[0]), int(curva.cor[1]), int(curva.cor[2]))
+        pen = QPen(cor, 3)
+        painter.setPen(pen)
 
     def move_direita(self):
         self.window.moveuDireita()

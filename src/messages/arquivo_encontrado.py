@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import QMessageBox
 
 
 class ArquivoEncontradoMessage(QMessageBox):
-    def __init__(self):
+    def __init__(self, nome_arquivo: str):
         super().__init__()
         self.setWindowTitle("Atenção!")
-        self.setText("O arquivo requisitado será sobrescrito")
+        self.setText(f"O arquivo {nome_arquivo} será sobrescrito")
         self.setStyleSheet("background-color: rgb(165,165,165);")
         self.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         botao_ok = self.button(QMessageBox.Ok)
