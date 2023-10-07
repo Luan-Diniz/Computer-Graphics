@@ -113,7 +113,7 @@ class ObjectOperations:
     ):
         pontos_da_curva = []
 
-        for t in range(quantidade_de_pontos + 1):
+        for t in range(int(quantidade_de_pontos) + 1):
             t /= quantidade_de_pontos
             x = (
                 (1 - t) ** 3 * ponto_inicial[0]

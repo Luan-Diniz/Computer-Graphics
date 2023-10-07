@@ -83,7 +83,7 @@ class AdicionarCurvaDialog(QDialog):
 
         self.formLayout.addRow(self.label_numero_pontos, self.spin_box_numero_pontos)
 
-        self.label_ponto_inicial = QLabel("(X, Y) do Ponto Inicial:")
+        self.label_ponto_inicial = QLabel("PONTO INICIAL:")
 
         self.x_ponto_inicial = QDoubleSpinBox()
         self.x_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -96,7 +96,7 @@ class AdicionarCurvaDialog(QDialog):
         self.formLayout.addRow(self.label_ponto_inicial, QLabel(""))
         self.formLayout.addRow(self.x_ponto_inicial, self.y_ponto_inicial)
 
-        self.label_primeiro_controle = QLabel("(X, Y) do Primeiro Controle:")
+        self.label_primeiro_controle = QLabel("PRIMEIRO PONTO DE CONTROLE:")
 
         self.x_primeiro_controle = QDoubleSpinBox()
         self.x_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -109,7 +109,7 @@ class AdicionarCurvaDialog(QDialog):
         self.formLayout.addRow(self.label_primeiro_controle, QLabel(""))
         self.formLayout.addRow(self.x_primeiro_controle, self.y_primeiro_controle)
 
-        self.label_segundo_controle = QLabel("(X, Y) do Segundo Controle:")
+        self.label_segundo_controle = QLabel("SEGUNDO PONTO DE CONTROLE:")
 
         self.x_segundo_controle = QDoubleSpinBox()
         self.x_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -122,7 +122,7 @@ class AdicionarCurvaDialog(QDialog):
         self.formLayout.addRow(self.label_segundo_controle, QLabel(""))
         self.formLayout.addRow(self.x_segundo_controle, self.y_segundo_controle)
 
-        self.label_ponto_final = QLabel("(X, Y) do Ponto Final:")
+        self.label_ponto_final = QLabel("PONTO FINAL:")
 
         self.x_ponto_final = QDoubleSpinBox()
         self.x_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -179,8 +179,6 @@ class AdicionarCurvaDialog(QDialog):
                 (self.x_ponto_final.value(), self.y_ponto_final.value())
             )
 
-            self.pontos = self.spin_box_numero_pontos.value()
-
             self.submitted = True
 
             self.close()  # Fecha a window
@@ -211,5 +209,5 @@ class AdicionarCurvaDialog(QDialog):
 
         x = nome_repetido.exec_()
 
-    def pontos(self):
-        return self.pontos
+    def get_pontos(self):
+        return self.spin_box_numero_pontos.value()

@@ -1,5 +1,3 @@
-from math import atan2
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtWidgets import QMessageBox
@@ -62,7 +60,7 @@ class JanelaPrincipal(Ui_MainDisplay):
             getCoordenadas = AdicionarCurvaDialog(
                 self.display_file.getNomesElementosGraficos(),
             )
-            extra = getCoordenadas.pontos()
+            extra = getCoordenadas.get_pontos()
 
         if not error:
             x = getCoordenadas.exec_()
@@ -328,8 +326,6 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter.drawPath(path)
 
     def desenhar_curva(self, curva: Curva):
-        (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
-        (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
         pontos_curva = curva.get_coordenadas_normalizadas()
         pontos = ObjectOperations.bezier(
             pontos_curva[0],
@@ -338,8 +334,16 @@ class JanelaPrincipal(Ui_MainDisplay):
             pontos_curva[3],
             curva.pontos,
         )
-        print(pontos)
-        return
+
+        if pontos == []:
+            return
+
+        for i in range(len(pontos) - 1):
+            reta = Reta(
+                "Reta_" + str(i + 1), curva.get_cor(), [pontos[i], pontos[i + 1]]
+            )
+            reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
+            self.desenhar_reta(reta)
 
     def move_direita(self):
         self.window.moveuDireita()
