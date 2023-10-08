@@ -29,6 +29,7 @@ class AdicionarCurvaDialog(QDialog):
             "nome": "",
             "cor": (),
             "coordenadas": [],
+            "numero_de_pontos": 2,
         }
 
         self.setWindowTitle("Criar Objeto")
@@ -77,11 +78,13 @@ class AdicionarCurvaDialog(QDialog):
 
         self.label_numero_pontos = QLabel("Número de Pontos:")
 
-        self.spin_box_numero_pontos = QDoubleSpinBox()
-        self.spin_box_numero_pontos.setMinimum(3)
-        self.spin_box_numero_pontos.setMaximum(Config.valorMaximoQDoubleSpinBox())
+        self.spin_box_numero_pontos = QSpinBox()
+        self.spin_box_numero_pontos.setMinimum(2)
+        self.spin_box_numero_pontos.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
         self.formLayout.addRow(self.label_numero_pontos, self.spin_box_numero_pontos)
+
+        self.formLayout.addRow(QLabel(""), QLabel(""))
 
         self.label_ponto_inicial = QLabel("PONTO INICIAL:")
 
@@ -96,6 +99,8 @@ class AdicionarCurvaDialog(QDialog):
         self.formLayout.addRow(self.label_ponto_inicial, QLabel(""))
         self.formLayout.addRow(self.x_ponto_inicial, self.y_ponto_inicial)
 
+        self.formLayout.addRow(QLabel(""), QLabel(""))
+
         self.label_primeiro_controle = QLabel("PRIMEIRO PONTO DE CONTROLE:")
 
         self.x_primeiro_controle = QDoubleSpinBox()
@@ -108,6 +113,8 @@ class AdicionarCurvaDialog(QDialog):
 
         self.formLayout.addRow(self.label_primeiro_controle, QLabel(""))
         self.formLayout.addRow(self.x_primeiro_controle, self.y_primeiro_controle)
+
+        self.formLayout.addRow(QLabel(""), QLabel(""))
 
         self.label_segundo_controle = QLabel("SEGUNDO PONTO DE CONTROLE:")
 
@@ -122,6 +129,8 @@ class AdicionarCurvaDialog(QDialog):
         self.formLayout.addRow(self.label_segundo_controle, QLabel(""))
         self.formLayout.addRow(self.x_segundo_controle, self.y_segundo_controle)
 
+        self.formLayout.addRow(QLabel(""), QLabel(""))
+
         self.label_ponto_final = QLabel("PONTO FINAL:")
 
         self.x_ponto_final = QDoubleSpinBox()
@@ -134,8 +143,6 @@ class AdicionarCurvaDialog(QDialog):
 
         self.formLayout.addRow(self.label_ponto_final, QLabel(""))
         self.formLayout.addRow(self.x_ponto_final, self.y_ponto_final)
-
-        self.formLayout.setVerticalSpacing(20)
 
         self.groupBox.setLayout(self.formLayout)
 
@@ -179,6 +186,8 @@ class AdicionarCurvaDialog(QDialog):
                 (self.x_ponto_final.value(), self.y_ponto_final.value())
             )
 
+            self.dict_info["numero_de_pontos"] = self.spin_box_numero_pontos.value()
+
             self.submitted = True
 
             self.close()  # Fecha a window
@@ -208,6 +217,3 @@ class AdicionarCurvaDialog(QDialog):
         botao_ok.setStyleSheet("background-color: rgb(212,208,200);")
 
         x = nome_repetido.exec_()
-
-    def get_pontos(self):
-        return self.spin_box_numero_pontos.value()

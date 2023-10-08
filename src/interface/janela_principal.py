@@ -60,12 +60,13 @@ class JanelaPrincipal(Ui_MainDisplay):
             getCoordenadas = AdicionarCurvaDialog(
                 self.display_file.getNomesElementosGraficos(),
             )
-            extra = getCoordenadas.get_pontos()
 
         if not error:
             x = getCoordenadas.exec_()
             # Aqui roda apos "fechar a janela, mas ainda eh possivel acessar seus atributos"
             if getCoordenadas.submitted:
+                if object_type == "Curva":
+                    extra = getCoordenadas.dict_info["numero_de_pontos"]
                 self.adicionar_objeto(
                     object_type,
                     getCoordenadas.dict_info["nome"],
@@ -338,53 +339,12 @@ class JanelaPrincipal(Ui_MainDisplay):
         if pontos == []:
             return
 
-        # Curva desenhada com as retas -------------------------------------------- #
         for i in range(len(pontos) - 1):
             reta = Reta(
                 "Reta_" + str(i + 1), curva.get_cor(), [pontos[i], pontos[i + 1]]
             )
             reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
             self.desenhar_reta(reta)
-
-        # Curva desenhada com método do QPainter ---------------------------------- #
-        painter = QPainter(self.area_desenho.pixmap())
-        painter.setRenderHints(painter.Antialiasing)
-        path = QPainterPath()
-
-        cor = QColor(int(curva.cor[0]), int(curva.cor[1]), int(curva.cor[2]))
-        pen = QPen(cor, 3)
-        painter.setPen(pen)
-
-        path.moveTo(
-            int(
-                ViewportOperations.calcular_x_viewport(pontos_curva[0][0], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_y_viewport(pontos_curva[0][1], self.window)
-            ),
-        )
-        path.cubicTo(
-            int(
-                ViewportOperations.calcular_x_viewport(pontos_curva[1][0], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_y_viewport(pontos_curva[1][1], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_x_viewport(pontos_curva[2][0], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_y_viewport(pontos_curva[2][1], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_x_viewport(pontos_curva[3][0], self.window)
-            ),
-            int(
-                ViewportOperations.calcular_y_viewport(pontos_curva[3][1], self.window)
-            ),
-        )
-
-        painter.drawPath(path)
 
     def move_direita(self):
         self.window.moveuDireita()
