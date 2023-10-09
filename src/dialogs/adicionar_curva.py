@@ -29,7 +29,7 @@ class AdicionarCurvaDialog(QDialog):
             "nome": "",
             "cor": (),
             "coordenadas": [],
-            "numero_de_pontos": 5,
+            "numero_de_pontos": 10,
         }
 
         self.setWindowTitle("Criar Objeto")
@@ -79,7 +79,7 @@ class AdicionarCurvaDialog(QDialog):
         self.label_numero_pontos = QLabel("Número de Pontos:")
 
         self.spin_box_numero_pontos = QSpinBox()
-        self.spin_box_numero_pontos.setMinimum(5)
+        self.spin_box_numero_pontos.setMinimum(10)
         self.spin_box_numero_pontos.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
         self.formLayout.addRow(self.label_numero_pontos, self.spin_box_numero_pontos)
