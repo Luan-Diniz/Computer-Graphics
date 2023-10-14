@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
 )
 
+from src.interface.config import Config
+
 
 class QuantidadeDePontosDialog(QDialog):
     def __init__(self, tipo):
@@ -32,10 +34,12 @@ class QuantidadeDePontosDialog(QDialog):
             label_text = "Escolha a quantidade de pontos do Polígono:"
             box_text = "Preencher polígono"
             self.number_input.setMinimum(3)
+            self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
         elif self.tipo == "B-Spline":
             label_text = "Quantidade de pontos de controle da B-Spline:"
             box_text = "Quantidade de pontos para a precisão da B-Spline:"
             self.number_input.setMinimum(4)
+            self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
         self.label = QLabel(label_text)
         if self.tipo == "Wireframe":
@@ -43,6 +47,7 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "B-Spline":
             self.extra = QSpinBox()
             self.extra.setMinimum(10)
+            self.extra.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
         button_ok = QPushButton("OK")
         button_ok.setStyleSheet("background-color: rgb(212,208,200);")
