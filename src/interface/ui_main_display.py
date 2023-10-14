@@ -181,6 +181,7 @@ class Ui_MainDisplay:
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
         self.AdicionarObjetos.addItem("")
+        self.AdicionarObjetos.addItem("")
 
         self.texto_adicionar_objeto = QTextBrowser(self.frame_viewport)
         self.texto_adicionar_objeto.setGeometry(QRect(490, 60, 120, 21))
@@ -307,6 +308,7 @@ class Ui_MainDisplay:
         self.AdicionarObjetos.setItemText(1, _translate("MainDisplay", "Reta"))
         self.AdicionarObjetos.setItemText(2, _translate("MainDisplay", "Wireframe"))
         self.AdicionarObjetos.setItemText(3, _translate("MainDisplay", "Curva"))
+        self.AdicionarObjetos.setItemText(4, _translate("MainDisplay", "B-Spline"))
         self.texto_adicionar_objeto.setHtml(
             _translate(
                 "MainDisplay",

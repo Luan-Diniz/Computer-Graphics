@@ -11,21 +11,38 @@ from PyQt5.QtWidgets import (
 
 
 class QuantidadeDePontosDialog(QDialog):
-    def __init__(self):
+    def __init__(self, tipo):
         super().__init__()
+        self.tipo = tipo
         self.submitted = False
-
         self.setWindowTitle("Criar Objeto")
 
-        self.setMinimumSize(QSize(300, 100))
-        self.setMaximumSize(QSize(300, 100))
+        if self.tipo == "Wireframe":
+            self.setMinimumSize(QSize(300, 100))
+            self.setMaximumSize(QSize(300, 100))
+        elif self.tipo == "B-Spline":
+            self.setMinimumSize(QSize(350, 150))
+            self.setMaximumSize(QSize(350, 150))
         self.setStyleSheet("background-color: rgb(165, 165, 165);")
 
-        self.label = QLabel("Escolha a quantidade de pontos do Polígono:")
+        label_text = ""
+        box_text = ""
         self.number_input = QSpinBox()
-        self.number_input.setMinimum(3)
+        if self.tipo == "Wireframe":
+            label_text = "Escolha a quantidade de pontos do Polígono:"
+            box_text = "Preencher polígono"
+            self.number_input.setMinimum(3)
+        elif self.tipo == "B-Spline":
+            label_text = "Quantidade de pontos de controle da B-Spline:"
+            box_text = "Quantidade de pontos para a precisão da B-Spline:"
+            self.number_input.setMinimum(4)
 
-        self.preenchido = QCheckBox("Preencher polígono.")
+        self.label = QLabel(label_text)
+        if self.tipo == "Wireframe":
+            self.extra = QCheckBox(box_text)
+        elif self.tipo == "B-Spline":
+            self.extra = QSpinBox()
+            self.extra.setMinimum(10)
 
         button_ok = QPushButton("OK")
         button_ok.setStyleSheet("background-color: rgb(212,208,200);")
@@ -36,7 +53,9 @@ class QuantidadeDePontosDialog(QDialog):
 
         horizontal_layout = QHBoxLayout()  # Layout horizontal para widgets lado a lado
 
-        vertical_layout.addWidget(self.preenchido)
+        if self.tipo == "B-Spline":
+            vertical_layout.addWidget(QLabel(box_text))
+        vertical_layout.addWidget(self.extra)
         vertical_layout.addWidget(self.label)
         horizontal_layout.addWidget(self.number_input)
         horizontal_layout.addWidget(button_ok)
@@ -54,5 +73,8 @@ class QuantidadeDePontosDialog(QDialog):
     def numero_pontos(self):
         return self.number_input.value()
 
-    def poligono_preenchido(self):
-        return self.preenchido.isChecked()
+    def get_extra(self):
+        if self.tipo == "Wireframe":
+            return self.extra.isChecked()
+        elif self.tipo == "B-Spline":
+            return self.extra.value()

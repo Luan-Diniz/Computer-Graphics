@@ -130,3 +130,70 @@ class ObjectOperations:
             pontos_da_curva.append((x, y))
 
         return pontos_da_curva
+
+    # --- B-Spline ------------------------------------------------------------------------------------------ #
+    def calcular_diferencas(delta, a, b, c, d):
+        delta_2 = delta**2
+        delta_3 = delta**3
+        return [
+            d,
+            a * delta_3 + b * delta_2 + c * delta,
+            6 * a * delta_3 + 2 * b * delta_2,
+            6 * a * delta_3,
+        ]
+
+    def calcular_coeficientes(pontos, delta):
+        MBS = np.array(
+            [
+                [(-1 / 6), (1 / 2), (-1 / 2), (1 / 6)],
+                [(1 / 2), -1, (1 / 2), 0],
+                [(-1 / 2), 0, (1 / 2), 0],
+                [(1 / 6), (2 / 3), (1 / 6), 0],
+            ]
+        )
+
+        GBS_x = []
+        GBS_y = []
+        for x, y in pontos:
+            GBS_x.append(x)
+            GBS_y.append(y)
+
+        GBS_x = np.array([GBS_x]).T
+        coeff_x = MBS.dot(GBS_x).T[0]
+        dif_iniciais_x = ObjectOperations.calcular_diferencas(delta, *coeff_x)
+
+        GBS_y = np.array([GBS_y]).T
+        coeff_y = MBS.dot(GBS_y).T[0]
+        dif_iniciais_y = ObjectOperations.calcular_diferencas(delta, *coeff_y)
+
+        return dif_iniciais_x, dif_iniciais_y
+
+    def bspline(pontos_controle, precisao):
+        pontos_spline = []
+        numero_pontos = len(pontos_controle)
+        pontos_minimos = 4
+
+        for i in range(0, numero_pontos):
+            limite_superior = i + pontos_minimos
+
+            if limite_superior > numero_pontos:
+                break
+            pontos = pontos_controle[i:limite_superior]
+
+            delta_x, delta_y = ObjectOperations.calcular_coeficientes(
+                pontos, (1 / precisao)
+            )
+            x = delta_x[0]
+            y = delta_y[0]
+            pontos_spline.append((x, y))
+            for k in range(precisao):
+                x += delta_x[1]
+                delta_x[1] += delta_x[2]
+                delta_x[2] += delta_x[3]
+
+                y += delta_y[1]
+                delta_y[1] += delta_y[2]
+                delta_y[2] += delta_y[3]
+
+                pontos_spline.append((x, y))
+        return pontos_spline

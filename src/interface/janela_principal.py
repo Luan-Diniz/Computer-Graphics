@@ -13,17 +13,17 @@ from src.math.object_operations import ObjectOperations
 from src.math.viewport_operations import ViewportOperations
 from src.messages.operacoes import OperacoesMessage
 from src.messages.troca_clipping import TrocaClippingMessage
-from src.objects.figuras_geometricas import Curva, Ponto, Reta, Wireframe
+from src.objects.figuras_geometricas import BSpline, Curva, Ponto, Reta, Wireframe
 from src.objects.gerador_obj import GeradorOBJ
 from src.objects.leitor_obj import LeitorOBJ
 
 
 class JanelaPrincipal(Ui_MainDisplay):
-    def pedir_quantidade_de_pontos(self):
-        pontos = QuantidadeDePontosDialog()
+    def pedir_quantidade_de_pontos(self, tipo):
+        pontos = QuantidadeDePontosDialog(tipo)
         x = pontos.exec_()
         if pontos.submitted:
-            return (pontos.numero_pontos(), pontos.poligono_preenchido())
+            return (pontos.numero_pontos(), pontos.get_extra())
         return (-1, False)
 
     def pedir_cores(self):
@@ -48,18 +48,26 @@ class JanelaPrincipal(Ui_MainDisplay):
             )
         elif object_type == "Wireframe":
             # Abre uma janela secundaria perguntando quantos pontos tem o poligono
-            qtd_pontos, extra = self.pedir_quantidade_de_pontos()
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos("Wireframe")
             if qtd_pontos != -1:
                 getCoordenadas = AdicionarObjetoDialog(
                     qtd_pontos, self.display_file.getNomesElementosGraficos()
                 )
             else:
                 error = True
-
         elif object_type == "Curva":
             getCoordenadas = AdicionarCurvaDialog(
                 self.display_file.getNomesElementosGraficos(),
             )
+        elif object_type == "B-Spline":
+            # Abre uma janela secundaria perguntando quantos pontos tem a B-Spline
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos("B-Spline")
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    qtd_pontos, self.display_file.getNomesElementosGraficos()
+                )
+            else:
+                error = True
 
         if not error:
             x = getCoordenadas.exec_()
@@ -109,6 +117,9 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         elif tipo == "Curva":
             elemento_grafico = Curva(nome, cor, coordenadas, extra)
+
+        elif tipo == "B-Spline":
+            elemento_grafico = BSpline(nome, cor, coordenadas, extra)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(nome)
@@ -183,6 +194,8 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_wireframe(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Curva":
             self.desenhar_curva(elemento_grafico)
+        elif elemento_grafico.get_tipo() == "B-Spline":
+            self.desenhar_bspline(elemento_grafico)
 
     def resetar_desenhos(self):
         # Preenchendo tela de branco
@@ -342,6 +355,21 @@ class JanelaPrincipal(Ui_MainDisplay):
         for i in range(len(pontos) - 1):
             reta = Reta(
                 "Reta_" + str(i + 1), curva.get_cor(), [pontos[i], pontos[i + 1]]
+            )
+            reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
+            self.desenhar_reta(reta)
+
+    def desenhar_bspline(self, bspline: BSpline):
+        pontos_controle = bspline.get_coordenadas_normalizadas()
+        precisao = bspline.pontos
+        pontos = ObjectOperations.bspline(pontos_controle, precisao)
+
+        if pontos == []:
+            return
+
+        for i in range(len(pontos) - 1):
+            reta = Reta(
+                "Reta_" + str(i + 1), bspline.get_cor(), [pontos[i], pontos[i + 1]]
             )
             reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
             self.desenhar_reta(reta)

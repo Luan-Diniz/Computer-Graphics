@@ -21,3 +21,9 @@ class Curva(ElementoGrafico):
     def __init__(self, nome, cor, coordenadas, pontos):
         super().__init__(nome=nome, cor=cor, tipo="Curva", coordenadas=coordenadas)
         self.pontos = pontos
+
+
+class BSpline(ElementoGrafico):
+    def __init__(self, nome, cor, coordenadas, pontos):
+        super().__init__(nome=nome, cor=cor, tipo="B-Spline", coordenadas=coordenadas)
+        self.pontos = pontos
