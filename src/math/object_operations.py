@@ -171,10 +171,9 @@ class ObjectOperations:
     def bspline(pontos_controle, precisao):
         pontos_spline = []
         numero_pontos = len(pontos_controle)
-        pontos_minimos = 4
 
         for i in range(0, numero_pontos):
-            limite_superior = i + pontos_minimos
+            limite_superior = i + 4
 
             if limite_superior > numero_pontos:
                 break
