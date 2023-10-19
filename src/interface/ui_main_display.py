@@ -271,9 +271,9 @@ class Ui_MainDisplay:
         self.zoom_out_button.setStyleSheet("font-size: 20px;")
         self.zoom_out_button.setText(_translate("MainDisplay", "\u2315-"))
         self.anticlockwise_rotation_button.setStyleSheet("font-size: 20px;")
-        self.anticlockwise_rotation_button.setText(_translate("MainDisplay", "⭯"))
+        self.anticlockwise_rotation_button.setText(_translate("MainDisplay", "\u21BA"))
         self.clockwise_rotation_button.setStyleSheet("font-size: 20px;")
-        self.clockwise_rotation_button.setText(_translate("MainDisplay", "⭮"))
+        self.clockwise_rotation_button.setText(_translate("MainDisplay", "\u21BB"))
         self.texto_controle_window.setHtml(
             _translate(
                 "MainDisplay",
