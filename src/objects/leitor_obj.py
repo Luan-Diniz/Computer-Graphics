@@ -50,8 +50,13 @@ class LeitorOBJ(DescritorOBJ):
     def obter_vertices(self, indices, vertices):
         v = []
         for indice in indices:
-            # Alterar quando for usar uma coordenada a mais
-            v.append((vertices[indice - 1][0], vertices[indice - 1][1]))
+            v.append(
+                (
+                    vertices[indice - 1][0],
+                    vertices[indice - 1][1],
+                    vertices[indice - 1][2],
+                )
+            )
         return v
 
     def lerArquivoMTL(self, nome_arquivo: str) -> dict:

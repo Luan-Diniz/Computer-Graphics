@@ -21,7 +21,7 @@ class TransformacoesDialog(QDialog):
         self.submitted = False
         self.transformacao = {"transformacao": "", "argumento": []}
 
-        self.setWindowTitle("Transformações 2D")
+        self.setWindowTitle("Transformações")
         self.setMinimumSize(QSize(400, 300))
         self.setMaximumSize(QSize(400, 300))
         self.setStyleSheet("background-color: rgb(165,165,165);")
@@ -63,9 +63,16 @@ class TransformacoesDialog(QDialog):
         self.translacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
         self.translacao_y.setFixedSize(150, 30)
 
+        # Coordenada z translacao
+        self.translacao_z = QDoubleSpinBox()
+        self.translacao_z.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.translacao_z.setMaximum(Config.valorMaximoQDoubleSpinBox())
+        self.translacao_z.setFixedSize(150, 30)
+
         # Layout translacao
         translacao_layout.addRow(QLabel("Desvio em X:"), self.translacao_x)
         translacao_layout.addRow(QLabel("Desvio em Y:"), self.translacao_y)
+        translacao_layout.addRow(QLabel("Desvio em Z:"), self.translacao_z)
         translacao_layout.addRow(translacao_button, cancel_button_1)
         translacao.setLayout(translacao_layout)
 
@@ -113,9 +120,16 @@ class TransformacoesDialog(QDialog):
         self.rotacao_y.setMaximum(Config.valorMaximoQDoubleSpinBox())
         self.rotacao_y.setFixedSize(150, 30)
 
+        # Coordenada z rotacao
+        self.rotacao_z = QDoubleSpinBox()
+        self.rotacao_z.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.rotacao_z.setMaximum(Config.valorMaximoQDoubleSpinBox())
+        self.rotacao_z.setFixedSize(150, 30)
+
         # Layout rotacao
         rotacao_layout.addRow(QLabel("Coordenada X do ponto: "), self.rotacao_x)
         rotacao_layout.addRow(QLabel("Coordenada Y do ponto: "), self.rotacao_y)
+        rotacao_layout.addRow(QLabel("Coordenada Z do ponto: "), self.rotacao_z)
         rotacao_layout.addRow(QLabel("Ângulo da Rotação: "), self.rotacao_angulo)
 
         rotacao_layout.addRow(rotacao_button, cancel_button_2)
@@ -169,7 +183,11 @@ class TransformacoesDialog(QDialog):
     def translacao(self):
         self.transformacao["transformacao"] = "translacao"
         self.transformacao["argumento"].append(
-            (self.translacao_x.value(), self.translacao_y.value())
+            (
+                self.translacao_x.value(),
+                self.translacao_y.value(),
+                self.translacao_z.value(),
+            )
         )
         self.accept()
 
@@ -180,7 +198,7 @@ class TransformacoesDialog(QDialog):
             self.transformacao["argumento"].append((None, "origem"))
         elif self.rotacao_opcoes.currentIndex() == 1:
             self.transformacao["argumento"].append(
-                (self.rotacao_x.value(), self.rotacao_y.value())
+                (self.rotacao_x.value(), self.rotacao_y.value(), self.rotacao_z.value())
             )
         else:
             self.transformacao["argumento"].append((None, "centro_objeto"))

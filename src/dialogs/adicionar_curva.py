@@ -86,8 +86,6 @@ class AdicionarCurvaDialog(QDialog):
 
         self.formLayout.addRow(QLabel(""), QLabel(""))
 
-        self.label_ponto_inicial = QLabel("PONTO INICIAL:")
-
         self.x_ponto_inicial = QDoubleSpinBox()
         self.x_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
         self.x_ponto_inicial.setMaximum(Config.valorMaximoQDoubleSpinBox())
@@ -96,12 +94,16 @@ class AdicionarCurvaDialog(QDialog):
         self.y_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
         self.y_ponto_inicial.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
-        self.formLayout.addRow(self.label_ponto_inicial, QLabel(""))
-        self.formLayout.addRow(self.x_ponto_inicial, self.y_ponto_inicial)
+        self.z_ponto_inicial = QDoubleSpinBox()
+        self.z_ponto_inicial.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.z_ponto_inicial.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(QLabel("PONTO INICIAL:"), QLabel(""))
+        self.formLayout.addRow(QLabel("X = "), self.x_ponto_inicial)
+        self.formLayout.addRow(QLabel("Y = "), self.y_ponto_inicial)
+        self.formLayout.addRow(QLabel("Z = "), self.z_ponto_inicial)
 
         self.formLayout.addRow(QLabel(""), QLabel(""))
-
-        self.label_primeiro_controle = QLabel("PRIMEIRO PONTO DE CONTROLE:")
 
         self.x_primeiro_controle = QDoubleSpinBox()
         self.x_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -111,12 +113,16 @@ class AdicionarCurvaDialog(QDialog):
         self.y_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
         self.y_primeiro_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
-        self.formLayout.addRow(self.label_primeiro_controle, QLabel(""))
-        self.formLayout.addRow(self.x_primeiro_controle, self.y_primeiro_controle)
+        self.z_primeiro_controle = QDoubleSpinBox()
+        self.z_primeiro_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.z_primeiro_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(QLabel("PRIMEIRO PONTO DE CONTROLE:"), QLabel(""))
+        self.formLayout.addRow(QLabel("X = "), self.x_primeiro_controle)
+        self.formLayout.addRow(QLabel("Y = "), self.y_primeiro_controle)
+        self.formLayout.addRow(QLabel("Z = "), self.z_primeiro_controle)
 
         self.formLayout.addRow(QLabel(""), QLabel(""))
-
-        self.label_segundo_controle = QLabel("SEGUNDO PONTO DE CONTROLE:")
 
         self.x_segundo_controle = QDoubleSpinBox()
         self.x_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -126,12 +132,16 @@ class AdicionarCurvaDialog(QDialog):
         self.y_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
         self.y_segundo_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
-        self.formLayout.addRow(self.label_segundo_controle, QLabel(""))
-        self.formLayout.addRow(self.x_segundo_controle, self.y_segundo_controle)
+        self.z_segundo_controle = QDoubleSpinBox()
+        self.z_segundo_controle.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.z_segundo_controle.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(QLabel("SEGUNDO PONTO DE CONTROLE:"), QLabel(""))
+        self.formLayout.addRow(QLabel("X = "), self.x_segundo_controle)
+        self.formLayout.addRow(QLabel("Y = "), self.y_segundo_controle)
+        self.formLayout.addRow(QLabel("Z = "), self.z_segundo_controle)
 
         self.formLayout.addRow(QLabel(""), QLabel(""))
-
-        self.label_ponto_final = QLabel("PONTO FINAL:")
 
         self.x_ponto_final = QDoubleSpinBox()
         self.x_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
@@ -141,8 +151,14 @@ class AdicionarCurvaDialog(QDialog):
         self.y_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
         self.y_ponto_final.setMaximum(Config.valorMaximoQDoubleSpinBox())
 
-        self.formLayout.addRow(self.label_ponto_final, QLabel(""))
-        self.formLayout.addRow(self.x_ponto_final, self.y_ponto_final)
+        self.z_ponto_final = QDoubleSpinBox()
+        self.z_ponto_final.setMinimum(Config.valorMinimoQDoubleSpinBox())
+        self.z_ponto_final.setMaximum(Config.valorMaximoQDoubleSpinBox())
+
+        self.formLayout.addRow(QLabel("PONTO FINAL:"), QLabel(""))
+        self.formLayout.addRow(QLabel("X = "), self.x_ponto_final)
+        self.formLayout.addRow(QLabel("Y = "), self.y_ponto_final)
+        self.formLayout.addRow(QLabel("Z = "), self.z_ponto_final)
 
         self.groupBox.setLayout(self.formLayout)
 
@@ -174,16 +190,32 @@ class AdicionarCurvaDialog(QDialog):
             )
 
             self.dict_info["coordenadas"].append(
-                (self.x_ponto_inicial.value(), self.y_ponto_inicial.value())
+                (
+                    self.x_ponto_inicial.value(),
+                    self.y_ponto_inicial.value(),
+                    self.z_ponto_inicial.value(),
+                )
             )
             self.dict_info["coordenadas"].append(
-                (self.x_primeiro_controle.value(), self.y_primeiro_controle.value())
+                (
+                    self.x_primeiro_controle.value(),
+                    self.y_primeiro_controle.value(),
+                    self.z_primeiro_controle.value(),
+                )
             )
             self.dict_info["coordenadas"].append(
-                (self.x_segundo_controle.value(), self.y_segundo_controle.value())
+                (
+                    self.x_segundo_controle.value(),
+                    self.y_segundo_controle.value(),
+                    self.z_segundo_controle.value(),
+                )
             )
             self.dict_info["coordenadas"].append(
-                (self.x_ponto_final.value(), self.y_ponto_final.value())
+                (
+                    self.x_ponto_final.value(),
+                    self.y_ponto_final.value(),
+                    self.z_ponto_final.value(),
+                )
             )
 
             self.dict_info["numero_de_pontos"] = self.spin_box_numero_pontos.value()

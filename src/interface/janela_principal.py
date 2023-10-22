@@ -89,7 +89,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         if i == QMessageBox.Ok:
             self.recolorir_objeto()
         elif i == QMessageBox.Save:
-            self.escolher_transformacao_2D()
+            self.escolher_transformacao()
         elif i == QMessageBox.Abort:
             # trocar clipping utilizado
             if self.clipping_algorithm == "Cohen-Sutherland":
@@ -125,7 +125,7 @@ class JanelaPrincipal(Ui_MainDisplay):
         self.ListaDeObjetos.addItem(nome)
         self.resetar_desenhos()
 
-    def escolher_transformacao_2D(self):
+    def escolher_transformacao(self):
         if self.ListaDeObjetos.count() > 0:
             transf = TransformacoesDialog()
             x = transf.exec_()

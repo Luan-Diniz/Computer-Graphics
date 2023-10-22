@@ -261,7 +261,7 @@ class Ui_MainDisplay:
 
     def retranslateUi(self, MainDisplay):
         _translate = QCoreApplication.translate
-        MainDisplay.setWindowTitle(_translate("MainDisplay", "Sistema Gráfico 2D"))
+        MainDisplay.setWindowTitle(_translate("MainDisplay", "Sistema Gráfico"))
         self.up_button.setText(_translate("MainDisplay", "▲"))
         self.down_button.setText(_translate("MainDisplay", "▼"))
         self.right_button.setText(_translate("MainDisplay", "►"))

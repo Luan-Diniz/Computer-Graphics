@@ -24,7 +24,9 @@ class GeradorOBJ(DescritorOBJ):
                     + str(self.vertices[i][0])
                     + " "
                     + str(self.vertices[i][1])
-                    + " 0.0\n"
+                    + " "
+                    + str(self.vertices[i][2])
+                    + "\n"
                 )
                 arquivo.write(saida)
             arquivo.write("mtllib cores.mtl\n\n")

@@ -52,8 +52,10 @@ class AdicionarObjetoDialog(QDialog):
 
         self.labelXList = []
         self.labelYList = []
+        self.labelZList = []
         self.coordinateXList = []
         self.coordinateYList = []
+        self.coordinateZList = []
 
         # Cria o label e a entrada para um nome
         self.labelNome = QLabel("Nome: ")
@@ -87,14 +89,19 @@ class AdicionarObjetoDialog(QDialog):
             self.coordinateXList.append(QDoubleSpinBox())
             self.labelYList.append(QLabel(f"Y{i + 1}"))
             self.coordinateYList.append(QDoubleSpinBox())
+            self.labelZList.append(QLabel(f"Z{i + 1}"))
+            self.coordinateZList.append(QDoubleSpinBox())
             self.formLayout.addRow(self.labelXList[i], self.coordinateXList[i])
             self.formLayout.addRow(self.labelYList[i], self.coordinateYList[i])
+            self.formLayout.addRow(self.labelZList[i], self.coordinateZList[i])
 
             # Seta o range de numeros que o QDoubleSpinBox aceita
             self.coordinateXList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateYList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
+            self.coordinateZList[i].setMinimum(Config.valorMinimoQDoubleSpinBox())
             self.coordinateXList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
             self.coordinateYList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
+            self.coordinateZList[i].setMaximum(Config.valorMaximoQDoubleSpinBox())
 
         self.groupBox.setLayout(self.formLayout)
 
@@ -126,7 +133,11 @@ class AdicionarObjetoDialog(QDialog):
             )
             for i in range(0, self.qtdade_coordenadas):
                 self.dict_info["coordenadas"].append(
-                    (self.coordinateXList[i].value(), self.coordinateYList[i].value())
+                    (
+                        self.coordinateXList[i].value(),
+                        self.coordinateYList[i].value(),
+                        self.coordinateZList[i].value(),
+                    )
                 )
 
             self.submitted = True

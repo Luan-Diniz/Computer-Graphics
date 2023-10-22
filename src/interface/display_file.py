@@ -49,7 +49,7 @@ class DisplayFile:
             coordenadas = elemento.get_coordenadas()
             novas_coordenadas = []
 
-            for x, y in coordenadas:
+            for x, y, z in coordenadas:
                 pontos = np.array([[x, y, 1]])
                 pontos_atualizados = np.dot(pontos, matriz_resultante)
 

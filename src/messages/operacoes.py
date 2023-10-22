@@ -10,7 +10,11 @@ class OperacoesMessage(QMessageBox):
 
         # Criando os botoes
         self.setStandardButtons(
-            QMessageBox.Ok | QMessageBox.Save | QMessageBox.Open | QMessageBox.Abort | QMessageBox.Cancel
+            QMessageBox.Ok
+            | QMessageBox.Save
+            | QMessageBox.Open
+            | QMessageBox.Abort
+            | QMessageBox.Cancel
         )
 
         # Renomeando o botao de troca de cor
@@ -21,11 +25,11 @@ class OperacoesMessage(QMessageBox):
 
         # Renomeando o botao de realizar transformacao 2D
         botao_transformacao = self.button(QMessageBox.Save)
-        botao_transformacao.setText("Transformações 2D")
+        botao_transformacao.setText("Transformações")
         botao_transformacao.setFixedSize(150, 30)
         botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
 
-        #Renomeando o botao de trocar metodo de clipping
+        # Renomeando o botao de trocar metodo de clipping
         botao_transformacao = self.button(QMessageBox.Abort)
         botao_transformacao.setText("Trocar Clipping")
         botao_transformacao.setFixedSize(150, 30)
