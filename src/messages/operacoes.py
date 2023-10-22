@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 
 
@@ -22,29 +23,34 @@ class OperacoesMessage(QMessageBox):
         botao_cor.setText("Recolorir Objeto")
         botao_cor.setFixedSize(150, 30)
         botao_cor.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_cor.setIcon(QIcon())
 
         # Renomeando o botao de realizar transformacao 2D
         botao_transformacao = self.button(QMessageBox.Save)
         botao_transformacao.setText("Transformações")
         botao_transformacao.setFixedSize(150, 30)
         botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_transformacao.setIcon(QIcon())
 
         # Renomeando o botao de trocar metodo de clipping
-        botao_transformacao = self.button(QMessageBox.Abort)
-        botao_transformacao.setText("Trocar Clipping")
-        botao_transformacao.setFixedSize(150, 30)
-        botao_transformacao.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_clipping = self.button(QMessageBox.Abort)
+        botao_clipping.setText("Trocar Clipping")
+        botao_clipping.setFixedSize(150, 30)
+        botao_clipping.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_clipping.setIcon(QIcon())
 
         # Renomeando o botao de deletar objeto
         botao_deletar = self.button(QMessageBox.Open)
         botao_deletar.setText("Deletar Objeto")
         botao_deletar.setFixedSize(150, 30)
         botao_deletar.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_deletar.setIcon(QIcon())
 
         # Renomeando o botao de cancelar
         botao_cancelar = self.button(QMessageBox.Cancel)
         botao_cancelar.setText("Cancelar")
         botao_cancelar.setFixedSize(150, 30)
         botao_cancelar.setStyleSheet("background-color: rgb(212,208,200);")
+        botao_cancelar.setIcon(QIcon())
 
         self.setDefaultButton(QMessageBox.Cancel)
