@@ -18,6 +18,7 @@ class QuantidadeDePontosDialog(QDialog):
         self.tipo = tipo
         self.submitted = False
         self.setWindowTitle("Criar Objeto")
+        self.setStyleSheet("background-color: rgb(165, 165, 165);")
 
         if self.tipo == "Wireframe":
             self.setMinimumSize(QSize(300, 100))
@@ -25,7 +26,9 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "B-Spline":
             self.setMinimumSize(QSize(350, 150))
             self.setMaximumSize(QSize(350, 150))
-        self.setStyleSheet("background-color: rgb(165, 165, 165);")
+        elif self.tipo == "Objeto 3D":
+            self.setMinimumSize(QSize(500, 150))
+            self.setMaximumSize(QSize(500, 150))
 
         label_text = ""
         box_text = ""
@@ -40,6 +43,11 @@ class QuantidadeDePontosDialog(QDialog):
             box_text = "Quantidade de pontos para a precisão da B-Spline:"
             self.number_input.setMinimum(4)
             self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
+        elif self.tipo == "Objeto 3D":
+            label_text = "Quantidade arestas do Objeto 3D:"
+            box_text = "As arestas começam nos pontos de índice par e terminam nos de índice ímpar\n\nEscolha as arestas na forma: (X1, Y1, Z1) -> (X2, Y2, Z2)"
+            self.number_input.setMinimum(1)
+            self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
         self.label = QLabel(label_text)
         if self.tipo == "Wireframe":
@@ -48,6 +56,8 @@ class QuantidadeDePontosDialog(QDialog):
             self.extra = QSpinBox()
             self.extra.setMinimum(10)
             self.extra.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
+        elif self.tipo == "Objeto 3D":
+            self.extra = QLabel(box_text)
 
         button_ok = QPushButton("OK")
         button_ok.setStyleSheet("background-color: rgb(212,208,200);")
@@ -83,3 +93,5 @@ class QuantidadeDePontosDialog(QDialog):
             return self.extra.isChecked()
         elif self.tipo == "B-Spline":
             return self.extra.value()
+        elif self.tipo == "Objeto 3D":
+            return ""

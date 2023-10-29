@@ -27,3 +27,8 @@ class BSpline(ElementoGrafico):
     def __init__(self, nome, cor, coordenadas, pontos):
         super().__init__(nome=nome, cor=cor, tipo="B-Spline", coordenadas=coordenadas)
         self.pontos = pontos
+
+
+class Objeto3D(ElementoGrafico):
+    def __init__(self, nome, cor, coordenadas):
+        super().__init__(nome=nome, cor=cor, tipo="Objeto 3D", coordenadas=coordenadas)

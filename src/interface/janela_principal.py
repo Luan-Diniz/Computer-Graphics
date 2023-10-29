@@ -13,7 +13,14 @@ from src.math.object_operations import ObjectOperations
 from src.math.viewport_operations import ViewportOperations
 from src.messages.operacoes import OperacoesMessage
 from src.messages.troca_clipping import TrocaClippingMessage
-from src.objects.figuras_geometricas import BSpline, Curva, Ponto, Reta, Wireframe
+from src.objects.figuras_geometricas import (
+    BSpline,
+    Curva,
+    Objeto3D,
+    Ponto,
+    Reta,
+    Wireframe,
+)
 from src.objects.gerador_obj import GeradorOBJ
 from src.objects.leitor_obj import LeitorOBJ
 
@@ -65,6 +72,14 @@ class JanelaPrincipal(Ui_MainDisplay):
             if qtd_pontos != -1:
                 getCoordenadas = AdicionarObjetoDialog(
                     qtd_pontos, self.display_file.getNomesElementosGraficos()
+                )
+            else:
+                error = True
+        elif object_type == "Objeto 3D":
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos("Objeto 3D")
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    (2 * qtd_pontos), self.display_file.getNomesElementosGraficos()
                 )
             else:
                 error = True
@@ -120,6 +135,9 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         elif tipo == "B-Spline":
             elemento_grafico = BSpline(nome, cor, coordenadas, extra)
+
+        elif tipo == "Objeto 3D":
+            elemento_grafico = Objeto3D(nome, cor, coordenadas)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(nome)
@@ -196,6 +214,8 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_curva(elemento_grafico)
         elif elemento_grafico.get_tipo() == "B-Spline":
             self.desenhar_bspline(elemento_grafico)
+        elif elemento_grafico.get_tipo() == "Objeto 3D":
+            self.desenhar_objeto_3D(elemento_grafico)
 
     def resetar_desenhos(self):
         # Preenchendo tela de branco
@@ -373,6 +393,12 @@ class JanelaPrincipal(Ui_MainDisplay):
             )
             reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
             self.desenhar_reta(reta)
+
+    def desenhar_objeto_3D(self, objeto_3D: Objeto3D):
+        pontos = objeto_3D.get_coordenadas_normalizadas()
+        arestas = [((pontos[i]), (pontos[i + 1])) for i in range(len(pontos) - 1)]
+        for a in arestas:
+            print(a)
 
     def move_direita(self):
         self.window.moveuDireita()
