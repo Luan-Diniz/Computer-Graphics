@@ -59,6 +59,7 @@ class Window:
         self.Xwmax += (deltax) * self.scale
         """
 
+
     def moveuEsquerda(self):
         distance = (self.Xwmax - self.Xwmin) * self.scale
 

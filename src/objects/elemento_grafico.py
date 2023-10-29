@@ -53,3 +53,21 @@ class ElementoGrafico:
         cy = cy / n_pontos
 
         return (cx, cy)
+
+    def get_centro3D(self) -> tuple:
+        cx = 0
+        cy = 0
+        cz = 0
+
+        for i, j, k in self.coordenadas:
+            cx += i
+            cy += j
+            cz += k
+
+        n_pontos = len(self.coordenadas)
+
+        cx = cx / n_pontos
+        cy = cy / n_pontos
+        cz = cz / n_pontos
+
+        return (cx, cy, cz)
