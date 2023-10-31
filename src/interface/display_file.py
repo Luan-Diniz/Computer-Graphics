@@ -29,7 +29,7 @@ class DisplayFile:
     def calculaNormalizadas(self, window: Window):
         window.atualizaCoordenadaAposRotacao()
         # Centro da Window
-        (Wxc, Wyc) = window.getCenter()
+        (Wxc, Wyc, Wzc) = window.getCenter()
 
         matriz_tras_ao_centro = WindowOperations.cria_matriz_translacao(-Wxc, -Wyc)
         matriz_rotaciona = WindowOperations.cria_matriz_rotacao(
@@ -52,8 +52,9 @@ class DisplayFile:
             for x, y, z in coordenadas:
                 pontos = np.array([[x, y, 1]])
                 pontos_atualizados = np.dot(pontos, matriz_resultante)
-
-                novas_coordenadas.append(pontos_atualizados.tolist()[0][0:2])
+                pontos_atualizados = pontos_atualizados.tolist()[0][0:2]
+                pontos_atualizados.append(z)
+                novas_coordenadas.append(pontos_atualizados)
 
             elemento.set_coordenadas_normalizadas(
                 novas_coordenadas

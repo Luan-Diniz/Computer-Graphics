@@ -232,7 +232,7 @@ class JanelaPrincipal(Ui_MainDisplay):
     def desenhar_ponto(self, ponto: Ponto):
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
         (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
-        (Xnponto, Ynponto) = ponto.get_coordenadas_normalizadas()[0]
+        (Xnponto, Ynponto, Znponto) = ponto.get_coordenadas_normalizadas()[0]
 
         if not Clipping.point_clippig(Xnponto, Ynponto, Xwmin, Xwmax, Ywmin, Ywmax):
             return

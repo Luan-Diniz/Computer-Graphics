@@ -23,10 +23,10 @@ class Window:
         self.Ywmaxnormalizado = 1
 
         self.coordenadas = [
-            (self.Xwmin, self.Ywmin),
-            (self.Xwmax, self.Ywmin),
-            (self.Xwmin, self.Ywmax),
-            (self.Xwmax, self.Ywmax),
+            (self.Xwmin, self.Ywmin, 0),
+            (self.Xwmax, self.Ywmin, 0),
+            (self.Xwmin, self.Ywmax, 0),
+            (self.Xwmax, self.Ywmax, 0),
         ]
 
         self.angle = 0  # Em graus
@@ -48,9 +48,9 @@ class Window:
         )
 
         novas_coordenadas = []
-        for x, y in self.coordenadas:
+        for x, y, z in self.coordenadas:
             novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
-            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1], z))
 
         self.coordenadas = novas_coordenadas
 
@@ -76,9 +76,9 @@ class Window:
         )
 
         novas_coordenadas = []
-        for x, y in self.coordenadas:
+        for x, y, z in self.coordenadas:
             novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
-            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1], z))
 
         self.coordenadas = novas_coordenadas
 
@@ -97,9 +97,9 @@ class Window:
         )
 
         novas_coordenadas = []
-        for x, y in self.coordenadas:
+        for x, y, z in self.coordenadas:
             novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
-            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1], z))
 
         self.coordenadas = novas_coordenadas
 
@@ -120,9 +120,9 @@ class Window:
         )
 
         novas_coordenadas = []
-        for x, y in self.coordenadas:
+        for x, y, z in self.coordenadas:
             novos_pontos = np.dot(np.array([x, y, 1]), matriz_translacao)
-            novas_coordenadas.append((novos_pontos[0], novos_pontos[1]))
+            novas_coordenadas.append((novos_pontos[0], novos_pontos[1], z))
 
         self.coordenadas = novas_coordenadas
 
@@ -154,13 +154,14 @@ class Window:
         self.Ywmax += (deltay) * self.scale
 
     def getCenter(self) -> tuple:
-        contx, conty = 0, 0
+        contx, conty, contz = 0, 0, 0
 
-        for x, y in self.coordenadas:
+        for x, y, z in self.coordenadas:
             contx += x
             conty += y
+            contz += z
 
-        return (contx / 4, conty / 4)
+        return (contx / 4, conty / 4, contz / 4)
 
     def rotacionaAntiHorario(self):
         self.angle += Config.window_rotation_angle()
@@ -176,7 +177,7 @@ class Window:
 
     def atualizaCoordenadaAposRotacao(self):
         if self.angle_variation != 0:  # Ou seja, houve uma rotacao
-            dx, dy = self.getCenter()
+            dx, dy, dz = self.getCenter()
             matriz_translacao1 = np.array([[1, 0, 0], [0, 1, 0], [-dx, -dy, 1]])
             matriz_rotacao = np.array(
                 [
@@ -191,11 +192,12 @@ class Window:
             )
 
             novos_pontos_lista = []
-            for x, y in self.coordenadas:
+            for x, y, z in self.coordenadas:
                 pontos = np.array([[x, y, 1]])
                 novos_pontos = np.dot(pontos, matriz_resultante)
-
-                novos_pontos_lista.append(novos_pontos.tolist()[0][0:2])
+                novos_pontos = novos_pontos.tolist()[0][0:2]
+                novos_pontos.append(z)
+                novos_pontos_lista.append(novos_pontos)
 
             self.coordenadas = novos_pontos_lista
             self.angle_variation = (
