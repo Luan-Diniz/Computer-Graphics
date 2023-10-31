@@ -16,6 +16,7 @@ class Window:
         self.scale = Config.scale()
 
         self.view_up_vector = np.array([0, 1])
+        self.vpn = np.array([0,0,1])
 
         self.Xwminnormalizado = -1
         self.Xwmaxnormalizado = 1

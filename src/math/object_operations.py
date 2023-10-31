@@ -258,4 +258,77 @@ class ObjectOperations:
         elemento_grafico.set_coordenadas(coordenadas_atualizadas)
 
 
+    @staticmethod
+    def rotacao3DX(elemento_grafico, angulo):
+        Cx,Cy,Cz = elemento_grafico.get_centro3D()
+        ObjectOperations.translacao(elemento_grafico, (-Cx,-Cy,-Cz))
 
+        matriz_rotacao = np.array([[1, 0, 0, 0],
+                                   [0, cos(angulo), sin(angulo), 0],
+                                   [0, - sin(angulo), cos(angulo), 0],
+                                   [0,0,0,1]])
+
+        matriz_rotacao = np.array([[cos(angulo), sin(angulo), 0, 0],
+                                   [-sin(angulo), cos(angulo), 0, 0],
+                                   [0, 0, 1, 0],
+                                   [0, 0, 0, 1]]);
+
+        novas_coordenadas = []
+        for i, j, k in elemento_grafico.get_coordenadas():
+            pontos = np.array([[i, j, k, 1]])
+            pontos_atualizados = np.dot(pontos, matriz_rotacao)
+            novas_coordenadas.append(
+                (pontos_atualizados[0][0], pontos_atualizados[0][1], pontos_atualizados[0][2])
+            )
+        elemento_grafico.set_coordenadas(novas_coordenadas)
+
+
+        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
+    @staticmethod
+    def rotacao3DY(elemento_grafico, angulo):
+        Cx, Cy, Cz = elemento_grafico.get_centro3D()
+        ObjectOperations.translacao(elemento_grafico, (-Cx, -Cy, -Cz))
+
+        matriz_rotacao = np.array([[cos(angulo), 0, -sin(angulo), 0],
+                                   [0, 1, 0, 0],
+                                   [sin(angulo), 0, cos(angulo), 0],
+                                   [0, 0, 0, 1]])
+
+        matriz_rotacao = np.array([[cos(angulo), sin(angulo), 0, 0],
+                                   [-sin(angulo), cos(angulo), 0, 0],
+                                   [0, 0, 1, 0],
+                                   [0, 0, 0, 1]])
+
+        novas_coordenadas = []
+        for i, j, k in elemento_grafico.get_coordenadas():
+            pontos = np.array([[i, j, k, 1]])
+            pontos_atualizados = np.dot(pontos, matriz_rotacao)
+            novas_coordenadas.append(
+                (pontos_atualizados[0][0], pontos_atualizados[0][1], pontos_atualizados[0][2])
+            )
+        elemento_grafico.set_coordenadas(novas_coordenadas)
+
+
+
+        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
+
+    @staticmethod
+    def rotacao3DZ(elemento_grafico, angulo):
+        Cx, Cy, Cz = elemento_grafico.get_centro3D()
+        ObjectOperations.translacao(elemento_grafico, (-Cx, -Cy, -Cz))
+
+        matriz_rotacao = np.array([[cos(angulo), sin(angulo), 0, 0],
+                                   [-sin(angulo), cos(angulo), 0, 0],
+                                   [0, 0, 1, 0],
+                                   [0, 0, 0, 1]])
+
+        novas_coordenadas = []
+        for i, j, k in elemento_grafico.get_coordenadas():
+            pontos = np.array([[i, j, k, 1]])
+            pontos_atualizados = np.dot(pontos, matriz_rotacao)
+            novas_coordenadas.append(
+                (pontos_atualizados[0][0], pontos_atualizados[0][1], pontos_atualizados[0][2])
+            )
+        elemento_grafico.set_coordenadas(novas_coordenadas)
+
+        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
