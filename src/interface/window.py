@@ -221,3 +221,7 @@ class Window:
 
     def setAngle(self, angulo):
         self.angle = angulo
+
+    def projecao(self,angulo):
+        pass
+        WindowOperations.rotacao3DY(angulo)
