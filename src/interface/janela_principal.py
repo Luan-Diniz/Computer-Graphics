@@ -430,11 +430,11 @@ class JanelaPrincipal(Ui_MainDisplay):
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_antihorario(self):
-        self.window.rotacionaAntiHorario()
+        self.window.rotacionaAntiHorario3D()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_horario(self):
-        self.window.rotatacionaHorario()
+        self.window.rotatacionaHorario3D()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def ler_arquivo(self):

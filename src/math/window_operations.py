@@ -166,10 +166,6 @@ class WindowOperations:
                                        [0, - sin(angulo), cos(angulo), 0],
                                        [0, 0, 0, 1]])
 
-            matriz_rotacao = np.array([[cos(angulo), sin(angulo), 0, 0],
-                                       [-sin(angulo), cos(angulo), 0, 0],
-                                       [0, 0, 1, 0],
-                                       [0, 0, 0, 1]]);
 
             novas_coordenadas = []
             for i, j, k in elemento_grafico.get_coordenadas():
@@ -192,10 +188,6 @@ class WindowOperations:
                                        [sin(angulo), 0, cos(angulo), 0],
                                        [0, 0, 0, 1]])
 
-            matriz_rotacao = np.array([[cos(angulo), sin(angulo), 0, 0],
-                                       [-sin(angulo), cos(angulo), 0, 0],
-                                       [0, 0, 1, 0],
-                                       [0, 0, 0, 1]])
 
             novas_coordenadas = []
             for i, j, k in elemento_grafico.get_coordenadas():

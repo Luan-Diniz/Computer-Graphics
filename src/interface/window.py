@@ -225,3 +225,64 @@ class Window:
     def projecao(self,angulo):
         pass
         WindowOperations.rotacao3DY(angulo)
+
+
+    def rotacionaAntiHorario3D(self):
+        angulo = radians(45)
+        novas_coordenadas = []
+        Cx, Cy, Cz = self.getCenter()
+        for x,y,z in self.coordenadas:
+            matriz_pontos = np.array([[x,y,z,1]])
+
+            matriz_translacao1 = np.array([[1, 0, 0, 0], [0, 1, 0, 0],
+                                          [0, 0, 1, 0], [-Cx, -Cy, -Cz, 1]])
+
+            matriz_rotacao = np.array([[cos(angulo), 0, -sin(angulo), 0],
+                                       [0, 1, 0, 0],
+                                       [sin(angulo), 0, cos(angulo), 0],
+                                       [0, 0, 0, 1]])
+            matriz_translacao2 = np.array([[1, 0, 0, 0], [0, 1, 0, 0],
+                                          [0, 0, 1, 0], [Cx, Cy, Cz, 1]])
+
+
+            matriz_operation = WindowOperations.junta_matrizes(matriz_translacao1, matriz_rotacao,
+                                            matriz_translacao2,)
+            matriz_novos_pontos = np.dot(matriz_pontos,matriz_operation)
+
+            novas_coordenadas.append((matriz_novos_pontos[0][0], matriz_novos_pontos[0][1], matriz_novos_pontos[0][2]))
+
+        self.coordenadas = novas_coordenadas
+        self.angle += Config.window_rotation_angle()
+        self.angle_variation += Config.window_rotation_angle()
+        self.atualizaViewUpVector()
+
+
+    def rotatacionaHorario3D(self):
+
+        angulo = radians(-45)
+        novas_coordenadas = []
+        Cx, Cy, Cz = self.getCenter()
+        for x, y, z in self.coordenadas:
+            matriz_pontos = np.array([[x, y, z, 1]])
+
+            matriz_translacao1 = np.array([[1, 0, 0, 0], [0, 1, 0, 0],
+                                           [0, 0, 1, 0], [-Cx, -Cy, -Cz, 1]])
+
+            matriz_rotacao = np.array([[cos(angulo), 0, -sin(angulo), 0],
+                                       [0, 1, 0, 0],
+                                       [sin(angulo), 0, cos(angulo), 0],
+                                       [0, 0, 0, 1]])
+            matriz_translacao2 = np.array([[1, 0, 0, 0], [0, 1, 0, 0],
+                                           [0, 0, 1, 0], [Cx, Cy, Cz, 1]])
+
+            matriz_operation = WindowOperations.junta_matrizes(matriz_translacao1, matriz_rotacao,
+                                                               matriz_translacao2, )
+            matriz_novos_pontos = np.dot(matriz_pontos, matriz_operation)
+
+            novas_coordenadas.append((matriz_novos_pontos[0][0], matriz_novos_pontos[0][1], matriz_novos_pontos[0][2]))
+
+        self.coordenadas = novas_coordenadas
+        self.angle += Config.window_rotation_angle()
+        self.angle_variation += Config.window_rotation_angle()
+        self.atualizaViewUpVector()
+
