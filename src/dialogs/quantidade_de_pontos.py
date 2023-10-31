@@ -45,7 +45,7 @@ class QuantidadeDePontosDialog(QDialog):
             self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
         elif self.tipo == "Objeto 3D":
             label_text = "Quantidade arestas do Objeto 3D:"
-            box_text = "As arestas começam nos pontos de índice par e terminam nos de índice ímpar\n\nEscolha as arestas na forma: (X1, Y1, Z1) -> (X2, Y2, Z2)"
+            box_text = "As arestas começam nos pontos de índice ímpar e terminam nos de índice par\n\nEscolha as arestas na forma: (X1, Y1, Z1) -> (X2, Y2, Z2)"
             self.number_input.setMinimum(1)
             self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 

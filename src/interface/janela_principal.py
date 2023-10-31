@@ -397,8 +397,11 @@ class JanelaPrincipal(Ui_MainDisplay):
     def desenhar_objeto_3D(self, objeto_3D: Objeto3D):
         pontos = objeto_3D.get_coordenadas_normalizadas()
         arestas = [((pontos[i]), (pontos[i + 1])) for i in range(len(pontos) - 1)]
+        i = 0
         for a in arestas:
-            print(a)
+            reta = Reta("Reta_" + str(i + 1), objeto_3D.get_cor(), [a[0], a[1]])
+            reta.set_coordenadas_normalizadas([a[0], a[1]])
+            self.desenhar_reta(reta)
 
     def move_direita(self):
         self.window.moveuDireita()
