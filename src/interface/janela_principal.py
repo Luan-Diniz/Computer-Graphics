@@ -259,8 +259,13 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
         (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
-        (Xnini, Ynini, Z) = reta.get_coordenadas_normalizadas()[0]
-        (Xnfin, Ynfin, Z) = reta.get_coordenadas_normalizadas()[1]
+        try:
+            (Xnini, Ynini, Z) = reta.get_coordenadas_normalizadas()[0]
+            (Xnfin, Ynfin, Z) = reta.get_coordenadas_normalizadas()[1]
+        except Exception:
+            (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
+            (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
+
 
         pontos = []
         if self.clipping_algorithm == "Cohen-Sutherland":  # Change to user options
@@ -430,11 +435,11 @@ class JanelaPrincipal(Ui_MainDisplay):
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_antihorario(self):
-        self.window.rotacionaAntiHorario3D()
+        self.window.rotacionaAntiHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def rotaciona_horario(self):
-        self.window.rotatacionaHorario3D()
+        self.window.rotatacionaHorario()
         self.resetar_desenhos()  # Redesenha o viewport
 
     def ler_arquivo(self):

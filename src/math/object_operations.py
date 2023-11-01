@@ -154,7 +154,7 @@ class ObjectOperations:
 
         GBS_x = []
         GBS_y = []
-        for x, y in pontos:
+        for x, y, z in pontos:
             GBS_x.append(x)
             GBS_y.append(y)
 
