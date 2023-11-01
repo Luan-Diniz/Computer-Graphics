@@ -33,4 +33,3 @@ class Config:
     @staticmethod
     def scale():
         return 0.1
-

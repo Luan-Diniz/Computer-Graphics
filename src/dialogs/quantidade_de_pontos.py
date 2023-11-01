@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import (
     QSpinBox,
     QVBoxLayout,
 )
-
 from src.interface.config import Config
 
 

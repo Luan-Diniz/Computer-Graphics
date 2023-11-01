@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from src.interface.config import Config
 
 

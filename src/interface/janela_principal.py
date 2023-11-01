@@ -1,7 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtWidgets import QMessageBox
-
 from src.dialogs.adicionar_curva import AdicionarCurvaDialog
 from src.dialogs.adicionar_objeto import AdicionarObjetoDialog
 from src.dialogs.quantidade_de_pontos import QuantidadeDePontosDialog
@@ -255,8 +254,6 @@ class JanelaPrincipal(Ui_MainDisplay):
         painter.drawPoint(coordenadaX, coordenadaY)
 
     def desenhar_reta(self, reta: Reta):
-
-
         (Xwmin, Ywmin) = (self.window.Xwminnormalizado, self.window.Ywminnormalizado)
         (Xwmax, Ywmax) = (self.window.Xwmaxnormalizado, self.window.Ywmaxnormalizado)
         try:
@@ -265,7 +262,6 @@ class JanelaPrincipal(Ui_MainDisplay):
         except Exception:
             (Xnini, Ynini) = reta.get_coordenadas_normalizadas()[0]
             (Xnfin, Ynfin) = reta.get_coordenadas_normalizadas()[1]
-
 
         pontos = []
         if self.clipping_algorithm == "Cohen-Sutherland":  # Change to user options

@@ -1,5 +1,4 @@
 import numpy as np
-
 from src.interface.window import Window
 from src.math.window_operations import WindowOperations
 

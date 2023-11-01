@@ -11,7 +11,6 @@ from PyQt5.QtWidgets import (
     QScrollArea,
     QSpinBox,
 )
-
 from src.interface.config import Config
 
 

@@ -10,7 +10,6 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from src.interface.display_file import DisplayFile
 from src.interface.window import Window
 

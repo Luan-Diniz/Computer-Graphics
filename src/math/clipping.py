@@ -150,8 +150,8 @@ class Clipping:
                 ix, iy, z = pontos_poligono[i]
                 kx, ky, z = pontos_poligono[k]
             except Exception:
-                ix, iy= pontos_poligono[i]
-                kx, ky= pontos_poligono[k]
+                ix, iy = pontos_poligono[i]
+                kx, ky = pontos_poligono[k]
 
             i_pos = (x2 - x1) * (iy - y1) - (y2 - y1) * (ix - x1)
             k_pos = (x2 - x1) * (ky - y1) - (y2 - y1) * (kx - x1)

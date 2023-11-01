@@ -1,7 +1,6 @@
 from os.path import exists, splitext
 
 from PyQt5.QtWidgets import QMessageBox
-
 from src.messages.arquivo_encontrado import ArquivoEncontradoMessage
 from src.messages.arquivo_nao_encontrado import ArquivoNaoEncontradoMessage
 from src.messages.extensao_invalida import ExtensaoInvalidaMessage
