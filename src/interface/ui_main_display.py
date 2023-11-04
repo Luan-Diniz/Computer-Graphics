@@ -6,10 +6,12 @@ from PyQt5.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
+    QRadioButton,
     QTextBrowser,
     QVBoxLayout,
     QWidget,
 )
+
 from src.interface.display_file import DisplayFile
 from src.interface.window import Window
 
@@ -97,30 +99,50 @@ class Ui_MainDisplay:
         self.left_button.setObjectName("left_button")
 
         self.zoom_in_button = QPushButton(self.frame_movimentacao_window)
-        self.zoom_in_button.setGeometry(QRect(250, 30, 60, 30))
-        self.zoom_in_button.setStyleSheet("background-color: rgb(212, 208, 200);")
+        self.zoom_in_button.setGeometry(QRect(250, 10, 60, 30))
+        self.zoom_in_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200); font-size: 20px;"
+        )
         self.zoom_in_button.setObjectName("zoom_in_button")
 
         self.zoom_out_button = QPushButton(self.frame_movimentacao_window)
-        self.zoom_out_button.setGeometry(QRect(250, 90, 60, 30))
-        self.zoom_out_button.setStyleSheet("background-color: rgb(212, 208, 200);")
+        self.zoom_out_button.setGeometry(QRect(250, 60, 60, 30))
+        self.zoom_out_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200); font-size: 20px;"
+        )
         self.zoom_out_button.setObjectName("zoom_out_button")
 
         self.anticlockwise_rotation_button = QPushButton(self.frame_movimentacao_window)
-        self.anticlockwise_rotation_button.setGeometry(QRect(355, 30, 60, 30))
+        self.anticlockwise_rotation_button.setGeometry(QRect(355, 10, 60, 30))
         self.anticlockwise_rotation_button.setStyleSheet(
-            "background-color: rgb(212, 208, 200);"
+            "background-color: rgb(212, 208, 200); font-size: 20px;"
         )
         self.anticlockwise_rotation_button.setObjectName(
             "anticlockwise_rotation_button"
         )
 
         self.clockwise_rotation_button = QPushButton(self.frame_movimentacao_window)
-        self.clockwise_rotation_button.setGeometry(QRect(355, 90, 60, 30))
+        self.clockwise_rotation_button.setGeometry(QRect(355, 60, 60, 30))
         self.clockwise_rotation_button.setStyleSheet(
-            "background-color: rgb(212, 208, 200);"
+            "background-color: rgb(212, 208, 200); font-size: 20px;"
         )
         self.clockwise_rotation_button.setObjectName("clockwise_rotation_button")
+
+        self.projecao_paralela_button = QRadioButton(self.frame_movimentacao_window)
+        self.projecao_paralela_button.setGeometry(QRect(153, 110, 135, 30))
+        self.projecao_paralela_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200); border: 1.35px solid #FFFFFF;"
+        )
+        self.projecao_paralela_button.setChecked(True)
+        self.projecao_paralela_button.setObjectName("projecao_paralela_button")
+
+        self.projecao_perspectiva_button = QRadioButton(self.frame_movimentacao_window)
+        self.projecao_perspectiva_button.setGeometry(QRect(300, 110, 115, 30))
+        self.projecao_perspectiva_button.setStyleSheet(
+            "background-color: rgb(212, 208, 200);border: 1.35px solid #FFFFFF;"
+        )
+        self.projecao_perspectiva_button.setChecked(False)
+        self.projecao_perspectiva_button.setObjectName("projecao_perspectiva_button")
 
         # Criando uma Label para o desenho dos Objetos
         self.area_desenho = QLabel("", self.frame_viewport)
@@ -255,6 +277,8 @@ class Ui_MainDisplay:
         self.zoom_out_button.clicked.connect(self.ZoomOut)
         self.anticlockwise_rotation_button.clicked.connect(self.rotaciona_antihorario)
         self.clockwise_rotation_button.clicked.connect(self.rotaciona_horario)
+        self.projecao_paralela_button.toggled.connect(self.projecao_paralela)
+        self.projecao_perspectiva_button.toggled.connect(self.projecao_perspectiva)
 
         self.retranslateUi(MainDisplay)
         QMetaObject.connectSlotsByName(MainDisplay)
@@ -266,14 +290,16 @@ class Ui_MainDisplay:
         self.down_button.setText(_translate("MainDisplay", "▼"))
         self.right_button.setText(_translate("MainDisplay", "►"))
         self.left_button.setText(_translate("MainDisplay", "◄"))
-        self.zoom_in_button.setStyleSheet("font-size: 20px;")
         self.zoom_in_button.setText(_translate("MainDisplay", "\u2315+"))
-        self.zoom_out_button.setStyleSheet("font-size: 20px;")
         self.zoom_out_button.setText(_translate("MainDisplay", "\u2315-"))
-        self.anticlockwise_rotation_button.setStyleSheet("font-size: 20px;")
         self.anticlockwise_rotation_button.setText(_translate("MainDisplay", "\u21BA"))
-        self.clockwise_rotation_button.setStyleSheet("font-size: 20px;")
         self.clockwise_rotation_button.setText(_translate("MainDisplay", "\u21BB"))
+        self.projecao_paralela_button.setText(
+            _translate("MainDisplay", "Paralela Ortogonal")
+        )
+        self.projecao_perspectiva_button.setText(
+            _translate("MainDisplay", "Em Perspectiva")
+        )
         self.texto_controle_window.setHtml(
             _translate(
                 "MainDisplay",

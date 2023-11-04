@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtWidgets import QMessageBox
+
 from src.dialogs.adicionar_curva import AdicionarCurvaDialog
 from src.dialogs.adicionar_objeto import AdicionarObjetoDialog
 from src.dialogs.quantidade_de_pontos import QuantidadeDePontosDialog
@@ -452,3 +453,9 @@ class JanelaPrincipal(Ui_MainDisplay):
         gerador = GeradorOBJ(nome_arquivo, self.display_file)
         if not gerador.erro:
             gerador.gerarArquivoOBJ()
+
+    def projecao_paralela(self):
+        print("Projeção Paralela Escolhida")
+
+    def projecao_perspectiva(self):
+        print("Projeção em Perspectiva Escolhida")
