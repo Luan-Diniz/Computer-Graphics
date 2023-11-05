@@ -155,7 +155,7 @@ class JanelaPrincipal(Ui_MainDisplay):
 
                 if transf_name == "translacao":
                     coordinates = transf.transformacao["argumento"][0]
-                    ObjectOperations.translacao(elemento_grafico, coordinates)
+                    ObjectOperations.translacao3D(elemento_grafico, coordinates)
 
                 elif transf_name == "rotacao":
                     ObjectOperations.rotacao(
