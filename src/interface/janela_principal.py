@@ -165,7 +165,7 @@ class JanelaPrincipal(Ui_MainDisplay):
                     )
 
                 else:  # eh escalonamento
-                    result = ObjectOperations.escalonamento(
+                    result = ObjectOperations.escalonamento3D(
                         elemento_grafico, transf.transformacao["argumento"][0]
                     )
                     if result == -1:

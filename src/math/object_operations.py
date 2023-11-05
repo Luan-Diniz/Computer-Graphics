@@ -240,7 +240,7 @@ class ObjectOperations:
             [
                 [coef_escalonamento, 0, 0, 0],
                 [0, coef_escalonamento, 0, 0],
-                [0, 0, coef_escalonamento, 0, 0],
+                [0, 0, coef_escalonamento, 0],
                 [0, 0, 0, 1],
             ]
         )
