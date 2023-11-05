@@ -272,7 +272,7 @@ class ObjectOperations:
     @staticmethod
     def rotacao3DX(elemento_grafico, angulo):
         Cx, Cy, Cz = elemento_grafico.get_centro3D()
-        ObjectOperations.translacao(elemento_grafico, (-Cx, -Cy, -Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (-Cx, -Cy, -Cz))
 
         matriz_rotacao = np.array(
             [
@@ -296,12 +296,12 @@ class ObjectOperations:
             )
         elemento_grafico.set_coordenadas(novas_coordenadas)
 
-        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (+Cx, +Cy, +Cz))
 
     @staticmethod
     def rotacao3DY(elemento_grafico, angulo):
         Cx, Cy, Cz = elemento_grafico.get_centro3D()
-        ObjectOperations.translacao(elemento_grafico, (-Cx, -Cy, -Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (-Cx, -Cy, -Cz))
 
         matriz_rotacao = np.array(
             [
@@ -325,12 +325,12 @@ class ObjectOperations:
             )
         elemento_grafico.set_coordenadas(novas_coordenadas)
 
-        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (+Cx, +Cy, +Cz))
 
     @staticmethod
     def rotacao3DZ(elemento_grafico, angulo):
         Cx, Cy, Cz = elemento_grafico.get_centro3D()
-        ObjectOperations.translacao(elemento_grafico, (-Cx, -Cy, -Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (-Cx, -Cy, -Cz))
 
         matriz_rotacao = np.array(
             [
@@ -354,4 +354,4 @@ class ObjectOperations:
             )
         elemento_grafico.set_coordenadas(novas_coordenadas)
 
-        ObjectOperations.translacao(elemento_grafico, (+Cx, +Cy, +Cz))
+        ObjectOperations.translacao3D(elemento_grafico, (+Cx, +Cy, +Cz))

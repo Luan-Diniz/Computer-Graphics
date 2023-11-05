@@ -158,15 +158,6 @@ class JanelaPrincipal(Ui_MainDisplay):
                     ObjectOperations.translacao3D(elemento_grafico, coordinates)
 
                 elif transf_name == "rotacao":
-                    print(transf.transformacao["argumento"][0])
-                    print(transf.transformacao["argumento"][1])
-                    '''
-                    ObjectOperations.rotacao(
-                        elemento_grafico,
-                        transf.transformacao["argumento"][0],
-                        transf.transformacao["argumento"][1],
-                    )
-                    '''
                     ObjectOperations.rotacao3DX(elemento_grafico, transf.transformacao["argumento"][0])
 
                 else:  # eh escalonamento
