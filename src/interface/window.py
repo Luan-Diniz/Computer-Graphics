@@ -1,6 +1,7 @@
 from math import cos, radians, sin
 
 import numpy as np
+
 from src.interface.config import Config
 from src.math.window_operations import WindowOperations
 

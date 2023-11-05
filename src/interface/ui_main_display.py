@@ -30,6 +30,7 @@ class Ui_MainDisplay:
             DisplayFile()
         )  # Os elementos graficos ficarao guardados no Display File
 
+        self.projecao_atual = "Paralela Ortogonal"
         self.clipping_algorithm = "Cohen-Sutherland"
 
         self.centralwidget = QWidget(MainDisplay)

@@ -158,7 +158,9 @@ class JanelaPrincipal(Ui_MainDisplay):
                     ObjectOperations.translacao3D(elemento_grafico, coordinates)
 
                 elif transf_name == "rotacao":
-                    ObjectOperations.rotacao3DX(elemento_grafico, transf.transformacao["argumento"][0])
+                    ObjectOperations.rotacao3DX(
+                        elemento_grafico, transf.transformacao["argumento"][0]
+                    )
 
                 else:  # eh escalonamento
                     result = ObjectOperations.escalonamento3D(
@@ -403,6 +405,12 @@ class JanelaPrincipal(Ui_MainDisplay):
             reta.set_coordenadas_normalizadas([a[0], a[1]])
             self.desenhar_reta(reta)
 
+    def projecao_paralela(self):
+        self.projecao_atual = "Paralela Ortogonal"
+
+    def projecao_perspectiva(self):
+        self.projecao_atual = "Em Perspectiva"
+
     def move_direita(self):
         self.window.moveuDireita()
         self.resetar_desenhos()  # Redesenha o viewport
@@ -449,9 +457,3 @@ class JanelaPrincipal(Ui_MainDisplay):
         gerador = GeradorOBJ(nome_arquivo, self.display_file)
         if not gerador.erro:
             gerador.gerarArquivoOBJ()
-
-    def projecao_paralela(self):
-        print("Projeção Paralela Escolhida")
-
-    def projecao_perspectiva(self):
-        print("Projeção em Perspectiva Escolhida")
