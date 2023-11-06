@@ -16,6 +16,7 @@ from src.messages.troca_clipping import TrocaClippingMessage
 from src.objects.figuras_geometricas import (
     BSpline,
     Curva,
+    Superficie3D,
     Objeto3D,
     Ponto,
     Reta,
@@ -83,6 +84,10 @@ class JanelaPrincipal(Ui_MainDisplay):
                 )
             else:
                 error = True
+        elif object_type == "Superfície 3D":
+            getCoordenadas = AdicionarObjetoDialog(
+                1, self.display_file.getNomesElementosGraficos()
+            )
 
         if not error:
             x = getCoordenadas.exec_()
@@ -138,6 +143,9 @@ class JanelaPrincipal(Ui_MainDisplay):
 
         elif tipo == "Objeto 3D":
             elemento_grafico = Objeto3D(nome, cor, coordenadas)
+
+        elif tipo == "Superfície 3D":
+            elemento_grafico = Superficie3D(nome, cor, coordenadas)
 
         self.display_file.adicionar(elemento_grafico)
         self.ListaDeObjetos.addItem(nome)
@@ -214,6 +222,8 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_bspline(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Objeto 3D":
             self.desenhar_objeto_3D(elemento_grafico)
+        elif elemento_grafico.get_tipo() == "Superfície 3D":
+            self.desenhar_superficie_3D(elemento_grafico)
 
     def resetar_desenhos(self):
         # Preenchendo tela de branco
@@ -404,6 +414,11 @@ class JanelaPrincipal(Ui_MainDisplay):
             reta = Reta("Reta_" + str(i + 1), objeto_3D.get_cor(), [a[0], a[1]])
             reta.set_coordenadas_normalizadas([a[0], a[1]])
             self.desenhar_reta(reta)
+
+    def desenhar_superficie_3D(self, superficie_3D: Superficie3D):
+        pontos = superficie_3D.get_coordenadas_normalizadas()
+        for p in pontos:
+            print(p)
 
     def projecao_paralela(self):
         self.projecao_atual = "Paralela Ortogonal"

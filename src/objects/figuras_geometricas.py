@@ -32,3 +32,10 @@ class BSpline(ElementoGrafico):
 class Objeto3D(ElementoGrafico):
     def __init__(self, nome, cor, coordenadas):
         super().__init__(nome=nome, cor=cor, tipo="Objeto 3D", coordenadas=coordenadas)
+
+
+class Superficie3D(ElementoGrafico):
+    def __init__(self, nome, cor, coordenadas):
+        super().__init__(
+            nome=nome, cor=cor, tipo="Superfície 3D", coordenadas=coordenadas
+        )
