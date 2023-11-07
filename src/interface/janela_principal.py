@@ -16,10 +16,10 @@ from src.messages.troca_clipping import TrocaClippingMessage
 from src.objects.figuras_geometricas import (
     BSpline,
     Curva,
-    Superficie3D,
     Objeto3D,
     Ponto,
     Reta,
+    Superficie3D,
     Wireframe,
 )
 from src.objects.gerador_obj import GeradorOBJ
@@ -85,9 +85,14 @@ class JanelaPrincipal(Ui_MainDisplay):
             else:
                 error = True
         elif object_type == "Superfície 3D":
-            getCoordenadas = AdicionarObjetoDialog(
-                1, self.display_file.getNomesElementosGraficos()
-            )
+            # Abre uma janela secundaria perguntando quantos conjuntos de 16 que pontos serao utilizados
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos("Superfície 3D")
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    (16 * qtd_pontos), self.display_file.getNomesElementosGraficos()
+                )
+            else:
+                error = True
 
         if not error:
             x = getCoordenadas.exec_()
@@ -400,9 +405,7 @@ class JanelaPrincipal(Ui_MainDisplay):
             return
 
         for i in range(len(pontos) - 1):
-            reta = Reta(
-                "Reta_" + str(i + 1), bspline.get_cor(), [pontos[i], pontos[i + 1]]
-            )
+            reta = Reta("Reta_" + str(i + 1), bspline.get_cor(), [])
             reta.set_coordenadas_normalizadas([pontos[i], pontos[i + 1]])
             self.desenhar_reta(reta)
 
@@ -411,14 +414,18 @@ class JanelaPrincipal(Ui_MainDisplay):
         arestas = [((pontos[i]), (pontos[i + 1])) for i in range(len(pontos) - 1)]
         i = 0
         for a in arestas:
-            reta = Reta("Reta_" + str(i + 1), objeto_3D.get_cor(), [a[0], a[1]])
+            reta = Reta("Reta_" + str(i + 1), objeto_3D.get_cor(), [])
             reta.set_coordenadas_normalizadas([a[0], a[1]])
             self.desenhar_reta(reta)
 
     def desenhar_superficie_3D(self, superficie_3D: Superficie3D):
         pontos = superficie_3D.get_coordenadas_normalizadas()
-        for p in pontos:
-            print(p)
+        for i in range(len(pontos) - 3):
+            curva = Curva("Curva_" + str(i + 1), superficie_3D.get_cor(), [], 100)
+            curva.set_coordenadas_normalizadas(
+                [pontos[i], pontos[i + 1], pontos[i + 2], pontos[i + 3]]
+            )
+            self.desenhar_curva(curva)
 
     def projecao_paralela(self):
         self.projecao_atual = "Paralela Ortogonal"

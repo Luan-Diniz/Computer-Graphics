@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
     QSpinBox,
     QVBoxLayout,
 )
+
 from src.interface.config import Config
 
 
@@ -28,6 +29,9 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "Objeto 3D":
             self.setMinimumSize(QSize(500, 150))
             self.setMaximumSize(QSize(500, 150))
+        elif self.tipo == "Superfície 3D":
+            self.setMinimumSize(QSize(375, 100))
+            self.setMaximumSize(QSize(375, 100))
 
         label_text = ""
         box_text = ""
@@ -45,6 +49,10 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "Objeto 3D":
             label_text = "Quantidade arestas do Objeto 3D:"
             box_text = "As arestas começam nos pontos de índice ímpar e terminam nos de índice par\n\nEscolha as arestas na forma: (X1, Y1, Z1) -> (X2, Y2, Z2)"
+            self.number_input.setMinimum(1)
+            self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
+        elif self.tipo == "Superfície 3D":
+            label_text = "Quantidade de conjuntos de 16 pontos que serão utilizados:"
             self.number_input.setMinimum(1)
             self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
 
@@ -69,7 +77,8 @@ class QuantidadeDePontosDialog(QDialog):
 
         if self.tipo == "B-Spline":
             vertical_layout.addWidget(QLabel(box_text))
-        vertical_layout.addWidget(self.extra)
+        if self.tipo != "Superfície 3D":
+            vertical_layout.addWidget(self.extra)
         vertical_layout.addWidget(self.label)
         horizontal_layout.addWidget(self.number_input)
         horizontal_layout.addWidget(button_ok)
@@ -93,4 +102,6 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "B-Spline":
             return self.extra.value()
         elif self.tipo == "Objeto 3D":
+            return ""
+        elif self.tipo == "Superfície 3D":
             return ""
