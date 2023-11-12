@@ -39,3 +39,10 @@ class Superficie3D(ElementoGrafico):
         super().__init__(
             nome=nome, cor=cor, tipo="Superfície 3D", coordenadas=coordenadas
         )
+
+
+class SuperficieBicubica(ElementoGrafico):
+    def __init__(self, nome, cor, coordenadas):
+        super().__init__(
+            nome=nome, cor=cor, tipo="Superfície Bicúbica", coordenadas=coordenadas
+        )

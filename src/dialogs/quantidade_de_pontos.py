@@ -32,6 +32,9 @@ class QuantidadeDePontosDialog(QDialog):
         elif self.tipo == "Superfície 3D":
             self.setMinimumSize(QSize(375, 100))
             self.setMaximumSize(QSize(375, 100))
+        elif self.tipo == "Superfície Bicúbica":
+            self.setMinimumSize(QSize(375, 100))
+            self.setMaximumSize(QSize(375, 100))
 
         label_text = ""
         box_text = ""
@@ -55,6 +58,10 @@ class QuantidadeDePontosDialog(QDialog):
             label_text = "Quantidade de conjuntos de 16 pontos que serão utilizados:"
             self.number_input.setMinimum(1)
             self.number_input.setMaximum(int(Config.valorMaximoQDoubleSpinBox()))
+        elif self.tipo == "Superfície Bicúbica":
+            label_text = "Dimensão da Matriz Quadrada:"
+            self.number_input.setMinimum(4)
+            self.number_input.setMaximum(20)
 
         self.label = QLabel(label_text)
         if self.tipo == "Wireframe":
@@ -77,7 +84,7 @@ class QuantidadeDePontosDialog(QDialog):
 
         if self.tipo == "B-Spline":
             vertical_layout.addWidget(QLabel(box_text))
-        if self.tipo != "Superfície 3D":
+        if self.tipo != "Superfície 3D" and self.tipo != "Superfície Bicúbica":
             vertical_layout.addWidget(self.extra)
         vertical_layout.addWidget(self.label)
         horizontal_layout.addWidget(self.number_input)
@@ -101,7 +108,5 @@ class QuantidadeDePontosDialog(QDialog):
             return self.extra.isChecked()
         elif self.tipo == "B-Spline":
             return self.extra.value()
-        elif self.tipo == "Objeto 3D":
-            return ""
-        elif self.tipo == "Superfície 3D":
+        else:
             return ""

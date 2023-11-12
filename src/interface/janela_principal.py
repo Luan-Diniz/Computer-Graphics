@@ -20,6 +20,7 @@ from src.objects.figuras_geometricas import (
     Ponto,
     Reta,
     Superficie3D,
+    SuperficieBicubica,
     Wireframe,
 )
 from src.objects.gerador_obj import GeradorOBJ
@@ -93,6 +94,16 @@ class JanelaPrincipal(Ui_MainDisplay):
                 )
             else:
                 error = True
+        elif object_type == "Superfície Bicúbica":
+            # Abre uma janela secundaria perguntando qual a dimensao da matriz utilizada
+            qtd_pontos, extra = self.pedir_quantidade_de_pontos("Superfície Bicúbica")
+            if qtd_pontos != -1:
+                getCoordenadas = AdicionarObjetoDialog(
+                    (qtd_pontos * qtd_pontos),
+                    self.display_file.getNomesElementosGraficos(),
+                )
+            else:
+                error = True
 
         if not error:
             x = getCoordenadas.exec_()
@@ -150,6 +161,9 @@ class JanelaPrincipal(Ui_MainDisplay):
             elemento_grafico = Objeto3D(nome, cor, coordenadas)
 
         elif tipo == "Superfície 3D":
+            elemento_grafico = Superficie3D(nome, cor, coordenadas)
+
+        elif tipo == "Superfície Bicúbica":
             elemento_grafico = Superficie3D(nome, cor, coordenadas)
 
         self.display_file.adicionar(elemento_grafico)
@@ -229,6 +243,8 @@ class JanelaPrincipal(Ui_MainDisplay):
             self.desenhar_objeto_3D(elemento_grafico)
         elif elemento_grafico.get_tipo() == "Superfície 3D":
             self.desenhar_superficie_3D(elemento_grafico)
+        elif elemento_grafico.get_tipo() == "Superfície Bicúbica":
+            self.desenhar_superficie_bicubica(elemento_grafico)
 
     def resetar_desenhos(self):
         # Preenchendo tela de branco
@@ -426,6 +442,17 @@ class JanelaPrincipal(Ui_MainDisplay):
                 [pontos[i], pontos[i + 1], pontos[i + 2], pontos[i + 3]]
             )
             self.desenhar_curva(curva)
+
+    def desenhar_superficie_bicubica(self, superficie_bicubica: SuperficieBicubica):
+        pontos = superficie_bicubica.get_coordenadas_normalizadas()
+        for i in range(len(pontos) - 3):
+            bspline = BSpline(
+                "B-Spline_" + str(i + 1), superficie_bicubica.get_cor(), [], 100
+            )
+            bspline.set_coordenadas_normalizadas(
+                [pontos[i], pontos[i + 1], pontos[i + 2], pontos[i + 3]]
+            )
+            self.desenhar_bspline(bspline)
 
     def projecao_paralela(self):
         self.projecao_atual = "Paralela Ortogonal"
