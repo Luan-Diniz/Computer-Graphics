@@ -1,9 +1,6 @@
-# Computer Graphics
-Repositório para a matéria de Computação Gráfica INE5420 - UFSC 23.2
+# Sistema Gráfico Interativo
 
-## Estrutura dos diretórios
-
-- *Descrever como os diretórios funcionam aqui*
+Repositório para o SGI da matéria de Computação Gráfica INE5420 - UFSC - 2023.2
 
 ## Pré-requisitos
 
